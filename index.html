@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Parrocchia Madonna del Rosario – Gricignano d'Aversa</title>
+<link rel="icon" type="image/png" href="IMMAGINI/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -51,27 +52,12 @@
   }
   nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.3); }
  
-  .nav-brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-  }
-  .nav-brand .cross {
-    width: 28px; height: 28px;
-    position: relative;
+  .nav-logo {
+    width: 40px;      /* Regola la larghezza come preferisci */
+    height: 40px;     /* Regola l'altezza */
+    object-fit: contain;
     flex-shrink: 0;
-  }
-  .nav-brand .cross::before,
-  .nav-brand .cross::after {
-    content: '';
-    position: absolute;
-    background: var(--gold);
-    border-radius: 2px;
-  }
-  .nav-brand .cross::before { width: 4px; height: 100%; left: 50%; transform: translateX(-50%); }
-  .nav-brand .cross::after  { width: 100%; height: 4px; top: 35%; }
- 
+}
   .nav-brand-text {
     display: flex; flex-direction: column;
     line-height: 1.2;
@@ -935,13 +921,13 @@
  
 <!-- NAVBAR -->
 <nav id="navbar">
-  <a class="nav-brand" href="#" onclick="showPage('home')">
-    <div class="cross"></div>
+<a class="nav-brand" href="#" onclick="showPage('home')">
+    <img src="IMMAGINI/ico.png" alt="Logo Parrocchia" class="nav-logo">
     <div class="nav-brand-text">
-      <span>Madonna del Rosario</span>
-      <span>Gricignano d'Aversa</span>
+        <span>Madonna del Rosario</span>
+        <span>Gricignano d'Aversa</span>
     </div>
-  </a>
+</a>
   <ul class="nav-links" id="navLinks">
     <li><a onclick="showPage('home')" class="active" id="nav-home">Home</a></li>
     <li><a onclick="showPage('comunita')" id="nav-comunita">La Comunità</a></li>
@@ -1265,9 +1251,15 @@
             <div>
               <p class="contact-label">Segreteria</p>
               <p class="contact-value">Su appuntamento con il parroco</p>
+          </div>
+
+              <div>
+          <div class="contact-item">
+            <div class="contact-icon-wrap">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
             </div>
             <div>
-              <p class="contact-label">Google Workspace</p>
+              <p class="contact-label">>Google Workspace</p>
               <p class="contact-value">"This website is the official domain for PARROCCHIA MADONNA DEL ROSARIO. This domain (madonnadelrosariogricignano.qzz.io) is used to manage our Google Workspace for Nonprofits account."</p>
             </div>
           </div>
