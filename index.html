@@ -53,48 +53,38 @@
   }
   nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.3); }
  
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    flex-direction: row;
+  }
   .nav-logo {
     width: 35px;
     height: 35px;
     object-fit: contain;
-    flex-shrink: 0; /* Impedisce il rimpicciolimento */
+    flex-shrink: 0;
   }
-  
-  .nav-brand {
-    display: flex;
-    align-items: center; /* Allinea verticalmente icona e testo */
-    gap: 12px;
-    text-decoration: none;
-    flex-direction: row; /* Forza il testo a stare accanto all'icona */
-  }
-  
   .nav-brand-text {
-    display: flex; 
-    flex-direction: column;
+    display: flex; flex-direction: column;
     line-height: 1.2;
-    white-space: nowrap; /* Evita che il testo vada a capo */
+    white-space: nowrap;
   }
-  
   .nav-brand-text span:first-child {
     font-family: var(--serif);
     font-size: 1.1rem;
     color: var(--white);
     font-weight: 600;
-    letter-spacing: 0.02em;
   }
   .nav-brand-text span:last-child {
     font-size: 0.65rem;
     color: var(--gold);
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    font-weight: 400;
   }
  
-  .nav-links {
-    display: flex;
-    gap: 2.2rem;
-    list-style: none;
-  }
+  .nav-links { display: flex; gap: 2.2rem; list-style: none; }
   .nav-links a {
     color: rgba(255,255,255,0.8);
     text-decoration: none;
@@ -102,33 +92,11 @@
     font-weight: 500;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    transition: color 0.2s;
+    cursor: pointer;
     position: relative;
     padding-bottom: 4px;
-    cursor: pointer;
-  }
-  .nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0;
-    width: 0; height: 1px;
-    background: var(--gold);
-    transition: width 0.3s;
   }
   .nav-links a:hover, .nav-links a.active { color: var(--gold); }
-  .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
- 
-  .nav-toggle {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-  }
-  .nav-toggle span {
-    width: 24px; height: 2px;
-    background: var(--gold);
-    border-radius: 2px;
-  }
  
   /* ── PAGES ── */
   .page { display: none; min-height: 100vh; }
@@ -141,207 +109,82 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
     padding: 70px 2rem 0;
   }
- 
   .hero-bg {
     position: absolute;
     inset: 0;
-    background:
-      radial-gradient(ellipse at 20% 50%, rgba(212,175,55,0.08) 0%, transparent 60%),
-      radial-gradient(ellipse at 80% 20%, rgba(26,42,108,0.6) 0%, transparent 60%),
-      linear-gradient(160deg, #0f1a45 0%, #1a2a6c 40%, #243580 70%, #1a2a6c 100%);
+    background: linear-gradient(160deg, #0f1a45 0%, #1a2a6c 100%);
   }
- 
   .hero-bg::after {
     content: '';
     position: absolute;
-    right: 8%;
-    top: 50%;
+    right: 8%; top: 50%;
     transform: translateY(-50%);
     width: 300px; height: 300px;
     background: url('IMMAGINI/ico.png') no-repeat center/contain;
     opacity: 0.05;
   }
- 
-  .hero-content {
-    position: relative;
-    text-align: center;
-    max-width: 780px;
-    animation: heroIn 1.2s ease both;
-  }
- 
-  @keyframes heroIn {
-    from { opacity: 0; transform: translateY(30px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
- 
-  .hero-eyebrow {
-    font-size: 0.68rem;
-    font-weight: 500;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 1.5rem;
-  }
- 
-  .hero-title {
-    font-family: var(--serif);
-    font-size: clamp(2.8rem, 6vw, 5.2rem);
-    font-weight: 300;
-    color: var(--white);
-    line-height: 1.1;
-    margin-bottom: 1.2rem;
-  }
+  .hero-content { position: relative; text-align: center; max-width: 780px; }
+  .hero-title { font-family: var(--serif); font-size: clamp(2.8rem, 6vw, 5.2rem); color: var(--white); line-height: 1.1; margin-bottom: 1.2rem; }
   .hero-title em { color: var(--gold-light); font-style: italic; }
  
-  .hero-divider {
-    width: 60px; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    margin: 0 auto 1.5rem;
-  }
- 
-  .hero-subtitle {
-    font-family: var(--serif);
-    font-size: clamp(1.1rem, 2.5vw, 1.45rem);
-    color: rgba(255,255,255,0.7);
-    font-weight: 300;
-    font-style: italic;
-    margin-bottom: 3rem;
-  }
- 
+  /* ── BUTTONS ── */
   .btn-primary {
-    display: inline-block;
-    padding: 14px 36px;
-    background: var(--gold);
-    color: var(--navy-dark);
-    text-decoration: none;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s;
-    text-align: center;
+    display: inline-block; padding: 14px 36px; background: var(--gold); color: var(--navy-dark);
+    text-decoration: none; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; border: none; cursor: pointer;
   }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(212,175,55,0.4); }
- 
   .btn-outline {
-    display: inline-block;
-    padding: 13px 36px;
-    background: transparent;
-    color: var(--white);
-    text-decoration: none;
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    border: 1px solid rgba(255,255,255,0.4);
-    cursor: pointer;
-    transition: all 0.3s;
+    display: inline-block; padding: 13px 36px; background: transparent; color: var(--white);
+    text-decoration: none; font-size: 0.72rem; border: 1px solid rgba(255,255,255,0.4); cursor: pointer;
   }
- 
-  /* ── MASS TIMES ── */
-  .mass-strip {
-    background: var(--white);
-    border-top: 3px solid var(--gold);
-    padding: 3.5rem 2rem;
-  }
-  .mass-inner {
-    max-width: 900px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-  }
-  .mass-title-section {
-    font-family: var(--serif);
-    font-size: 2.4rem;
-    font-weight: 300;
-    color: var(--navy);
-  }
-  .mass-box {
-    display: flex;
-    border: 1px solid var(--border);
-    background: var(--cream);
-    margin-bottom: 1rem;
-  }
-  .mass-box-accent { width: 4px; background: var(--gold); }
-  .mass-box-content { padding: 1.1rem 1.4rem; }
-  .mass-box-day { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); }
-  .mass-box-times { font-family: var(--serif); font-size: 1.5rem; color: var(--navy); font-weight: 600; }
- 
+
   /* ── SECTIONS ── */
   section { padding: 5rem 2rem; }
   .section-inner { max-width: 1000px; margin: 0 auto; }
-  .section-eyebrow {
-    font-size: 0.65rem; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold);
-    display: flex; align-items: center; gap: 10px; margin-bottom: 0.8rem;
-  }
+  .section-eyebrow { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; display: flex; align-items: center; gap: 10px; }
   .section-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--gold); }
-  .section-heading { font-family: var(--serif); font-size: 3rem; color: var(--navy); font-weight: 300; margin-bottom: 1.2rem; }
-  .section-body { font-size: 1rem; line-height: 1.8; color: var(--text-muted); }
+  .section-heading { font-family: var(--serif); font-size: 3rem; color: var(--navy); font-weight: 300; margin-bottom: 1.5rem; }
 
-  /* ── CARDS SACERDOTI ── */
+  /* ── SACERDOTI (Con Foto in cerchio) ── */
   .sacerdoti-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2.5rem;
-    margin-top: 3rem;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; margin-top: 3rem;
   }
   .sacerdote-card {
-    background: var(--white);
-    border: 1px solid var(--border);
-    padding: 3rem 2rem;
-    text-align: center;
-    transition: transform 0.3s;
+    background: var(--white); border: 1px solid var(--border); padding: 3rem 2rem; text-align: center;
   }
-  .sacerdote-card:hover { transform: translateY(-5px); }
-  .sacerdote-icon { width: 60px; height: 60px; margin: 0 auto 1.5rem; display: block; }
+  .photo-circle {
+    width: 160px; height: 160px; border-radius: 50%; border: 4px solid var(--gold);
+    margin: 0 auto 1.5rem; overflow: hidden; background: var(--cream);
+  }
+  .photo-circle img { width: 100%; height: 100%; object-fit: cover; }
   .sacerdote-name { font-family: var(--serif); font-size: 1.6rem; color: var(--navy); font-weight: 600; }
-  .sacerdote-role { font-size: 0.75rem; text-transform: uppercase; color: var(--gold); letter-spacing: 0.1em; margin-top: 0.5rem; }
+  .sacerdote-role { font-size: 0.75rem; text-transform: uppercase; color: var(--gold); margin-top: 0.5rem; }
+
+  /* ── CARDS GRID (Sacramenti & Gruppi) ── */
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+  .card { background: var(--white); border: 1px solid var(--border); padding: 2rem; transition: transform 0.3s; }
+  .card:hover { transform: translateY(-5px); border-color: var(--gold); }
+  .card-title { font-family: var(--serif); font-size: 1.5rem; color: var(--navy); margin-bottom: 0.8rem; }
+  .card-text { font-size: 0.9rem; line-height: 1.7; color: var(--text-muted); }
 
   /* ── CONTATTI ── */
-  .contatti-layout {
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 4rem;
-    margin-top: 3rem;
-  }
-  .contact-item { display: flex; gap: 1.5rem; margin-bottom: 2rem; align-items: flex-start; }
-  .contact-icon-box {
-    width: 45px; height: 45px; background: var(--navy);
-    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-  }
-  .contact-icon-box img { width: 22px; height: 22px; filter: brightness(0) invert(1); }
-  .contact-label { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; color: var(--gold); margin-bottom: 0.3rem; }
-  .contact-text { font-family: var(--serif); font-size: 1.2rem; color: var(--navy); line-height: 1.4; }
+  .contatti-layout { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 4rem; margin-top: 3rem; }
+  .contact-item { display: flex; gap: 1.5rem; margin-bottom: 2rem; }
+  .contact-icon-box { width: 45px; height: 45px; background: var(--navy); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .contact-icon-box img { width: 22px; filter: brightness(0) invert(1); }
+  .contact-text { font-family: var(--serif); font-size: 1.2rem; color: var(--navy); }
   .contact-text a { color: inherit; text-decoration: none; }
-  
-  .map-card {
-    background: var(--navy-dark);
-    padding: 2.5rem;
-    color: var(--white);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .map-card img { width: 50px; margin-bottom: 1.5rem; opacity: 0.8; }
+  .map-card { background: var(--navy-dark); padding: 2.5rem; color: var(--white); text-align: center; }
 
   /* ── FOOTER ── */
   footer { background: var(--navy-dark); padding: 3rem 2rem; color: rgba(255,255,255,0.6); }
   .footer-inner { max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-  .footer-logo { width: 25px; height: 25px; object-fit: contain; }
+  .footer-logo { width: 25px; }
 
   @media (max-width: 820px) {
     .nav-links { display: none; }
-    .contatti-layout, .mass-inner { grid-template-columns: 1fr; }
-    .nav-brand-text span:first-child { font-size: 0.95rem; }
-    .nav-brand-text span:last-child { font-size: 0.55rem; }
+    .contatti-layout { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -362,47 +205,17 @@
     <li><a onclick="showPage('gruppi')" id="nav-gruppi">Gruppi</a></li>
     <li><a onclick="showPage('contatti')" id="nav-contatti">Contatti</a></li>
   </ul>
-  <div class="nav-toggle" onclick="toggleNav()">
-    <span></span><span></span><span></span>
-  </div>
 </nav>
  
 <div class="page active" id="page-home">
   <div class="hero">
     <div class="hero-bg"></div>
     <div class="hero-content">
-      <p class="hero-eyebrow">Parrocchia di Gricignano d'Aversa</p>
+      <p class="section-eyebrow" style="color:var(--gold); justify-content:center;">Parrocchia di Gricignano</p>
       <h1 class="hero-title">Madonna del<br><em>Rosario</em></h1>
-      <div class="hero-divider"></div>
-      <p class="hero-subtitle">Una casa tra le case, una comunità in cammino</p>
       <div class="hero-cta">
         <button class="btn-primary" onclick="showPage('sacramenti')">Sacramenti</button>
         <button class="btn-outline" onclick="showPage('contatti')">Contattaci</button>
-      </div>
-    </div>
-  </div>
- 
-  <div class="mass-strip">
-    <div class="mass-inner">
-      <div>
-        <p class="section-eyebrow">Liturgia</p>
-        <h2 class="mass-title-section">Orari delle Messe</h2>
-      </div>
-      <div>
-        <div class="mass-box">
-          <div class="mass-box-accent"></div>
-          <div class="mass-box-content">
-            <p class="mass-box-day">Feriale (Lun-Sab)</p>
-            <p class="mass-box-times">ore 19:00</p>
-          </div>
-        </div>
-        <div class="mass-box">
-          <div class="mass-box-accent"></div>
-          <div class="mass-box-content">
-            <p class="mass-box-day">Festivo (Domenica)</p>
-            <p class="mass-box-times">08:00 · 10:00 · 11:30 · 19:00</p>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -413,16 +226,14 @@
     <div class="section-inner">
       <p class="section-eyebrow">I nostri Pastori</p>
       <h2 class="section-heading">Sacerdoti</h2>
-      
       <div class="sacerdoti-grid">
         <div class="sacerdote-card">
-          <img src="IMMAGINI/ico.png" class="sacerdote-icon" alt="Logo">
+          <div class="photo-circle"><img src="IMMAGINI/dgio.png" alt="Don Giovanni"></div>
           <h3 class="sacerdote-name">Don Giovanni Schiavone</h3>
           <p class="sacerdote-role">Parroco</p>
         </div>
-
         <div class="sacerdote-card">
-          <img src="IMMAGINI/ico.png" class="sacerdote-icon" alt="Logo">
+          <div class="photo-circle"><img src="IMMAGINI/dgian.png" alt="Don Gianpietro"></div>
           <h3 class="sacerdote-name">Don Gianpietro Perillo</h3>
           <p class="sacerdote-role">Vice Parroco</p>
         </div>
@@ -432,61 +243,83 @@
 </div>
 
 <div class="page" id="page-sacramenti" style="padding-top: 70px;">
-    <section class="section-inner">
-      <h2 class="section-heading">Sacramenti</h2>
-      <p class="section-body">Informazioni sui percorsi di fede e la preparazione ai Sacramenti.</p>
-    </section>
+  <section>
+    <div class="section-inner">
+      <p class="section-eyebrow">Vita Cristiana</p>
+      <h2 class="section-heading">I Sacramenti</h2>
+      <div class="cards-grid">
+        <div class="card">
+          <h3 class="card-title">Battesimo</h3>
+          <p class="card-text">L'ingresso nella famiglia di Dio. Le celebrazioni si concordano con il parroco con congruo anticipo.</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Eucarestia</h3>
+          <p class="card-text">Il cuore della vita cristiana. Percorsi di catechesi per bambini e ragazzi (Prima Comunione).</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Cresima</h3>
+          <p class="card-text">Il sigillo dello Spirito Santo. Corso di preparazione per adolescenti e adulti.</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Matrimonio</h3>
+          <p class="card-text">L'unione nel Signore. È necessario contattare la parrocchia almeno 6 mesi prima della data prevista.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
 
 <div class="page" id="page-gruppi" style="padding-top: 70px;">
-    <section class="section-inner">
+  <section>
+    <div class="section-inner">
+      <p class="section-eyebrow">Partecipazione</p>
       <h2 class="section-heading">Gruppi Parrocchiali</h2>
-      <p class="section-body">Scopri i gruppi e le attività che rendono viva la nostra parrocchia.</p>
-    </section>
+      <div class="cards-grid">
+        <div class="card">
+          <h3 class="card-title">Catechesi</h3>
+          <p class="card-text">Formazione cristiana per tutte le età, dai fanciulli agli adulti.</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Coro Parrocchiale</h3>
+          <p class="card-text">Anima le celebrazioni liturgiche attraverso il canto e la musica.</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Azione Cattolica</h3>
+          <p class="card-text">Un cammino di fede e servizio per laici impegnati nella comunità.</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Gruppo Caritas</h3>
+          <p class="card-text">Sostegno e vicinanza alle famiglie e alle persone in difficoltà del nostro territorio.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
  
 <div class="page" id="page-contatti" style="padding-top: 70px;">
   <section>
     <div class="section-inner">
-      <p class="section-eyebrow">Info e Sede</p>
-      <h2 class="section-heading">Contatti</h2>
- 
+      <p class="section-eyebrow">Contattaci</p>
+      <h2 class="section-heading">Sede e Social</h2>
       <div class="contatti-layout">
-        <div class="contact-details">
+        <div>
           <div class="contact-item">
             <div class="contact-icon-box"><img src="IMMAGINI/ico.png" alt="icon"></div>
-            <div>
-              <p class="contact-label">Sede Legale e Chiesa</p>
-              <p class="contact-text">Via Campotonico, Gricignano di Aversa (CE)</p>
-            </div>
+            <div><p class="contact-text">Via Campotonico, Gricignano di Aversa (CE)</p></div>
           </div>
-          
           <div class="contact-item">
             <div class="contact-icon-box"><img src="IMMAGINI/ico.png" alt="icon"></div>
-            <div>
-              <p class="contact-label">Email Ufficiale</p>
-              <p class="contact-text"><a href="mailto:madonnadelrosario07@gmail.com">madonnadelrosario07@gmail.com</a></p>
-            </div>
+            <div><p class="contact-text"><a href="mailto:madonnadelrosario07@gmail.com">madonnadelrosario07@gmail.com</a></p></div>
           </div>
-
-          <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
-             <a href="https://www.facebook.com/PARROCCHIAMADONNADELROSARIO" target="_blank" class="btn-outline" style="color:var(--navy); border-color:var(--navy); padding: 10px 20px; font-size: 0.6rem;">Facebook</a>
-             <a href="https://www.instagram.com/explore/locations/594759774024569/parrocchia-madonna-del-rosario-gricignano/" target="_blank" class="btn-outline" style="color:var(--navy); border-color:var(--navy); padding: 10px 20px; font-size: 0.6rem;">Instagram</a>
-          </div>
-
-          <div style="background: var(--gold-pale); padding: 1.5rem; border-left: 3px solid var(--gold); margin-top: 2rem;">
-            <p style="font-size: 0.85rem; color: var(--navy); line-height: 1.6;">
-              <strong>Google Workspace for Nonprofits</strong><br>
-              Questo dominio è gestito ufficialmente dalla Parrocchia per i servizi digitali e la comunicazione istituzionale.
-            </p>
+          <div style="display:flex; gap:1rem; margin-top:1rem;">
+            <a href="https://www.facebook.com/PARROCCHIAMADONNADELROSARIO" target="_blank" class="btn-outline" style="color:var(--navy); border-color:var(--navy);">Facebook</a>
+            <a href="https://www.instagram.com/explore/locations/594759774024569/parrocchia-madonna-del-rosario-gricignano/" target="_blank" class="btn-outline" style="color:var(--navy); border-color:var(--navy);">Instagram</a>
           </div>
         </div>
- 
         <div class="map-card">
-          <img src="IMMAGINI/ico.png" alt="Logo">
-          <h3 style="font-family: var(--serif); font-size: 1.5rem; margin-bottom: 1rem;">Vieni a trovarci</h3>
-          <p style="font-size: 0.9rem; margin-bottom: 2rem; opacity: 0.8;">La chiesa è aperta tutti i giorni per la preghiera individuale.</p>
-          <a href="https://maps.app.goo.gl/oogaAfSNN5ViATZ4A" target="_blank" class="btn-primary" style="font-size: 0.65rem;">Apri Google Maps</a>
+          <img src="IMMAGINI/ico.png" style="width:50px; margin-bottom:1rem;" alt="Logo">
+          <h3>Vieni a trovarci</h3>
+          <a href="https://maps.app.goo.gl/oogaAfSNN5ViATZ4A" target="_blank" class="btn-primary" style="margin-top:1.5rem; display:block;">Apri Google Maps</a>
         </div>
       </div>
     </div>
@@ -495,9 +328,9 @@
  
 <footer>
   <div class="footer-inner">
-    <div style="display:flex; align-items:center; gap:12px;">
+    <div style="display:flex; align-items:center; gap:10px;">
       <img src="IMMAGINI/ico.png" class="footer-logo" alt="Logo">
-      <span style="font-family:var(--serif); color:white; font-weight:600;">Madonna del Rosario</span>
+      <span style="color:white; font-weight:600;">Madonna del Rosario</span>
     </div>
     <p style="font-size:0.7rem;">© 2024 Parrocchia Madonna del Rosario · Gricignano d'Aversa</p>
   </div>
@@ -508,20 +341,12 @@
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
     document.getElementById('page-' + id).classList.add('active');
-    const navLink = document.getElementById('nav-' + id);
-    if (navLink) navLink.classList.add('active');
+    const link = document.getElementById('nav-' + id);
+    if(link) link.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    document.getElementById('navLinks').classList.remove('open');
   }
- 
-  function toggleNav() {
-    document.getElementById('navLinks').classList.toggle('open');
-  }
- 
   window.addEventListener('scroll', () => {
-    const nav = document.getElementById('navbar');
-    if (window.scrollY > 20) nav.classList.add('scrolled');
-    else nav.classList.remove('scrolled');
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
   });
 </script>
 </body>
