@@ -7,19 +7,21 @@
     <title>Parrocchia Madonna del Rosario – Gricignano d'Aversa</title>
     <link rel="icon" type="image/png" href="IMMAGINI/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,600;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --navy: #0f172a;
-            --accent: #c5a059; 
-            --accent-light: #e2d1a8;
+            --navy: #090d16;
+            --accent: #b89350; 
+            --accent-light: #f4ede0;
             --white: #ffffff;
-            --cream: #fcfaf5;
-            --text-main: #334155;
-            --text-muted: #64748b;
+            --cream: #faf8f5;
+            --text-main: #2c3545;
+            --text-muted: #6e798c;
+            --border: rgba(184, 147, 80, 0.12);
             --serif: 'Cormorant Garamond', serif;
             --sans: 'Montserrat', sans-serif;
-            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            --danger: #db4444;
         }
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -28,123 +30,172 @@
             font-family: var(--sans);
             background: var(--cream);
             color: var(--text-main);
-            line-height: 1.6;
+            line-height: 1.7;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* ── NAVIGATION ── */
+        /* ── NAVBAR MINIMAL ── */
         nav {
             position: fixed;
-            top: 0; width: 100%; height: 90px;
+            top: 0; width: 100%; height: 100px;
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0 5%; z-index: 1000;
+            padding: 0 6%; z-index: 1000;
             transition: var(--transition);
         }
 
         nav.scrolled {
-            background: rgba(255, 255, 255, 0.98);
-            height: 70px;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 10px 40px rgba(15, 23, 42, 0.08);
+            background: rgba(250, 248, 245, 0.85);
+            height: 80px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(9, 13, 22, 0.05);
         }
 
         .nav-brand { display: flex; align-items: center; gap: 15px; text-decoration: none; }
-        .nav-logo { width: 40px; transition: var(--transition); }
+        .nav-logo { width: 38px; height: auto; transition: var(--transition); }
         .nav-brand-text { display: flex; flex-direction: column; }
         .nav-brand-text span:first-child { 
-            font-family: var(--serif); font-size: 1.4rem; font-weight: 600; color: var(--white); 
+            font-family: var(--serif); font-size: 1.35rem; font-weight: 600; color: var(--white); 
+            letter-spacing: 0.5px; transition: var(--transition);
         }
         nav.scrolled .nav-brand-text span:first-child { color: var(--navy); }
         .nav-brand-text span:last-child { 
-            font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-light); 
+            font-size: 0.55rem; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); 
+            font-weight: 500; margin-top: 2px;
         }
 
-        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links { display: flex; gap: 2.2rem; list-style: none; }
         .nav-links a {
-            text-decoration: none; font-size: 0.75rem; font-weight: 600;
-            text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.8);
+            text-decoration: none; font-size: 0.7rem; font-weight: 500;
+            text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.75);
             transition: var(--transition); cursor: pointer;
-            position: relative;
+            position: relative; padding: 5px 0;
         }
-        nav.scrolled .nav-links a { color: var(--text-main); }
-        .nav-links a:hover, .nav-links a.active { color: var(--accent) !important; }
+        nav.scrolled .nav-links a { color: var(--text-muted); }
+        nav.scrolled .nav-links a:hover, nav.scrolled .nav-links a.active { color: var(--navy) !important; }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: 0; left: 50%; width: 0; height: 1px;
+            background: var(--accent); transition: var(--transition); transform: translateX(-50%);
+        }
+        .nav-links a.active::after, .nav-links a:hover::after { width: 100%; }
 
-        /* ── HERO ── */
+        /* ── HERO ELEGANT ── */
         .hero {
             height: 100vh; display: flex; align-items: center; justify-content: center;
-            background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)), 
-                        url('https://drive.google.com/file/d/1-tGcF6oqv4CEpgVjefncpwIY5S1RGalf/view?usp=sharing') no-repeat center/cover;
+            background: linear-gradient(rgba(9, 13, 22, 0.65), rgba(9, 13, 22, 0.65)), 
+                        url('https://images.unsplash.com/photo-1438032005730-c779502df39b?auto=format&fit=crop&q=80&w=2000') no-repeat center/cover;
             text-align: center; color: var(--white); padding: 0 20px;
         }
 
-        .hero-content { opacity: 0; transform: translateY(40px); animation: fadeIn 1.2s forwards 0.3s; }
-        .hero-title { font-family: var(--serif); font-size: clamp(3.5rem, 10vw, 7rem); font-weight: 300; line-height: 0.9; margin-bottom: 2rem; }
-        .hero-title em { font-style: italic; color: var(--accent); }
+        .hero-content { opacity: 0; transform: translateY(30px); animation: fadeIn 1.5s forwards cubic-bezier(0.16, 1, 0.3, 1) 0.2s; }
+        .hero-title { font-family: var(--serif); font-size: clamp(3rem, 8vw, 6rem); font-weight: 300; line-height: 1.05; margin-bottom: 2.5rem; letter-spacing: -1px; }
+        .hero-title em { font-style: italic; font-weight: 400; color: var(--accent); }
 
         @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
 
-        /* ── SEZIONI ── */
-        section { padding: 8rem 8%; max-width: 1400px; margin: 0 auto; }
+        /* ── SEZIONI ED EDITORIAL LAYOUT ── */
+        section { padding: 9rem 6% 6rem; max-width: 1300px; margin: 0 auto; }
+        .section-header { text-align: center; max-width: 700px; margin: 0 auto 5rem; }
         .section-eyebrow { 
-            text-transform: uppercase; font-size: 0.75rem; letter-spacing: 4px; 
-            color: var(--accent); font-weight: 600; margin-bottom: 1.5rem; display: block;
+            text-transform: uppercase; font-size: 0.7rem; letter-spacing: 5px; 
+            color: var(--accent); font-weight: 600; margin-bottom: 1.2rem; display: block;
         }
-        .section-heading { font-family: var(--serif); font-size: clamp(2.5rem, 5vw, 4rem); color: var(--navy); margin-bottom: 3.5rem; line-height: 1.1; }
+        .section-heading { font-family: var(--serif); font-size: clamp(2.4rem, 4vw, 3.5rem); color: var(--navy); line-height: 1.15; font-weight: 400; }
 
-        /* ── SACRAMENTI ENHANCED ── */
+        /* ── SCHEDE CONTENUTI DINAMICI (AVVISI & OMELIE) ── */
+        .dynamic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 3.5rem; }
+        .dynamic-card {
+            background: var(--white); border-radius: 4px; overflow: hidden;
+            transition: var(--transition); display: flex; flex-direction: column;
+            box-shadow: 0 4px 20px rgba(9, 13, 22, 0.02);
+        }
+        .dynamic-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px rgba(9, 13, 22, 0.06); }
+        .dynamic-card-img { width: 100%; aspect-ratio: 16/10; object-fit: cover; filter: grayscale(15%); transition: var(--transition); }
+        .dynamic-card:hover .dynamic-card-img { filter: grayscale(0%); }
+        .dynamic-card-content { padding: 3rem 2.5rem; flex-grow: 1; display: flex; flex-direction: column; }
+        .dynamic-card-meta { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); font-weight: 600; margin-bottom: 1rem; }
+        .dynamic-card h3 { font-family: var(--serif); font-size: 1.9rem; color: var(--navy); line-height: 1.25; font-weight: 400; margin-bottom: 0.6rem; }
+        .dynamic-card h4 { font-size: 0.85rem; font-weight: 400; color: var(--text-muted); font-style: italic; margin-bottom: 1.5rem; }
+        .dynamic-card p { color: var(--text-main); font-size: 0.95rem; line-height: 1.7; white-space: pre-line; margin-bottom: 1.5rem; }
+
+        /* ── SACRAMENTI & GRUPPI MINIMAL CARDS ── */
         .sacramenti-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem; }
         .sacramento-card { 
-            background: var(--white); padding: 4rem 3rem; border-radius: 8px;
-            transition: var(--transition); border: 1px solid rgba(197, 160, 89, 0.15);
-            position: relative;
+            background: var(--white); padding: 4.5rem 3rem; border-radius: 4px;
+            transition: var(--transition); border-top: 2px solid transparent;
+            box-shadow: 0 4px 20px rgba(9, 13, 22, 0.02);
         }
-        .sacramento-card:hover { transform: translateY(-15px); box-shadow: 0 30px 60px rgba(15, 23, 42, 0.1); border-color: var(--accent); }
-        .sacramento-icon { font-size: 0.8rem; color: var(--accent); border-bottom: 1px solid var(--accent); padding-bottom: 10px; margin-bottom: 2rem; display: inline-block; }
-        .sacramento-card h3 { font-family: var(--serif); font-size: 2.2rem; color: var(--navy); margin-bottom: 1.5rem; }
-        .sacramento-card p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.8; margin-bottom: 2rem; }
-        .sacramento-info { background: var(--cream); padding: 1rem; border-radius: 4px; font-size: 0.8rem; font-weight: 600; color: var(--navy); text-transform: uppercase; letter-spacing: 1px; }
+        .sacramento-card:hover { transform: translateY(-5px); border-top-color: var(--accent); box-shadow: 0 25px 50px rgba(9, 13, 22, 0.05); }
+        .sacramento-icon { font-size: 0.65rem; font-weight: 600; color: var(--accent); letter-spacing: 3px; display: block; margin-bottom: 2rem; text-transform: uppercase; }
+        .sacramento-card h3 { font-family: var(--serif); font-size: 2rem; color: var(--navy); font-weight: 400; margin-bottom: 1.2rem; }
+        .sacramento-card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.8; margin-bottom: 2.5rem; }
+        .sacramento-info { border-left: 1px solid var(--accent); padding-left: 15px; font-size: 0.75rem; font-weight: 500; color: var(--navy); text-transform: uppercase; letter-spacing: 1.5px; }
 
-        /* ── SACERDOTI ── */
-        .pastori-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 4rem; }
-        .pastore-item { text-align: left; }
+        /* ── PASTORI / CLERO ── */
+        .pastori-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 5rem; justify-content: center;}
+        .pastore-item { text-align: center; }
         .pastore-img-wrap { 
-            width: 100%; aspect-ratio: 4/5; overflow: hidden; margin-bottom: 2rem;
-            border-radius: 4px; filter: sepia(20%) contrast(1.1); transition: var(--transition);
+            width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 2.5rem;
+            border-radius: 50%; max-width: 260px; margin-left: auto; margin-right: auto;
+            filter: grayscale(100%); transition: var(--transition);
+            box-shadow: 0 10px 35px rgba(9, 13, 22, 0.05);
         }
-        .pastore-item:hover .pastore-img-wrap { filter: sepia(0%) contrast(1); }
-        .pastore-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
-        .pastore-item:hover img { transform: scale(1.05); }
+        .pastore-item:hover .pastore-img-wrap { filter: grayscale(0%); transform: scale(1.02); }
+        .pastore-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+        .pastore-item h3 { font-family: var(--serif); font-size: 1.8rem; color: var(--navy); font-weight: 400; margin-top: 0.5rem; }
 
-        /* ── BOTTONI ── */
+        /* ── BOTTONI CHIC ── */
         .btn {
-            display: inline-block; padding: 18px 45px; border-radius: 40px;
-            text-decoration: none; font-size: 0.7rem; font-weight: 600;
-            text-transform: uppercase; letter-spacing: 2px; transition: var(--transition);
-            cursor: pointer;
+            display: inline-block; padding: 16px 42px; border-radius: 0px;
+            text-decoration: none; font-size: 0.65rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 2.5px; transition: var(--transition);
+            cursor: pointer; border: none;
         }
-        .btn-primary { background: var(--accent); color: var(--white); border: none; }
-        .btn-primary:hover { background: var(--navy); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .btn-outline { border: 1px solid rgba(255,255,255,0.4); color: var(--white); }
-        .btn-outline:hover { background: var(--white); color: var(--navy); }
+        .btn-primary { background: var(--navy); color: var(--white); }
+        .btn-primary:hover { background: var(--accent); transform: translateY(-2px); }
+        .btn-outline { border: 1px solid rgba(255,255,255,0.3); color: var(--white); background: transparent; }
+        .btn-outline:hover { background: var(--white); color: var(--navy); border-color: var(--white); }
+        .btn-danger { background: #faf8f5; color: var(--danger); border: 1px solid rgba(219, 68, 68, 0.2); padding: 10px 18px; font-size: 0.6rem; border-radius: 2px; margin-top: auto; align-self: flex-start;}
+        .btn-danger:hover { background: var(--danger); color: var(--white); }
 
-        /* ── CONTATTI ── */
-        .contact-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 6rem; }
-        .contact-info-item { margin-bottom: 3rem; }
-        .contact-info-item h4 { font-size: 0.7rem; text-transform: uppercase; color: var(--accent); letter-spacing: 2px; margin-bottom: 1rem; }
-        .contact-info-item p, .contact-info-item a { font-family: var(--serif); font-size: clamp(1.5rem, 3vw, 2.2rem); text-decoration: none; color: var(--navy); line-height: 1.2; }
+        /* ── CONTATTI POLISHED ── */
+        .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+        .contact-info-item { margin-bottom: 3.5rem; }
+        .contact-info-item h4 { font-size: 0.65rem; text-transform: uppercase; color: var(--accent); letter-spacing: 3px; margin-bottom: 0.8rem; font-weight: 600; }
+        .contact-info-item p, .contact-info-item a { font-family: var(--serif); font-size: 2rem; text-decoration: none; color: var(--navy); line-height: 1.2; font-weight: 400; }
+        .contact-info-item a { border-bottom: 1px solid rgba(9,13,22,0.1); transition: var(--transition); }
+        .contact-info-item a:hover { border-bottom-color: var(--accent); color: var(--accent); }
+        .map-wrapper { border-radius: 4px; overflow: hidden; min-height: 450px; display: flex; align-items: center; justify-content: center; background: url('https://images.unsplash.com/photo-1548625361-906f37149021?auto=format&fit=crop&q=80&w=1000') center/cover; filter: grayscale(30%); transition: var(--transition); }
+        .map-wrapper:hover { filter: grayscale(0%); }
 
-        /* ── UTILS ── */
+        /* ── ADMIN MINIMAL BOX ── */
+        .admin-box { background: var(--white); padding: 4rem; border-radius: 4px; max-width: 650px; margin: 0 auto; box-shadow: 0 4px 30px rgba(0,0,0,0.01); }
+        .form-group { margin-bottom: 2rem; display: flex; flex-direction: column; gap: 0.6rem; }
+        .form-group label { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); }
+        .form-control { padding: 14px; border: 1px solid #e2e8f0; border-radius: 0px; font-family: var(--sans); font-size: 0.85rem; background: #fafafa; transition: var(--transition); }
+        .form-control:focus { outline: none; border-color: var(--accent); background: var(--white); }
+        
+        .admin-dashboard { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+        @media(max-width: 900px) { .admin-dashboard { grid-template-columns: 1fr; } }
+
+        /* ── UTILS INTERNE SPA ── */
         .page { display: none; }
-        .page.active { display: block; animation: pageSlideIn 0.8s ease-out; }
-        @keyframes pageSlideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .page.active { display: block; animation: pageSlideIn 1s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes pageSlideIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        footer { background: var(--navy); color: var(--white); padding: 6rem 5% 3rem; }
-        .footer-grid { display: flex; justify-content: space-between; align-items: center; opacity: 0.6; font-size: 0.75rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 3rem; }
+        /* ── FOOTER ELEGANTE ── */
+        footer { background: var(--navy); color: var(--white); padding: 6rem 6% 4rem; }
+        .footer-grid { display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 3rem; letter-spacing: 0.5px; color: rgba(255,255,255,0.4); }
+        .admin-trigger { cursor: pointer; transition: var(--transition); }
+        .admin-trigger:hover { color: var(--accent); }
 
-        @media (max-width: 900px) {
+        @media (max-width: 1000px) {
+            nav { height: 80px; padding: 0 5%; }
             .nav-links { display: none; }
-            .contact-layout { grid-template-columns: 1fr; gap: 4rem; }
-            section { padding: 6rem 5%; }
+            .contact-layout { grid-template-columns: 1fr; gap: 5rem; }
+            section { padding: 7rem 5% 4rem; }
+            .pastori-grid { gap: 3.5rem; }
         }
     </style>
 </head>
@@ -160,6 +211,8 @@
     </a>
     <ul class="nav-links">
         <li><a onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
+        <li><a onclick="showPage('avvisi')" id="nav-avvisi">Avvisi</a></li>
+        <li><a onclick="showPage('omelie')" id="nav-omelie">Omelie</a></li>
         <li><a onclick="showPage('comunita')" id="nav-comunita">Comunità</a></li>
         <li><a onclick="showPage('sacramenti')" id="nav-sacramenti">Sacramenti</a></li>
         <li><a onclick="showPage('gruppi')" id="nav-gruppi">Gruppi</a></li>
@@ -170,105 +223,138 @@
 <div class="page active" id="page-home">
     <section class="hero">
         <div class="hero-content">
-            <span class="section-eyebrow" style="color: var(--accent-light);">Accoglienza · Fede · Condivisione</span>
+            <span class="section-eyebrow" style="color: var(--accent-light); margin-bottom: 2rem;">Accoglienza · Fede · Condivisione</span>
             <h1 class="hero-title">L'essenziale è<br><em>Incontrarsi</em></h1>
-            <div style="display: flex; gap: 1.5rem; justify-content: center; margin-top: 3rem;">
-                <button class="btn btn-primary" onclick="showPage('sacramenti')">Vita Liturgica</button>
+            <div style="display: flex; gap: 1.5rem; justify-content: center;">
+                <button class="btn btn-primary" onclick="showPage('avvisi')">Leggi gli Avvisi</button>
                 <button class="btn btn-outline" onclick="showPage('contatti')">Vieni a trovarci</button>
             </div>
         </div>
     </section>
 </div>
 
-<div class="page" id="page-comunita" style="padding-top: 100px;">
+<div class="page" id="page-avvisi">
     <section>
-        <span class="section-eyebrow">La nostra Identità</span>
-        <h2 class="section-heading">Una Famiglia di Famiglie</h2>
+        <div class="section-header">
+            <span class="section-eyebrow">Vita Comunitaria</span>
+            <h2 class="section-heading">Avvisi ed Annunci</h2>
+        </div>
+        <div class="dynamic-grid" id="container-avvisi">
+            </div>
+    </section>
+</div>
+
+<div class="page" id="page-omelie">
+    <section>
+        <div class="section-header">
+            <span class="section-eyebrow">Ascolto e Meditazione</span>
+            <h2 class="section-heading">Le Omelie della Domenica</h2>
+        </div>
+        <div class="dynamic-grid" id="container-omelie">
+            </div>
+    </section>
+</div>
+
+<div class="page" id="page-comunita">
+    <section>
+        <div class="section-header">
+            <span class="section-eyebrow">La nostra Identità</span>
+            <h2 class="section-heading">Una Famiglia di Famiglie</h2>
+        </div>
         <div class="pastori-grid">
             <div class="pastore-item">
                 <div class="pastore-img-wrap"><img src="IMMAGINI/dgio.png" alt="Don Giovanni"></div>
-                <p class="section-eyebrow">Parroco</p>
-                <h3 class="sacramento-card h3" style="font-size: 1.8rem; margin-top: 0.5rem;">Don Giovanni Schiavone</h3>
+                <span class="section-eyebrow" style="letter-spacing: 2px;">Parroco</span>
+                <h3>Don Giovanni Schiavone</h3>
             </div>
             <div class="pastore-item">
                 <div class="pastore-img-wrap"><img src="IMMAGINI/dgian.png" alt="Don Gianpietro"></div>
-                <p class="section-eyebrow">Vice Parroco</p>
-                <h3 class="sacramento-card h3" style="font-size: 1.8rem; margin-top: 0.5rem;">Don Gianpietro Perillo</h3>
+                <span class="section-eyebrow" style="letter-spacing: 2px;">Vice Parroco</span>
+                <h3>Don Gianpietro Perillo</h3>
             </div>
         </div>
     </section>
 </div>
 
-<div class="page" id="page-sacramenti" style="padding-top: 100px;">
+<div class="page" id="page-sacramenti">
     <section>
-        <span class="section-eyebrow">Iniziazione e Vita</span>
-        <h2 class="section-heading">Il Cammino dei Sette Segni</h2>
+        <div class="section-header">
+            <span class="section-eyebrow">Iniziazione e Cammino</span>
+            <h2 class="section-heading">I Sette Segni della Grazia</h2>
+        </div>
         <div class="sacramenti-grid">
             <div class="sacramento-card">
-                <span class="sacramento-icon">01. INIZIAZIONE</span>
+                <span class="sacramento-icon">01 · Iniziazione</span>
                 <h3>Battesimo</h3>
-                <p>La porta della vita spirituale e l'ingresso nella Chiesa. Accogliamo i nuovi nati e le loro famiglie in un percorso di riscoperta del dono della fede ricevuto.</p>
+                <p>La porta della vita spirituale e l'ingresso nella grande famiglia della Chiesa. Accogliamo i nuovi nati e i genitori in un percorso condiviso.</p>
                 <div class="sacramento-info">Concordare con il Parroco</div>
             </div>
             <div class="sacramento-card">
-                <span class="sacramento-icon">02. NUTRIMENTO</span>
+                <span class="sacramento-icon">02 · Nutrimento</span>
                 <h3>Eucarestia</h3>
-                <p>Fonte e culmine di tutta la vita cristiana. Accompagniamo i bambini nel percorso di catechismo verso l'Incontro con Gesù nel Pane della Vita.</p>
+                <p>Fonte e culmine della vita cristiana. Accompagniamo con cura i fanciulli nel sentiero del catechismo verso l'incontro vivo nel Pane spezzato.</p>
                 <div class="sacramento-info">Catechismo: Venerdì e Sabato</div>
             </div>
             <div class="sacramento-card">
-                <span class="sacramento-icon">03. CONFERMAZIONE</span>
+                <span class="sacramento-icon">03 · Conferma</span>
                 <h3>Cresima</h3>
-                <p>Ricevere il sigillo dello Spirito Santo per diventare testimoni coraggiosi nel mondo. Percorsi dedicati ad adolescenti e adulti.</p>
+                <p>Ricevere il sigillo dello Spirito Santo per farsi testimoni solidi nel mondo quotidiano. Percorsi dedicati ad adolescenti ed adulti.</p>
                 <div class="sacramento-info">Percorsi annuali</div>
             </div>
             <div class="sacramento-card">
-                <span class="sacramento-icon">04. AMORE</span>
+                <span class="sacramento-icon">04 · Alleanza</span>
                 <h3>Matrimonio</h3>
-                <p>Due vite che diventano una nel Signore. Offriamo un cammino di preparazione per riscoprire il valore del sacramento e della vita di coppia cristiana.</p>
+                <p>Due storie che si fondono nel disegno del Signore. Offriamo incontri di preparazione per riscoprire la bellezza e il valore della fede in coppia.</p>
                 <div class="sacramento-info">Contattare almeno 6 mesi prima</div>
             </div>
             <div class="sacramento-card">
-                <span class="sacramento-icon">05. MISERICORDIA</span>
+                <span class="sacramento-icon">05 · Riscatto</span>
                 <h3>Riconciliazione</h3>
-                <p>Sperimentare il perdono e la pace di Dio. I sacerdoti sono sempre disponibili per il colloquio spirituale e la confessione.</p>
+                <p>Sperimentare la carezza dell'infinito perdono di Dio. I sacerdoti mantengono costante ascolto e disponibilità per i colloqui spirituali.</p>
                 <div class="sacramento-info">Disponibilità quotidiana</div>
             </div>
             <div class="sacramento-card">
-                <span class="sacramento-icon">06. CURA</span>
+                <span class="sacramento-icon">06 · Sollievo</span>
                 <h3>Unzione Infermi</h3>
-                <p>Un segno di vicinanza e forza per chi soffre nella malattia. La parrocchia è vicina ai suoi malati con la visita e la preghiera costante.</p>
+                <p>Presenza sacra e vicinanza per chi affronta la prova del dolore corporeo. La comunità sostiene i malati con la preghiera regolare.</p>
                 <div class="sacramento-info">Su richiesta in ogni momento</div>
             </div>
         </div>
     </section>
 </div>
 
-<div class="page" id="page-gruppi" style="padding-top: 100px;">
+<div class="page" id="page-gruppi">
     <section>
-        <span class="section-eyebrow">Partecipazione Attiva</span>
-        <h2 class="section-heading">Servire la Comunità</h2>
+        <div class="section-header">
+            <span class="section-eyebrow">Partecipazione Attiva</span>
+            <h2 class="section-heading">Il Servizio nel Cuore della Chiesa</h2>
+        </div>
         <div class="sacramenti-grid">
-            <div class="sacramento-card" style="padding: 3rem;">
+            <div class="sacramento-card">
+                <span class="sacramento-icon">Azione</span>
                 <h3>Azione Cattolica</h3>
-                <p>Formazione per tutte le età, per vivere la missione laicale nel quotidiano.</p>
+                <p>Percorsi di crescita spirituale per ogni fascia d'età, volti a incarnare il Vangelo nei luoghi di studio e lavoro.</p>
             </div>
-            <div class="sacramento-card" style="padding: 3rem;">
+            <div class="sacramento-card">
+                <span class="sacramento-icon">Carità</span>
                 <h3>Caritas Parrocchiale</h3>
-                <p>Essere mani e cuore di Cristo per i fratelli che vivono momenti di fragilità.</p>
+                <p>Sostegno silenzioso e operoso per i nuclei familiari e i fratelli che attraversano frangenti di forte fragilità.</p>
             </div>
-            <div class="sacramento-card" style="padding: 3rem;">
+            <div class="sacramento-card">
+                <span class="sacramento-icon">Liturgia</span>
                 <h3>Schola Cantorum</h3>
-                <p>L'armonia della musica al servizio della preghiera comunitaria.</p>
+                <p>Servizio corale dedicato all'animazione e alla lode, elevando la preghiera comunitaria attraverso la musica.</p>
             </div>
         </div>
     </section>
 </div>
 
-<div class="page" id="page-contatti" style="padding-top: 100px;">
+<div class="page" id="page-contatti">
     <section>
-        <span class="section-eyebrow">Siamo qui per te</span>
-        <h2 class="section-heading">Mettiamoci in contatto</h2>
+        <div class="section-header">
+            <span class="section-eyebrow">Comunione</span>
+            <h2 class="section-heading">Mettiamoci in contatto</h2>
+        </div>
         <div class="contact-layout">
             <div class="contact-details">
                 <div class="contact-info-item">
@@ -280,15 +366,84 @@
                     <a href="mailto:madonnadelrosario07@gmail.com">madonnadelrosario07@gmail.com</a>
                 </div>
                 <div class="contact-info-item">
-                    <h4>Social</h4>
-                    <div style="display:flex; gap:1rem; margin-top:1.5rem;">
-                        <a href="https://www.facebook.com/PARROCCHIAMADONNADELROSARIO" target="_blank" class="btn btn-primary" style="padding:15px 30px;">Facebook</a>
-                        <a href="https://www.instagram.com/parrocchiamadonnadelrosario?igsh=MWRtZnFpbWg0aGkZA%3D%3D&utm_source=qr" target="_blank" class="btn btn-primary" style="padding:15px 30px;">Instagram</a>
+                    <h4>Canali Social</h4>
+                    <div style="display:flex; gap:1.5rem; margin-top:1.5rem;">
+                        <a href="https://www.facebook.com/PARROCCHIAMADONNADELROSARIO" target="_blank" class="btn btn-primary" style="padding:14px 28px; font-size:0.6rem;">Facebook</a>
+                        <a href="https://www.instagram.com/parrocchiamadonnadelrosario?igsh=MWRtZnFpbWg0aGkZA%3D%3D&utm_source=qr" target="_blank" class="btn btn-primary" style="padding:14px 28px; font-size:0.6rem;">Instagram</a>
                     </div>
                 </div>
             </div>
-            <div style="background: #f1f1f1; border-radius: 12px; min-height: 400px; display: flex; align-items: center; justify-content: center; background: url('https://images.unsplash.com/photo-1548625361-906f37149021?auto=format&fit=crop&q=80&w=1000') center/cover;">
-                <a href="https://maps.app.goo.gl/T2sJCpTH8UJLNm5T7" target="_blank" class="btn btn-primary" style="background: var(--navy)">Visualizza Mappa</a>
+            <div class="map-wrapper">
+                <a href="https://maps.app.goo.gl/T2sJCpTH8UJLNm5T7" target="_blank" class="btn btn-primary">Apri Mappa Digitale</a>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="page" id="page-admin">
+    <section>
+        <div id="admin-login-box" class="admin-box">
+            <span class="section-eyebrow">Autenticazione</span>
+            <h2 style="font-family: var(--serif); font-size: 2rem; margin-bottom: 2.5rem; color: var(--navy); font-weight:400;">Redazione Riservata</h2>
+            <div class="form-group">
+                <label>Chiave di Accesso</label>
+                <input type="password" id="admin-password" class="form-control" placeholder="••••••••">
+            </div>
+            <button class="btn btn-primary" onclick="checkLogin()" style="width: 100%; padding: 15px;">Entra nel Pannello</button>
+            <p id="login-error" style="color: var(--danger); font-size: 0.75rem; margin-top: 1.5rem; text-align:center; display: none;">Credenziale non corretta. Riprovare.</p>
+        </div>
+
+        <div id="admin-panel" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5rem; border-bottom: 1px solid rgba(0,0,0,0.06); padding-bottom: 2rem;">
+                <div>
+                    <span class="section-eyebrow">Editor dei Contenuti</span>
+                    <h2 class="section-heading" style="margin-bottom: 0;">Console Amministrativa</h2>
+                </div>
+                <button class="btn btn-outline" onclick="logout()" style="color: var(--navy); border-color: var(--navy); padding: 12px 30px;">Termina Sessione</button>
+            </div>
+
+            <div class="admin-dashboard">
+                <div class="admin-box" style="margin: 0; max-width: 100%; padding: 3rem 2.5rem;">
+                    <h3 style="font-family: var(--serif); font-size: 1.7rem; margin-bottom: 2rem; color: var(--navy); font-weight:400;">Nuovo Annuncio / Avviso</h3>
+                    <form id="form-avviso" onsubmit="savePost(event, 'avvisi')">
+                        <div class="form-group">
+                            <label>Titolo Principale *</label>
+                            <input type="text" id="avviso-titolo" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Sottotitolo Correlato</label>
+                            <input type="text" id="avviso-sottotitolo" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>File Immagine Copertina</label>
+                            <input type="file" id="avviso-immagine" class="form-control" accept="image/*" style="background:transparent; padding:5px 0;">
+                        </div>
+                        <div class="form-group">
+                            <label>Testo dell'Avviso *</label>
+                            <textarea id="avviso-testo" class="form-control" rows="6" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px;">Pubblica nel Sito</button>
+                    </form>
+                </div>
+
+                <div class="admin-box" style="margin: 0; max-width: 100%; padding: 3rem 2.5rem;">
+                    <h3 style="font-family: var(--serif); font-size: 1.7rem; margin-bottom: 2rem; color: var(--navy); font-weight:400;">Nuovo Testo / Omelia</h3>
+                    <form id="form-omelia" onsubmit="savePost(event, 'omelie')">
+                        <div class="form-group">
+                            <label>Titolo Omelia *</label>
+                            <input type="text" id="omelia-titolo" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Sottotitolo o Riferimento</label>
+                            <input type="text" id="omelia-sottotitolo" class="form-control" placeholder="Es. XXX Domenica del Tempo Ordinario">
+                        </div>
+                        <div class="form-group">
+                            <label>Testo Completo Omelia *</label>
+                            <textarea id="omelia-testo" class="form-control" rows="9" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px;">Pubblica nel Sito</button>
+                    </form>
+                </div>
             </div>
         </div>
     </section>
@@ -297,14 +452,16 @@
 <footer>
     <div class="footer-grid">
         <div style="display: flex; align-items: center; gap: 15px;">
-            <img src="IMMAGINI/ico.png" alt="Logo" style="width: 30px;">
-            <span style="font-weight: 600; letter-spacing: 1px; text-transform: uppercase;">Parrocchia Madonna del Rosario</span>
+            <img src="IMMAGINI/ico.png" alt="Logo" style="width: 25px;">
+            <span style="font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;">Parrocchia Madonna del Rosario</span>
         </div>
-        <p>© 2024 · Diocesi di Aversa · Tutti i diritti riservati</p>
+        <p><span class="admin-trigger" onclick="showPage('admin')">©</span> 2026 · Diocesi di Aversa · Tutti i diritti riservati</p>
     </div>
 </footer>
 
 <script>
+    const ADMIN_PASSWORD = "RosarioGricignano"; 
+
     function showPage(id) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
@@ -318,12 +475,130 @@
 
     window.addEventListener('scroll', () => {
         const nav = document.getElementById('navbar');
-        if (window.scrollY > 60) {
+        if (window.scrollY > 50) {
             nav.classList.add('scrolled');
         } else {
             nav.classList.remove('scrolled');
         }
     });
+
+    function checkLogin() {
+        const input = document.getElementById('admin-password').value;
+        if(input === ADMIN_PASSWORD) {
+            document.getElementById('admin-login-box').style.display = 'none';
+            document.getElementById('admin-panel').style.display = 'block';
+            document.getElementById('login-error').style.display = 'none';
+            renderPosts();
+        } else {
+            document.getElementById('login-error').style.display = 'block';
+        }
+    }
+
+    function logout() {
+        document.getElementById('admin-password').value = '';
+        document.getElementById('admin-login-box').style.display = 'block';
+        document.getElementById('admin-panel').style.display = 'none';
+        renderPosts();
+        showPage('home');
+    }
+
+    function savePost(event, tipo) {
+        event.preventDefault();
+        
+        const titolo = document.getElementById(`${tipo.slice(0, -1)}-titolo`).value;
+        const sottotitolo = document.getElementById(`${tipo.slice(0, -1)}-sottotitolo`).value;
+        const testo = document.getElementById(`${tipo.slice(0, -1)}-testo`).value;
+        const data = new Date().toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
+        const id = Date.now();
+
+        if (tipo === 'avvisi') {
+            const fileInput = document.getElementById('avviso-immagine');
+            if(fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const post = { id, titolo, sottotitolo, testo, data, immagine: e.target.result };
+                    pushToStorage(tipo, post);
+                }
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                const post = { id, titolo, sottotitolo, testo, data, immagine: null };
+                pushToStorage(tipo, post);
+            }
+        } else {
+            const post = { id, titolo, sottotitolo, testo, data };
+            pushToStorage(tipo, post);
+        }
+    }
+
+    function pushToStorage(tipo, post) {
+        let posts = JSON.getObjLocalStorage(tipo);
+        posts.unshift(post);
+        localStorage.setItem(tipo, JSON.stringify(posts));
+        
+        document.getElementById(`form-${tipo.slice(0, -1)}`).reset();
+        
+        renderPosts();
+        showPage(tipo);
+    }
+
+    JSON.getObjLocalStorage = function(key) {
+        const val = localStorage.getItem(key);
+        return val ? JSON.parse(val) : [];
+    }
+
+    function deletePost(id, tipo) {
+        if(confirm("Rimuovere definitivamente questo contenuto?")) {
+            let posts = JSON.getObjLocalStorage(tipo);
+            posts = posts.filter(p => p.id !== id);
+            localStorage.setItem(tipo, JSON.stringify(posts));
+            renderPosts();
+        }
+    }
+
+    function renderPosts() {
+        const avvisi = JSON.getObjLocalStorage('avvisi');
+        const omelie = JSON.getObjLocalStorage('omelie');
+        const isAdminVisible = document.getElementById('admin-panel').style.display === 'block';
+
+        // Renderizza Avvisi pubblici
+        const containerAvvisi = document.getElementById('container-avvisi');
+        if(avvisi.length === 0) {
+            containerAvvisi.innerHTML = `<p style="color: var(--text-muted); font-style: italic; font-size:0.9rem; grid-column: 1/-1; text-align:center;">Nessun avviso presente al momento.</p>`;
+        } else {
+            containerAvvisi.innerHTML = avvisi.map(a => `
+                <div class="dynamic-card">
+                    ${a.immagine ? `<img src="${a.immagine}" class="dynamic-card-img" alt="Copertina">` : ''}
+                    <div class="dynamic-card-content">
+                        <span class="dynamic-card-meta">${a.data}</span>
+                        <h3>${a.titolo}</h3>
+                        ${a.sottotitolo ? `<h4>${a.sottotitolo}</h4>` : ''}
+                        <p>${a.testo}</p>
+                        ${isAdminVisible ? `<button class="btn btn-danger" onclick="deletePost(${a.id}, 'avvisi')">Elimina contenuto</button>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Renderizza Omelie pubbliche
+        const containerOmelie = document.getElementById('container-omelie');
+        if(omelie.length === 0) {
+            containerOmelie.innerHTML = `<p style="color: var(--text-muted); font-style: italic; font-size:0.9rem; grid-column: 1/-1; text-align:center;">Nessuna omelia presente al momento.</p>`;
+        } else {
+            containerOmelie.innerHTML = omelie.map(o => `
+                <div class="dynamic-card">
+                    <div class="dynamic-card-content">
+                        <span class="dynamic-card-meta">${o.data}</span>
+                        <h3>${o.titolo}</h3>
+                        ${o.sottotitolo ? `<h4>${o.sottotitolo}</h4>` : ''}
+                        <p>${o.testo}</p>
+                        ${isAdminVisible ? `<button class="btn btn-danger" onclick="deletePost(${o.id}, 'omelie')">Elimina contenuto</button>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", renderPosts);
 </script>
 
 </body>
