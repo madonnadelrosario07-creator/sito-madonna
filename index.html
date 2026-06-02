@@ -509,29 +509,21 @@
 </footer>
 
 <script>
-    // Impronte SHA-256 Sicure (User: admin_rosario | Pass: Rosario2026!)
-    const AUTH_USER_HASH = "8f38102377b587a8b68832a8f83738b556956637ef39d25143389da9c6f2e0f7"; 
-    const AUTH_PASS_HASH = "399cfc1603fa72346618e77c5e2d1eb96bf541ff34e06bc86ec0463bf93796ec"; 
+    // Credenziali offuscate in Base64 (funzionano anche offline con doppio clic)
+    // User: admin_rosario | Pass: Rosario2026!
+    const AUTH_USER_OBF = "YWRtaW5fcm9zYXJpbw=="; 
+    const AUTH_PASS_OBF = "Um9zYXJpbzIwMjYh"; 
 
-    async function sha256(message) {
-        const msgBuffer = new TextEncoder().encode(message);                    
-        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    }
-
-    // Gestione Cambiamento Pagine SPA (Risolto l'errore degli ID)
+    // Gestione Cambiamento Pagine SPA
     function showPage(id) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
         
         document.getElementById('page-' + id).classList.add('active');
         
-        // Corretto il selettore dell'ID
         const link = document.getElementById('nav-' + id);
         if(link) link.classList.add('active');
         
-        // Chiude automaticamente il menu mobile se è aperto dopo un click
         document.getElementById('nav-menu').classList.remove('open');
         document.getElementById('menu-btn').classList.remove('open');
         
@@ -553,14 +545,16 @@
         }
     });
 
-    async function handleSecureLogin() {
+    // Controllo credenziali compatibile offline
+    function handleSecureLogin() {
         const userInpt = document.getElementById('admin-username').value;
         const passInpt = document.getElementById('admin-password').value;
 
-        const hashedUser = await sha256(userInpt);
-        const hashedPass = await sha256(passInpt);
+        // Converte gli input in Base64 per il controllo
+        const obfUser = btoa(userInpt);
+        const obfPass = btoa(passInpt);
 
-        if(hashedUser === AUTH_USER_HASH && hashedPass === AUTH_PASS_HASH) {
+        if(obfUser === AUTH_USER_OBF && obfPass === AUTH_PASS_OBF) {
             document.getElementById('admin-login-box').style.display = 'none';
             document.getElementById('admin-panel').style.display = 'block';
             document.getElementById('login-error').style.display = 'none';
