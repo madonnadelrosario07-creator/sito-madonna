@@ -35,45 +35,44 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* ── NAVBAR MINIMAL ── */
+        /* ── NAVBAR BLU SCURO ── */
         nav {
             position: fixed;
             top: 0; width: 100%; height: 100px;
             display: flex; align-items: center; justify-content: space-between;
             padding: 0 6%; z-index: 1000;
+            background: var(--navy); /* Sfondo blu scuro nativo */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             transition: var(--transition);
         }
 
         nav.scrolled {
-            background: rgba(250, 248, 245, 0.85);
             height: 80px;
+            background: rgba(9, 13, 22, 0.92); /* Effetto vetro scuro allo scroll */
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(9, 13, 22, 0.05);
         }
 
         .nav-brand { display: flex; align-items: center; gap: 15px; text-decoration: none; }
-        .nav-logo { width: 38px; height: auto; transition: var(--transition); }
+        .nav-logo { width: 38px; height: auto; }
         .nav-brand-text { display: flex; flex-direction: column; }
         .nav-brand-text span:first-child { 
             font-family: var(--serif); font-size: 1.35rem; font-weight: 600; color: var(--white); 
-            letter-spacing: 0.5px; transition: var(--transition);
+            letter-spacing: 0.5px;
         }
-        nav.scrolled .nav-brand-text span:first-child { color: var(--navy); }
         .nav-brand-text span:last-child { 
             font-size: 0.55rem; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); 
             font-weight: 500; margin-top: 2px;
         }
 
-        .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
         .nav-links a {
             text-decoration: none; font-size: 0.7rem; font-weight: 500;
             text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.75);
             transition: var(--transition); cursor: pointer;
             position: relative; padding: 5px 0;
         }
-        nav.scrolled .nav-links a { color: var(--text-muted); }
-        nav.scrolled .nav-links a:hover, nav.scrolled .nav-links a.active { color: var(--navy) !important; }
+        .nav-links a:hover, .nav-links a.active { color: var(--white) !important; }
         .nav-links a::after {
             content: ''; position: absolute; bottom: 0; left: 50%; width: 0; height: 1px;
             background: var(--accent); transition: var(--transition); transform: translateX(-50%);
@@ -103,7 +102,7 @@
         }
         .section-heading { font-family: var(--serif); font-size: clamp(2.4rem, 4vw, 3.5rem); color: var(--navy); line-height: 1.15; font-weight: 400; }
 
-        /* ── SCHEDE CONTENUTI DINAMICI (AVVISI & OMELIE) ── */
+        /* ── SCHEDE CONTENUTI DINAMICI ── */
         .dynamic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 3.5rem; }
         .dynamic-card {
             background: var(--white); border-radius: 4px; overflow: hidden;
@@ -119,7 +118,7 @@
         .dynamic-card h4 { font-size: 0.85rem; font-weight: 400; color: var(--text-muted); font-style: italic; margin-bottom: 1.5rem; }
         .dynamic-card p { color: var(--text-main); font-size: 0.95rem; line-height: 1.7; white-space: pre-line; margin-bottom: 1.5rem; }
 
-        /* ── SACRAMENTI & GRUPPI MINIMAL CARDS ── */
+        /* ── SACRAMENTI & GRUPPI CARDS ── */
         .sacramenti-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem; }
         .sacramento-card { 
             background: var(--white); padding: 4.5rem 3rem; border-radius: 4px;
@@ -132,7 +131,7 @@
         .sacramento-card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.8; margin-bottom: 2.5rem; }
         .sacramento-info { border-left: 1px solid var(--accent); padding-left: 15px; font-size: 0.75rem; font-weight: 500; color: var(--navy); text-transform: uppercase; letter-spacing: 1.5px; }
 
-        /* ── PASTORI / CLERO ── */
+        /* ── PASTORI ── */
         .pastori-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 5rem; justify-content: center;}
         .pastore-item { text-align: center; }
         .pastore-img-wrap { 
@@ -145,7 +144,7 @@
         .pastore-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
         .pastore-item h3 { font-family: var(--serif); font-size: 1.8rem; color: var(--navy); font-weight: 400; margin-top: 0.5rem; }
 
-        /* ── BOTTONI CHIC ── */
+        /* ── BOTTONI ── */
         .btn {
             display: inline-block; padding: 16px 42px; border-radius: 0px;
             text-decoration: none; font-size: 0.65rem; font-weight: 600;
@@ -154,22 +153,30 @@
         }
         .btn-primary { background: var(--navy); color: var(--white); }
         .btn-primary:hover { background: var(--accent); transform: translateY(-2px); }
+        
         .btn-outline { border: 1px solid rgba(255,255,255,0.3); color: var(--white); background: transparent; }
         .btn-outline:hover { background: var(--white); color: var(--navy); border-color: var(--white); }
+        
+        /* BOTTONI SOCIAL CHIARI (Richiesti) */
+        .btn-social-light { background: var(--white); color: var(--navy); border: 1px solid rgba(9,13,22,0.1); }
+        .btn-social-light:hover { background: var(--accent-light); color: var(--navy); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+
         .btn-danger { background: #faf8f5; color: var(--danger); border: 1px solid rgba(219, 68, 68, 0.2); padding: 10px 18px; font-size: 0.6rem; border-radius: 2px; margin-top: auto; align-self: flex-start;}
         .btn-danger:hover { background: var(--danger); color: var(--white); }
 
-        /* ── CONTATTI POLISHED ── */
-        .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+        /* ── CONTATTI & ANTEPRIMA MAPPA ── */
+        .contact-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 6rem; align-items: center; }
         .contact-info-item { margin-bottom: 3.5rem; }
         .contact-info-item h4 { font-size: 0.65rem; text-transform: uppercase; color: var(--accent); letter-spacing: 3px; margin-bottom: 0.8rem; font-weight: 600; }
         .contact-info-item p, .contact-info-item a { font-family: var(--serif); font-size: 2rem; text-decoration: none; color: var(--navy); line-height: 1.2; font-weight: 400; }
         .contact-info-item a { border-bottom: 1px solid rgba(9,13,22,0.1); transition: var(--transition); }
         .contact-info-item a:hover { border-bottom-color: var(--accent); color: var(--accent); }
-        .map-wrapper { border-radius: 4px; overflow: hidden; min-height: 450px; display: flex; align-items: center; justify-content: center; background: url('https://images.unsplash.com/photo-1548625361-906f37149021?auto=format&fit=crop&q=80&w=1000') center/cover; filter: grayscale(30%); transition: var(--transition); }
-        .map-wrapper:hover { filter: grayscale(0%); }
+        
+        /* Box Iframe Mappa Reale (Richiesto) */
+        .map-container { width: 100%; height: 450px; border-radius: 4px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.05); }
+        .map-container iframe { width: 100%; height: 100%; border: 0; }
 
-        /* ── ADMIN MINIMAL BOX ── */
+        /* ── ADMIN BOX ── */
         .admin-box { background: var(--white); padding: 4rem; border-radius: 4px; max-width: 650px; margin: 0 auto; box-shadow: 0 4px 30px rgba(0,0,0,0.01); }
         .form-group { margin-bottom: 2rem; display: flex; flex-direction: column; gap: 0.6rem; }
         .form-group label { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); }
@@ -179,23 +186,20 @@
         .admin-dashboard { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
         @media(max-width: 900px) { .admin-dashboard { grid-template-columns: 1fr; } }
 
-        /* ── UTILS INTERNE SPA ── */
+        /* ── SPA UTILS ── */
         .page { display: none; }
         .page.active { display: block; animation: pageSlideIn 1s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes pageSlideIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ── FOOTER ELEGANTE ── */
-        footer { background: var(--navy); color: var(--white); padding: 6rem 6% 4rem; }
-        .footer-grid { display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 3rem; letter-spacing: 0.5px; color: rgba(255,255,255,0.4); }
-        .admin-trigger { cursor: pointer; transition: var(--transition); }
-        .admin-trigger:hover { color: var(--accent); }
+        /* ── FOOTER ── */
+        footer { background: var(--navy); color: var(--white); padding: 6rem 6% 4rem; border-top: 1px solid rgba(255,255,255,0.05); }
+        .footer-grid { display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; padding-top: 1rem; letter-spacing: 0.5px; color: rgba(255,255,255,0.4); }
 
         @media (max-width: 1000px) {
             nav { height: 80px; padding: 0 5%; }
             .nav-links { display: none; }
             .contact-layout { grid-template-columns: 1fr; gap: 5rem; }
-            section { padding: 7rem 5% 4rem; }
-            .pastori-grid { gap: 3.5rem; }
+            section { padding: 8rem 5% 4rem; }
         }
     </style>
 </head>
@@ -211,12 +215,13 @@
     </a>
     <ul class="nav-links">
         <li><a onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
-        <li><a onclick="showPage('avvisi')" id="nav-avvisi">Avvisi</a></li>
-        <li><a onclick="showPage('omelie')" id="nav-omelie">Omelie</a></li>
-        <li><a onclick="showPage('comunita')" id="nav-comunita">Comunità</a></li>
-        <li><a onclick="showPage('sacramenti')" id="nav-sacramenti">Sacramenti</a></li>
-        <li><a onclick="showPage('gruppi')" id="nav-gruppi">Gruppi</a></li>
-        <li><a onclick="showPage('contatti')" id="nav-contatti">Contatti</a></li>
+        <li><a onclick="showPage('avvisi')" id="nav-nav-avvisi">Avvisi</a></li>
+        <li><a onclick="showPage('omelie')" id="nav-nav-omelie">Omelie</a></li>
+        <li><a onclick="showPage('comunita')" id="nav-nav-comunita">Comunità</a></li>
+        <li><a onclick="showPage('sacramenti')" id="nav-nav-sacramenti">Sacramenti</a></li>
+        <li><a onclick="showPage('gruppi')" id="nav-nav-gruppi">Gruppi</a></li>
+        <li><a onclick="showPage('contatti')" id="nav-nav-contatti">Contatti</a></li>
+        <li><a onclick="showPage('admin')" id="nav-nav-admin" style="color: var(--accent); font-weight:600;">Accedi</a></li>
     </ul>
 </nav>
 
@@ -368,13 +373,14 @@
                 <div class="contact-info-item">
                     <h4>Canali Social</h4>
                     <div style="display:flex; gap:1.5rem; margin-top:1.5rem;">
-                        <a href="https://www.facebook.com/PARROCCHIAMADONNADELROSARIO" target="_blank" class="btn btn-primary" style="padding:14px 28px; font-size:0.6rem;">Facebook</a>
-                        <a href="https://www.instagram.com/parrocchiamadonnadelrosario?igsh=MWRtZnFpbWg0aGkZA%3D%3D&utm_source=qr" target="_blank" class="btn btn-primary" style="padding:14px 28px; font-size:0.6rem;">Instagram</a>
+                        <a href="https://www.facebook.com/PARROCCHIAMADONNADELROSARIO" target="_blank" class="btn btn-social-light" style="padding:14px 28px; font-size:0.6rem;">Facebook</a>
+                        <a href="https://www.instagram.com/parrocchiamadonnadelrosario?igsh=MWRtZnFpbWg0aGkZA%3D%3D&utm_source=qr" target="_blank" class="btn btn-social-light" style="padding:14px 28px; font-size:0.6rem;">Instagram</a>
                     </div>
                 </div>
             </div>
-            <div class="map-wrapper">
-                <a href="https://maps.app.goo.gl/T2sJCpTH8UJLNm5T7" target="_blank" class="btn btn-primary">Apri Mappa Digitale</a>
+            
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3011.6601449717464!2d14.232389176527581!3d40.97800762128825!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x133b528b122851cb%3A0x6b77ff6819a1dbbf!2sVia%20Campotonico%2C%2081030%20Gricignano%20di%20Aversa%20CE!5e0!3m2!1sit!2sit!4v1710000000000!5m2!1sit!2sit" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </section>
@@ -399,7 +405,7 @@
                     <span class="section-eyebrow">Editor dei Contenuti</span>
                     <h2 class="section-heading" style="margin-bottom: 0;">Console Amministrativa</h2>
                 </div>
-                <button class="btn btn-outline" onclick="logout()" style="color: var(--navy); border-color: var(--navy); padding: 12px 30px;">Termina Sessione</button>
+                <button class="btn btn-primary" onclick="logout()" style="padding: 12px 30px; background:var(--danger)">Termina Sessione</button>
             </div>
 
             <div class="admin-dashboard">
@@ -455,7 +461,7 @@
             <img src="IMMAGINI/ico.png" alt="Logo" style="width: 25px;">
             <span style="font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;">Parrocchia Madonna del Rosario</span>
         </div>
-        <p><span class="admin-trigger" onclick="showPage('admin')">©</span> 2026 · Diocesi di Aversa · Tutti i diritti riservati</p>
+        <p>© 2026 · Diocesi di Aversa · Tutti i diritti riservati</p>
     </div>
 </footer>
 
@@ -467,7 +473,9 @@
         document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
         
         document.getElementById('page-' + id).classList.add('active');
-        const link = document.getElementById('nav-' + id);
+        
+        // Attiva la classe sul link corrispondente nel menu superiore
+        const link = document.getElementById('nav-nav-' + id);
         if(link) link.classList.add('active');
         
         window.scrollTo({ top: 0, behavior: 'smooth' });
