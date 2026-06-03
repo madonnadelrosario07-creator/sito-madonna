@@ -953,6 +953,42 @@ function openOmeliaDetail(id) {
     }
 
     document.addEventListener("DOMContentLoaded", renderPosts);
+
+// Funzione che legge l'URL attuale e mostra la pagina corretta
+async function handleRouting() {
+    const hash = window.location.hash.replace('#', '');
+    
+    // Se l'URL è vuoto, mostra la home
+    if (!hash) {
+        showPage('home');
+        return;
+    }
+
+    // Gestione del link profondo per la singola omelia (Es: #omelia-dettaglio?id=12)
+    if (hash.startsWith('omelia-dettaglio?id=')) {
+        const id = parseInt(hash.split('=')[1]);
+        
+        // Se i dati dal server non sono ancora pronti, aspettiamo che vengano caricati
+        if (omelieDataCache.length === 0) {
+            await renderPosts(); 
+        }
+        openOmeliaDetail(id);
+    } else {
+        // Altrimenti mostra la sezione normale (avvisi, omelie, contatti, ecc.)
+        showPage(hash);
+    }
+}
+
+// Ascolta quando l'utente usa le frecce Avanti/Indietro del browser
+window.addEventListener('hashchange', handleRouting);
+
+// Sostituisci la vecchia riga: document.addEventListener("DOMContentLoaded", renderPosts);
+// Con questa versione che inizializza i post e poi gestisce il link copiato
+document.addEventListener("DOMContentLoaded", async () => {
+    await renderPosts();
+    handleRouting();
+});
+
 </script>
 
 </body>
