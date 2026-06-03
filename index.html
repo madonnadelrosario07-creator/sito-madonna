@@ -215,7 +215,6 @@
             nav { height: 80px; padding: 0 5%; }
             .menu-toggle { display: flex; }
             
-            /* Trasforma la navbar in un menu a tendina laterale su mobile */
             .nav-links {
                 position: fixed; top: 80px; right: -100%; width: 280px; height: calc(100vh - 80px);
                 background: var(--navy); flex-direction: column; align-items: flex-start;
@@ -225,7 +224,6 @@
             .nav-links.open { right: 0; }
             .nav-links a { font-size: 0.85rem; width: 100%; display: block; }
             
-            /* Animazione pulsante Hamburger */
             .menu-toggle.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
             .menu-toggle.open span:nth-child(2) { opacity: 0; }
             .menu-toggle.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
@@ -264,6 +262,7 @@
     </ul>
 </nav>
 
+<!-- ── INTERFACCIA HOME ── -->
 <div class="page active" id="page-home">
     <section class="hero">
         <div class="hero-content">
@@ -277,6 +276,7 @@
     </section>
 </div>
 
+<!-- ── SEZIONE AVVISI PUBBLICI ── -->
 <div class="page" id="page-avvisi">
     <section>
         <div class="section-header">
@@ -284,10 +284,12 @@
             <h2 class="section-heading">Avvisi ed Annunci</h2>
         </div>
         <div class="dynamic-grid" id="container-avvisi">
-            </div>
+            <!-- Riempito dal Database -->
+        </div>
     </section>
 </div>
 
+<!-- ── SEZIONE OMELIE PUBBLICHE ── -->
 <div class="page" id="page-omelie">
     <section>
         <div class="section-header">
@@ -295,10 +297,12 @@
             <h2 class="section-heading">Le Omelie della Domenica</h2>
         </div>
         <div class="dynamic-grid" id="container-omelie">
-            </div>
+            <!-- Riempito dal Database -->
+        </div>
     </section>
 </div>
 
+<!-- ── COMUNITÀ ── -->
 <div class="page" id="page-comunita">
     <section>
         <div class="section-header">
@@ -320,6 +324,7 @@
     </section>
 </div>
 
+<!-- ── SACRAMENTI ── -->
 <div class="page" id="page-sacramenti">
     <section>
         <div class="section-header">
@@ -367,6 +372,7 @@
     </section>
 </div>
 
+<!-- ── GRUPPI ── -->
 <div class="page" id="page-gruppi">
     <section>
         <div class="section-header">
@@ -393,6 +399,7 @@
     </section>
 </div>
 
+<!-- ── CONTATTI ── -->
 <div class="page" id="page-contatti">
     <section>
         <div class="section-header">
@@ -425,6 +432,7 @@
     </section>
 </div>
 
+<!-- ── SEZIONE AMMINISTRAZIONE ── -->
 <div class="page" id="page-admin">
     <section>
         <div id="admin-login-box" class="admin-box">
@@ -452,6 +460,7 @@
             </div>
 
             <div class="admin-dashboard">
+                <!-- Modulo Avvisi -->
                 <div class="admin-box" style="margin: 0; max-width: 100%; padding: 3rem 2.5rem;">
                     <h3 style="font-family: var(--serif); font-size: 1.7rem; margin-bottom: 2rem; color: var(--navy); font-weight:400;">Nuovo Annuncio / Avviso</h3>
                     <form id="form-avviso" onsubmit="savePost(event, 'avvisi')">
@@ -475,6 +484,7 @@
                     </form>
                 </div>
 
+                <!-- Modulo Omelie -->
                 <div class="admin-box" style="margin: 0; max-width: 100%; padding: 3rem 2.5rem;">
                     <h3 style="font-family: var(--serif); font-size: 1.7rem; margin-bottom: 2rem; color: var(--navy); font-weight:400;">Nuovo Testo / Omelia</h3>
                     <form id="form-omelia" onsubmit="savePost(event, 'omelie')">
@@ -508,13 +518,21 @@
     </div>
 </footer>
 
+<!-- ── CONNETTORE DATABASE CLOUD (SUPABASE) ── -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
-    // Credenziali offuscate in Base64 (funzionano anche offline con doppio clic)
-    // User: admin_rosario | Pass: Rosario2026!
+    // Configurazione Cloud Database integrata ed esclusiva
+    const SUPABASE_URL = "https://telmexztaluqizmzhnvn.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRlbG1leHp0YWx1cWl6bXpobnZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0OTk3MTQsImV4cCI6MjA5NjA3NTcxNH0.qmeRVSdxr_k7YE_xbB7_ubji6SHjDuULdFbKcEhr3Sg";
+    
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // Credenziali Amministratore (User: admin_rosario | Pass: Rosario2026!)
     const AUTH_USER_OBF = "YWRtaW5fcm9zYXJpbw=="; 
     const AUTH_PASS_OBF = "Um9zYXJpbzIwMjYh"; 
 
-    // Gestione Cambiamento Pagine SPA
+    // Sistema Navigazione Single Page App
     function showPage(id) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
@@ -530,7 +548,6 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Menu responsive Mobile Toggle
     function toggleMenu() {
         document.getElementById('nav-menu').classList.toggle('open');
         document.getElementById('menu-btn').classList.toggle('open');
@@ -538,23 +555,16 @@
 
     window.addEventListener('scroll', () => {
         const nav = document.getElementById('navbar');
-        if (window.scrollY > 50) {
-            nav.classList.add('scrolled');
-        } else {
-            nav.classList.remove('scrolled');
-        }
+        if (window.scrollY > 50) nav.classList.add('scrolled');
+        else nav.classList.remove('scrolled');
     });
 
-    // Controllo credenziali compatibile offline
+    // Controllo Sessione Amministratore
     function handleSecureLogin() {
         const userInpt = document.getElementById('admin-username').value;
         const passInpt = document.getElementById('admin-password').value;
 
-        // Converte gli input in Base64 per il controllo
-        const obfUser = btoa(userInpt);
-        const obfPass = btoa(passInpt);
-
-        if(obfUser === AUTH_USER_OBF && obfPass === AUTH_PASS_OBF) {
+        if(btoa(userInpt) === AUTH_USER_OBF && btoa(passInpt) === AUTH_PASS_OBF) {
             document.getElementById('admin-login-box').style.display = 'none';
             document.getElementById('admin-panel').style.display = 'block';
             document.getElementById('login-error').style.display = 'none';
@@ -573,64 +583,60 @@
         showPage('home');
     }
 
-    function savePost(event, tipo) {
+    // Inserimento post nel database centrale
+    async function savePost(event, tipo) {
         event.preventDefault();
         
         const titolo = document.getElementById(`${tipo.slice(0, -1)}-titolo`).value;
         const sottotitolo = document.getElementById(`${tipo.slice(0, -1)}-sottotitolo`).value;
         const testo = document.getElementById(`${tipo.slice(0, -1)}-testo`).value;
-        const data = new Date().toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
-        const id = Date.now();
+        const dataFormattata = new Date().toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
 
         if (tipo === 'avvisi') {
             const fileInput = document.getElementById('avviso-immagine');
             if(fileInput.files && fileInput.files[0]) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
-                    const post = { id, titolo, sottotitolo, testo, data, immagine: e.target.result };
-                    pushToStorage(tipo, post);
+                reader.onload = async function(e) {
+                    await sendToSupabase('avvisi', { titolo, sottotitolo, testo, data: dataFormattata, immagine: e.target.result });
                 }
                 reader.readAsDataURL(fileInput.files[0]);
             } else {
-                const post = { id, titolo, sottotitolo, testo, data, immagine: null };
-                pushToStorage(tipo, post);
+                await sendToSupabase('avvisi', { titolo, sottotitolo, testo, data: dataFormattata, immagine: null });
             }
         } else {
-            const post = { id, titolo, sottotitolo, testo, data };
-            pushToStorage(tipo, post);
+            await sendToSupabase('omelie', { titolo, sottotitolo, testo, data: dataFormattata });
         }
     }
 
-    function pushToStorage(tipo, post) {
-        let posts = JSON.getObjLocalStorage(tipo);
-        posts.unshift(post);
-        localStorage.setItem(tipo, JSON.stringify(posts));
-        document.getElementById(`form-${tipo.slice(0, -1)}`).reset();
-        renderPosts();
-        showPage(tipo);
-    }
-
-    JSON.getObjLocalStorage = function(key) {
-        const val = localStorage.getItem(key);
-        return val ? JSON.parse(val) : [];
-    }
-
-    function deletePost(id, tipo) {
-        if(confirm("Rimuovere definitivamente questo contenuto?")) {
-            let posts = JSON.getObjLocalStorage(tipo);
-            posts = posts.filter(p => p.id !== id);
-            localStorage.setItem(tipo, JSON.stringify(posts));
-            renderPosts();
+    async function sendToSupabase(tabella, oggettoDati) {
+        const { error } = await _supabase.from(tabella).insert([oggettoDati]);
+        if (error) {
+            alert("Errore durante il salvataggio sul server: " + error.message);
+        } else {
+            document.getElementById(`form-${tabella.slice(0, -1)}`).reset();
+            await renderPosts();
+            showPage(tabella);
         }
     }
 
-    function renderPosts() {
-        const avvisi = JSON.getObjLocalStorage('avvisi');
-        const omelie = JSON.getObjLocalStorage('omelie');
+    // Cancellazione permanente post dal database
+    async function deletePost(id, tipo) {
+        if(confirm("Rimuovere definitivamente questo contenuto dal server?")) {
+            const { error } = await _supabase.from(tipo).delete().eq('id', id);
+            if (error) alert("Errore nell'eliminazione: " + error.message);
+            else await renderPosts();
+        }
+    }
+
+    // Lettura Real-time con Rendering Dinamico ordinato per ID descrescente
+    async function renderPosts() {
         const isAdminVisible = document.getElementById('admin-panel').style.display === 'block';
 
+        const { data: avvisi, error: errA } = await _supabase.from('avvisi').select('*').order('id', { ascending: false });
+        const { data: omelie, error: errO } = await _supabase.from('omelie').select('*').order('id', { ascending: false });
+
         const containerAvvisi = document.getElementById('container-avvisi');
-        if(avvisi.length === 0) {
+        if(!avvisi || avvisi.length === 0) {
             containerAvvisi.innerHTML = `<p style="color: var(--text-muted); font-style: italic; font-size:0.9rem; grid-column: 1/-1; text-align:center;">Nessun avviso presente al momento.</p>`;
         } else {
             containerAvvisi.innerHTML = avvisi.map(a => `
@@ -648,7 +654,7 @@
         }
 
         const containerOmelie = document.getElementById('container-omelie');
-        if(omelie.length === 0) {
+        if(!omelie || omelie.length === 0) {
             containerOmelie.innerHTML = `<p style="color: var(--text-muted); font-style: italic; font-size:0.9rem; grid-column: 1/-1; text-align:center;">Nessuna omelia presente al momento.</p>`;
         } else {
             containerOmelie.innerHTML = omelie.map(o => `
