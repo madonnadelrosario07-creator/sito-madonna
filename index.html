@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords" content="parrocchia, gricignano, chiesa gricignano, madonna del rosario, parrocchia gricignano, gricignano di aversa, chiesa, diocesi di aversa, chiesa gricignano di aversa, parrocchia madonna del rosario, parrocchia gricignano di aversa,chiesa madonna del rosario">
     <title>Parrocchia Madonna del Rosario – Gricignano d'Aversa</title>
+    
+    <!-- Metatag Open Graph Predefiniti (Home Page) -->
+    <meta property="og:title" content="Parrocchia Madonna del Rosario – Gricignano d'Aversa">
+    <meta property="og:description" content="Sito ufficiale della Parrocchia Madonna del Rosario a Gricignano di Aversa. Accoglienza, Fede e Condivisione.">
+    <meta property="og:type" content="website">
+    
     <link rel="icon" type="image/png" href="IMMAGINI/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -341,7 +347,7 @@
             .contact-layout { grid-template-columns: 1fr; gap: 5rem; }
             section { padding: 8rem 5% 4rem; }
             
-            /* Adattamento mobile della riga omelia: torna a colonna se lo schermo è piccolo */
+            /* Adattamento mobile della riga omelia */
             .omelia-row-card { flex-direction: column; gap: 1.5rem; padding: 2rem; }
             .omelia-thumb, .omelia-thumb-placeholder { width: 100%; height: 160px; }
 
@@ -408,7 +414,7 @@
     </section>
 </div>
 
-<!-- ── SEZIONE OMELIE PUBBLICHE (CON ANTEPRIME A FIANCO) ── -->
+<!-- ── SEZIONE OMELIE PUBBLICHE ── -->
 <div class="page" id="page-omelie">
     <section>
         <div class="section-header">
@@ -421,7 +427,7 @@
     </section>
 </div>
 
-<!-- ── SEZIONE DETTAGLIO OMELIA INDIVIDUALE (A PAGINA INTERA) ── -->
+<!-- ── SEZIONE DETTAGLIO OMELIA INDIVIDUALE ── -->
 <div class="page" id="page-dettaglio-omelia">
     <!-- Generato interamente in modo dinamico tramite JavaScript -->
 </div>
@@ -489,7 +495,7 @@
             <div class="sacramento-card">
                 <span class="sacramento-icon">06 · Sollievo</span>
                 <h3>Unzione Infermi</h3>
-                <p>Presenza sacra e vicinancy per chi affronta la prova del dolore corporeo. La comunità sostiene i malati con la preghiera regolare.</p>
+                <p>Presenza sacra e vicinanza per chi affronta la prova del dolore corporeo. La comunità sostiene i malati con la preghiera regolare.</p>
                 <div class="sacramento-info">Su richiesta in ogni momento</div>
             </div>
         </div>
@@ -510,7 +516,7 @@
                 <p>Percorsi di crescita spirituale, volti a incarnare il Vangelo nei luoghi di studio e lavoro.</p>
             </div>
             <div class="sacramento-card">
-                <span class="carità">Caritas Parrocchiale</span>
+                <span class="sacramento-icon">Carità</span>
                 <h3>Caritas Parrocchiale</h3>
                 <p>Sostegno silenzioso e operoso per i nuclei familiari e i fratelli che attraversano frangenti di forte fragilità.</p>
             </div>
@@ -641,7 +647,7 @@
                         </div>
                         <div class="form-group">
                             <label>Testo Completo Omelia *</label>
-                            <textarea id="omelia-testo" class="form-control" rows="8" required placeholder="Inserisci il testo dell'omelia. Usa codici speciali a inizio riga per i blocchi grafici avanzati:&#10;[DOMANDA] Testo domanda...&#10;[CITAZIONE] Testo citazione... | Autore&#10;[EVIDENZA] Testo blocco evidenziato...&#10;[DIVISORE] Titolo Aspetto&#10;[TITOLO] Titolo di sezione"></textarea>
+                            <textarea id="omelia-testo" class="form-control" rows="8" required placeholder="Inserisci il testo dell'omelia..."></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px;">Pubblica nel Sito</button>
                     </form>
@@ -693,12 +699,10 @@
         document.getElementById('lightbox').classList.remove('active');
     }
 
-    // Navigazione centralizzata che pilota l'hash dell'URL
     function navigateTo(pageId) {
         window.location.hash = pageId;
     }
 
-    // Esegue il cambio pagina visivo reale basato sull'hash corrente
     function showPage(id) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
@@ -711,6 +715,11 @@
         
         document.getElementById('nav-menu').classList.remove('open');
         document.getElementById('menu-btn').classList.remove('open');
+        
+        // Forza il reset del titolo della scheda se usciamo dal dettaglio dell'omelia
+        if (id !== 'dettaglio-omelia') {
+            document.title = "Parrocchia Madonna del Rosario – Gricignano d'Aversa";
+        }
         
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -786,7 +795,7 @@
     async function deletePost(id, tipo) {
         if(confirm("Rimuovere definitivamente questo contenuto dal server?")) {
             const { error } = await _supabase.from(tipo).delete().eq('id', id);
-            if (error) alert("Errore nell'eliminazione: " + error.message);
+            if (error) alert("Errore nell'elimazione: " + error.message);
             else await renderPosts();
         }
     }
@@ -834,11 +843,38 @@
         return htmlResult;
     }
 
-    // Costruisce la vista di lettura e ripulisce le classi di navigazione attiva
+    // ── CONFIGURAZIONE DETTAGLIO ED INIEZIONE METATAG OPEN GRAPH ──
     function buildOmeliaView(omelia) {
         const containerDettaglio = document.getElementById('page-dettaglio-omelia');
         const parsedBody = parseOmeliaText(omelia.testo);
 
+        // 1. Aggiorna il Titolo della Scheda Browser
+        document.title = `${omelia.titolo} – Omelie`;
+        
+        // 2. Crea un testo pulito e compatto per la descrizione dell'anteprima
+        const testoPulito = omelia.testo.replace(/\[.*?\]/g, '').substring(0, 150) + '...';
+
+        // Helper interno per scrivere o aggiornare i tag d'anteprima dentro la head
+        const updateMeta = (attr, value, content) => {
+            let element = document.querySelector(`meta[${attr}="${value}"]`);
+            if (!element) {
+                element = document.createElement('meta');
+                element.setAttribute(attr, value);
+                document.head.appendChild(element);
+            }
+            element.setAttribute('content', content);
+        };
+
+        // 3. Scrittura dinamica dei Metatag Open Graph (per sistemi e app compatibili)
+        updateMeta('property', 'og:title', omelia.titolo);
+        updateMeta('property', 'og:description', testoPulito);
+        updateMeta('property', 'og:url', window.location.href);
+        if (omelia.immagine) {
+            updateMeta('property', 'og:image', omelia.immagine);
+        }
+        updateMeta('name', 'description', testoPulito);
+
+        // 4. Generazione del Layout della pagina
         containerDettaglio.innerHTML = `
             <header class="omelia-hero ${omelia.immagine ? 'has-bg' : ''}" style="${omelia.immagine ? `background-image: url('${omelia.immagine}');` : ''}">
                 ${omelia.immagine ? `<div class="omelia-hero-overlay"></div>` : ''}
@@ -877,7 +913,7 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // GESTORE DELLE ROTTE (ROUTER) REALE E COERENTE CON GLI EVENTI ASINCRONI
+    // GESTORE DELLE ROTTE (ROUTER) REALE
     async function handleRouting() {
         const hash = window.location.hash.replace('#', '');
         
@@ -886,11 +922,10 @@
             return;
         }
 
-        // Se l'URL punta a un'omelia specifica (Es. #omelia?id=14)
         if (hash.startsWith('omelia?id=')) {
             const id = parseInt(hash.split('=')[1]);
             
-            // Se la cache del database è vuota, forziamo il caricamento immediato prima di mostrare la pagina
+            // Se i dati dal server non sono pronti, attendiamo il caricamento
             if (!isInitialLoadDone || omelieDataCache.length === 0) {
                 await renderPosts();
             }
@@ -899,16 +934,13 @@
             if (omelia) {
                 buildOmeliaView(omelia);
             } else {
-                // Se l'ID non esiste o è vecchio, rimanda alla lista
                 navigateTo('omelie');
             }
         } else {
-            // Rotta ordinaria per le sezioni standard
             showPage(hash);
         }
     }
 
-    // Intercetta i cambiamenti di indirizzo (es: clic sui pulsanti, frecce avanti/indietro del browser)
     window.addEventListener('hashchange', handleRouting);
 
     async function renderPosts() {
@@ -920,7 +952,7 @@
         omelieDataCache = omelie || [];
         isInitialLoadDone = true;
 
-        // Renderizzazione degli Avvisi
+        // Renderizzazione Avvisi
         const containerAvvisi = document.getElementById('container-avvisi');
         if(!avvisi || avvisi.length === 0) {
             containerAvvisi.innerHTML = `<p style="color: var(--text-muted); font-style: italic; font-size:0.9rem; grid-column: 1/-1; text-align:center;">Nessun avviso presente al momento.</p>`;
@@ -939,7 +971,7 @@
             `).join('');
         }
 
-        // AGGIORNATO: Impaginazione a righe editoriali con miniatura laterale
+        // Renderizzazione Omelie (Layout con miniatura laterale elegante)
         const containerOmelie = document.getElementById('container-omelie');
         if(!omelie || omelie.length === 0) {
             containerOmelie.innerHTML = `<p style="color: var(--text-muted); font-style: italic; font-size:0.9rem; text-align:center; padding: 2rem;">Nessuna omelia presente al momento.</p>`;
@@ -954,7 +986,7 @@
                         <span class="dynamic-card-meta" style="margin-bottom: 0.4rem;">${o.data}</span>
                         <h3 style="cursor:pointer; margin-bottom: 0.3rem;" onclick="navigateTo('omelia?id=${o.id}')">${o.titolo}</h3>
                         ${o.sottotitolo ? `<h4 style="margin-bottom: 0.8rem;">${o.sottotitolo}</h4>` : ''}
-                        <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;">${o.testo.substring(0, 130).replace(/\[.*?\]/g, '')}...</p>
+                        <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;">${o.testo.replace(/\[.*?\]/g, '').substring(0, 130)}...</p>
                         
                         <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
                             <a class="read-more-link" onclick="navigateTo('omelia?id=${o.id}')">Apri e Medita →</a>
@@ -966,8 +998,8 @@
         }
     }
 
-    // Avvio combinato unico: carica i post dal database e attiva subito dopo il controllo dell'URL
-    window.addEventListener("DOMContentLoaded", async () => {
+    // Inizializzazione globale
+    document.addEventListener("DOMContentLoaded", async () => {
         await renderPosts();
         handleRouting();
     });
