@@ -1,673 +1,908 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Omelia – Corpus Domini Anno A</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="parrocchia, gricignano, chiesa gricignano, madonna del rosario, parrocchia gricignano, gricignano di aversa, chiesa, diocesi di aversa, chiesa gricignano di aversa, parrocchia madonna del rosario, parrocchia gricignano di aversa,chiesa madonna del rosario">
+    <title>Parrocchia Madonna del Rosario – Gricignano d'Aversa</title>
+    <link rel="icon" type="image/png" href="IMMAGINI/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #090d16;
+            --accent: #b89350; 
+            --accent-light: #f4ede0;
+            --white: #ffffff;
+            --cream: #faf8f5;
+            --text-main: #2c3545;
+            --text-muted: #6e798c;
+            --border: rgba(184, 147, 80, 0.12);
+            --serif: 'Cormorant Garamond', serif;
+            --sans: 'Montserrat', sans-serif;
+            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            --danger: #db4444;
+        }
 
-  :root {
-    --gold: #c9a84c;
-    --gold-light: #e8d5a3;
-    --gold-pale: #f9f3e3;
-    --dark: #1a1209;
-    --text: #2c2010;
-    --muted: #7a6642;
-    --cream: #fdf8ef;
-    --white: #fffef9;
-    --border: #d4b97a;
-  }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: var(--sans);
+            background: var(--cream);
+            color: var(--text-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
 
-  html { scroll-behavior: smooth; }
+        /* ── NAVBAR BLU SCURO ── */
+        nav {
+            position: fixed;
+            top: 0; width: 100%; height: 100px;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 6%; z-index: 1000;
+            background: var(--navy);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+        }
 
-  body {
-    background: var(--cream);
-    color: var(--text);
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 19px;
-    line-height: 1.85;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+        nav.scrolled {
+            height: 80px;
+            background: rgba(9, 13, 22, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
 
-  /* ── HEADER ── */
-  .hero {
-    position: relative;
-    background: var(--dark);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 4rem 2rem;
-    overflow: hidden;
-  }
+        .nav-brand { display: flex; align-items: center; gap: 15px; text-decoration: none; cursor: pointer; }
+        .nav-logo { width: 38px; height: auto; }
+        .nav-brand-text { display: flex; flex-direction: column; }
+        .nav-brand-text span:first-child { 
+            font-family: var(--serif); font-size: 1.35rem; font-weight: 600; color: var(--white); 
+            letter-spacing: 0.5px;
+        }
+        .nav-brand-text span:last-child { 
+            font-size: 0.55rem; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); 
+            font-weight: 500; margin-top: 2px;
+        }
 
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 50% 40%, rgba(201,168,76,0.12) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201,168,76,0.06) 0%, transparent 60%);
-  }
+        .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+        .nav-links a {
+            text-decoration: none; font-size: 0.7rem; font-weight: 500;
+            text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.75);
+            transition: var(--transition); cursor: pointer;
+            position: relative; padding: 5px 0;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--white) !important; }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: 0; left: 50%; width: 0; height: 1px;
+            background: var(--accent); transition: var(--transition); transform: translateX(-50%);
+        }
+        .nav-links a.active::after, .nav-links a:hover::after { width: 100%; }
 
-  .hero-cross {
-    font-size: 2rem;
-    color: var(--gold);
-    letter-spacing: 0.3em;
-    font-family: 'Cinzel', serif;
-    margin-bottom: 2rem;
-    opacity: 0;
-    animation: fadeUp 1s 0.3s ease forwards;
-  }
+        /* MENU HAMBURGER */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            z-index: 1001;
+        }
+        .menu-toggle span {
+            width: 28px;
+            height: 2px;
+            background-color: var(--white);
+            transition: var(--transition);
+        }
 
-  .hero-feast {
-    font-family: 'Cinzel', serif;
-    font-size: clamp(0.65rem, 1.5vw, 0.85rem);
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 1.5rem;
-    opacity: 0;
-    animation: fadeUp 1s 0.5s ease forwards;
-  }
+        /* ── HERO ELEGANT ── */
+       .hero {
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(rgba(9, 13, 22, 0.65), rgba(9, 13, 22, 0.65)), 
+                        url('IMMAGINI/BACK1.jpg') no-repeat center/cover;
+            text-align: center; color: var(--white); padding: 0 20px;
+        }
 
-  .hero-title {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: clamp(2.8rem, 8vw, 6rem);
-    font-weight: 700;
-    color: var(--white);
-    line-height: 1.1;
-    max-width: 900px;
-    opacity: 0;
-    animation: fadeUp 1s 0.7s ease forwards;
-  }
+        .hero-content { opacity: 0; transform: translateY(30px); animation: fadeIn 1.5s forwards cubic-bezier(0.16, 1, 0.3, 1) 0.2s; }
+        .hero-title { font-family: var(--serif); font-size: clamp(3rem, 8vw, 6rem); font-weight: 300; line-height: 1.05; margin-bottom: 2.5rem; letter-spacing: -1px; }
+        .hero-title em { font-style: italic; font-weight: 400; color: var(--accent); }
 
-  .hero-title em {
-    font-style: italic;
-    color: var(--gold-light);
-  }
+        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
 
-  .hero-divider {
-    width: 80px;
-    height: 1px;
-    background: var(--gold);
-    margin: 2.5rem auto;
-    opacity: 0;
-    animation: fadeUp 1s 0.9s ease forwards;
-  }
+        /* ── SEZIONI ED EDITORIAL LAYOUT ── */
+        section { padding: 9rem 6% 6rem; max-width: 1300px; margin: 0 auto; }
+        .section-header { text-align: center; max-width: 700px; margin: 0 auto 5rem; }
+        .section-eyebrow { 
+            text-transform: uppercase; font-size: 0.7rem; letter-spacing: 5px; 
+            color: var(--accent); font-weight: 600; margin-bottom: 1.2rem; display: block;
+        }
+        .section-heading { font-family: var(--serif); font-size: clamp(2.4rem, 4vw, 3.5rem); color: var(--navy); line-height: 1.15; font-weight: 400; }
 
-  .hero-subtitle {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-    font-style: italic;
-    color: var(--gold-light);
-    max-width: 600px;
-    line-height: 1.7;
-    opacity: 0;
-    animation: fadeUp 1s 1.1s ease forwards;
-  }
+        /* ── SCHEDE CONTENUTI DINAMICI ── */
+        .dynamic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 3.5rem; }
+        .dynamic-card {
+            background: var(--white); border-radius: 4px; overflow: hidden;
+            transition: var(--transition); display: flex; flex-direction: column;
+            box-shadow: 0 4px 20px rgba(9, 13, 22, 0.02);
+        }
+        .dynamic-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px rgba(9, 13, 22, 0.06); }
+        
+        .dynamic-card-img { 
+            width: 100%; aspect-ratio: 16/10; object-fit: cover; filter: grayscale(15%); 
+            transition: var(--transition); cursor: pointer;
+        }
+        .dynamic-card:hover .dynamic-card-img { filter: grayscale(0%); }
+        .dynamic-card-content { padding: 3rem 2.5rem; flex-grow: 1; display: flex; flex-direction: column; }
+        .dynamic-card-meta { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); font-weight: 600; margin-bottom: 1rem; }
+        .dynamic-card h3 { font-family: var(--serif); font-size: 1.9rem; color: var(--navy); line-height: 1.25; font-weight: 400; margin-bottom: 0.6rem; }
+        .dynamic-card h4 { font-size: 0.85rem; font-weight: 400; color: var(--text-muted); font-style: italic; margin-bottom: 1.5rem; }
+        .dynamic-card p { color: var(--text-main); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.5rem; }
 
-  .scroll-hint {
-    position: absolute;
-    bottom: 2.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    color: var(--gold);
-    font-size: 0.75rem;
-    letter-spacing: 0.3em;
-    font-family: 'Cinzel', serif;
-    text-transform: uppercase;
-    opacity: 0;
-    animation: fadeUp 1s 1.5s ease forwards;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-  }
+        /* ── LINK LEGGI TUTTO ── */
+        .read-more-link {
+            font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px;
+            color: var(--accent); text-decoration: none; margin-top: auto; display: inline-flex;
+            align-items: center; gap: 5px; transition: var(--transition); cursor: pointer;
+        }
+        .read-more-link:hover { color: var(--navy); transform: translateX(3px); }
 
-  .scroll-hint::after {
-    content: '';
-    display: block;
-    width: 1px;
-    height: 40px;
-    background: linear-gradient(to bottom, var(--gold), transparent);
-    animation: pulse 2s infinite;
-  }
+        /* ── STILE DETTAGLIO OMELIA EDITORIALE (ADATTATO) ── */
+        .omelia-hero {
+            position: relative; background: var(--navy); min-height: 75vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 6rem 2rem; overflow: hidden; color: var(--white);
+        }
+        .omelia-hero.has-bg {
+            background-size: cover; background-position: center; background-repeat: no-repeat;
+        }
+        .omelia-hero-overlay {
+            position: absolute; inset: 0; background: linear-gradient(rgba(9, 13, 22, 0.85), rgba(9, 13, 22, 0.9)); z-index: 1;
+        }
+        .omelia-hero-content { position: relative; z-index: 2; max-width: 900px; }
+        .omelia-hero-cross { font-size: 1.8rem; color: var(--accent); letter-spacing: 0.3em; margin-bottom: 1.5rem; font-family: var(--serif); }
+        .omelia-hero-feast { font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; font-weight: 500; }
+        .omelia-hero-title { font-family: var(--serif); font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 300; line-height: 1.1; color: var(--white); margin-bottom: 1.5rem; }
+        .omelia-hero-title em { font-style: italic; color: var(--accent-light); }
+        .omelia-hero-divider { width: 60px; height: 1px; background: var(--accent); margin: 2rem auto; }
+        .omelia-hero-subtitle { font-family: var(--serif); font-size: clamp(1.1rem, 2.2vw, 1.4rem); font-style: italic; color: var(--accent-light); max-width: 650px; line-height: 1.6; }
 
-  /* ── LAYOUT ── */
-  .article {
-    max-width: 740px;
-    margin: 0 auto;
-    padding: 5rem 2rem 6rem;
-  }
+        .omelia-article { max-width: 760px; margin: 0 auto; padding: 5rem 2rem 6rem; font-family: var(--serif); font-size: 1.25rem; color: var(--text-main); line-height: 1.85; }
+        .omelia-article p { margin-bottom: 1.8rem; font-weight: 300; }
+        
+        .omelia-opening-question { background: var(--navy); color: var(--white); border-left: 3px solid var(--accent); padding: 2.2rem 2.2rem; margin: 3rem 0 3.5rem; border-radius: 0 4px 4px 0; position: relative; }
+        .omelia-opening-question::before { content: '❝'; position: absolute; top: -0.3rem; left: 1.5rem; font-size: 4rem; color: var(--accent); opacity: 0.2; line-height: 1; }
+        .omelia-opening-question p { font-family: var(--serif); font-size: 1.45rem; font-style: italic; line-height: 1.5; color: var(--accent-light); margin-bottom: 0.5rem; }
+        .omelia-opening-question p:last-child { margin-bottom: 0; }
 
-  /* ── INTRO ── */
-  .intro-block {
-    text-align: center;
-    margin-bottom: 4rem;
-    padding-bottom: 3rem;
-    border-bottom: 1px solid var(--border);
-  }
+        .omelia-pullquote { margin: 3.5rem -1rem; padding: 2rem 2.5rem; border-top: 1px solid var(--accent); border-bottom: 1px solid var(--accent); text-align: center; }
+        .omelia-pullquote p { font-family: var(--serif); font-size: clamp(1.4rem, 2.8vw, 1.9rem); font-style: italic; color: var(--navy); line-height: 1.4; margin: 0 !important; }
+        .omelia-pullquote cite { display: block; margin-top: 0.8rem; font-family: var(--sans); font-size: 0.65rem; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; font-style: normal; font-weight: 600; }
 
-  .intro-block p {
-    font-size: 1.25rem;
-    font-style: italic;
-    color: var(--muted);
-    max-width: 560px;
-    margin: 0 auto;
-  }
+        .omelia-highlight-box { background: var(--accent-light); border-left: 3px solid var(--accent); padding: 1.8rem 2rem; margin: 2.5rem 0; border-radius: 0 4px 4px 0; }
+        .omelia-highlight-box p { margin-bottom: 0.6rem; font-size: 1.1rem; }
+        .omelia-highlight-box p:last-child { margin-bottom: 0 !important; }
+        .omelia-highlight-box strong { color: var(--navy); font-weight: 600; }
 
-  /* ── DOMANDA APERTURA ── */
-  .opening-question {
-    background: var(--dark);
-    color: var(--white);
-    border-left: 4px solid var(--gold);
-    padding: 2.5rem 2.5rem;
-    margin: 3rem 0 4rem;
-    border-radius: 0 4px 4px 0;
-    position: relative;
-  }
+        .omelia-divider { display: flex; align-items: center; gap: 1.2rem; margin: 4.5rem 0 3.5rem; color: var(--accent); }
+        .omelia-divider::before, .omelia-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, transparent, rgba(184, 147, 80, 0.3)); }
+        .omelia-divider::after { background: linear-gradient(to left, transparent, rgba(184, 147, 80, 0.3)); }
+        .omelia-divider span { font-family: var(--sans); font-size: 0.65rem; letter-spacing: 4px; text-transform: uppercase; white-space: nowrap; font-weight: 600; }
 
-  .opening-question::before {
-    content: '❝';
-    position: absolute;
-    top: -0.3rem;
-    left: 1.5rem;
-    font-size: 4rem;
-    color: var(--gold);
-    opacity: 0.3;
-    font-family: Georgia, serif;
-    line-height: 1;
-  }
+        .omelia-section-title { font-family: var(--serif); font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 400; color: var(--navy); line-height: 1.25; margin: 2rem 0 1rem; }
+        .omelia-section-title em { font-style: italic; color: var(--accent); }
 
-  .opening-question p {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem;
-    font-style: italic;
-    line-height: 1.5;
-    color: var(--gold-light);
-    margin-bottom: 0.75rem;
-  }
+        .omelia-final-block { background: var(--navy); color: var(--white); padding: 3.5rem 3rem; margin: 5rem -2rem 0; text-align: center; position: relative; border-radius: 4px; overflow: hidden; }
+        .omelia-final-block .label { font-family: var(--sans); font-size: 0.65rem; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 1.2rem; display: block; font-weight: 600; }
+        .omelia-final-block h2 { font-family: var(--serif); font-size: clamp(1.5rem, 3.5vw, 2.2rem); font-weight: 400; line-height: 1.3; margin-bottom: 1.2rem; color: var(--white); }
+        .omelia-final-block h2 em { color: var(--accent-light); font-style: italic; }
+        .omelia-final-block p { font-style: italic; color: var(--accent-light); font-size: 1.1rem; max-width: 540px; margin: 0 auto; }
 
-  .opening-question p:last-child { margin-bottom: 0; }
+        .omelia-firma { text-align: center; margin-top: 5rem; padding-top: 3rem; border-top: 1px solid rgba(184, 147, 80, 0.2); }
+        .omelia-firma p { font-family: var(--sans); font-size: 0.65rem; letter-spacing: 2.5px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.4rem !important; font-weight: 500; }
+        .omelia-firma .cross { font-size: 1.3rem; color: var(--accent); display: block; margin-bottom: 0.5rem; }
 
-  /* ── BODY TEXT ── */
-  .article p {
-    margin-bottom: 1.6rem;
-    font-weight: 300;
-  }
+        .btn-back { display: inline-flex; align-items: center; gap: 8px; background: transparent; border: 1px solid rgba(9,13,22,0.1); color: var(--navy); margin-bottom: 3rem; padding: 12px 24px; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: var(--transition); }
+        .btn-back:hover { background: var(--navy); color: var(--white); }
 
-  /* ── SECTION HEADERS ── */
-  .section-number {
-    display: inline-block;
-    font-family: 'Cinzel', serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 0.5rem;
-  }
+        /* ── LIGHTBOX SCHERMO INTERO ── */
+        .lightbox-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(9, 13, 22, 0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            z-index: 2000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: zoom-out;
+        }
+        .lightbox-overlay.active { opacity: 1; pointer-events: auto; }
+        .lightbox-img {
+            max-width: 90%; max-height: 85vh; border-radius: 4px; object-fit: contain;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5); transform: scale(0.92);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .lightbox-overlay.active .lightbox-img { transform: scale(1); }
+        .lightbox-close {
+            position: absolute; top: 30px; right: 40px; color: var(--white);
+            font-size: 2.5rem; font-weight: 300; cursor: pointer; transition: var(--transition);
+            line-height: 1; user-select: none;
+        }
+        .lightbox-close:hover { color: var(--accent); transform: scale(1.1); }
 
-  .section-title {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: clamp(1.9rem, 4vw, 2.6rem);
-    font-weight: 700;
-    color: var(--dark);
-    line-height: 1.2;
-    margin-bottom: 0.5rem;
-  }
+        /* ── SACRAMENTI & GRUPPI CARDS ── */
+        .sacramenti-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem; }
+        .sacramento-card { 
+            background: var(--white); padding: 4.5rem 3rem; border-radius: 4px;
+            transition: var(--transition); border-top: 2px solid transparent;
+            box-shadow: 0 4px 20px rgba(9, 13, 22, 0.02);
+        }
+        .sacramento-card:hover { transform: translateY(-5px); border-top-color: var(--accent); box-shadow: 0 25px 50px rgba(9, 13, 22, 0.05); }
+        .sacramento-icon { font-size: 0.65rem; font-weight: 600; color: var(--accent); letter-spacing: 3px; display: block; margin-bottom: 2rem; text-transform: uppercase; }
+        .sacramento-card h3 { font-family: var(--serif); font-size: 2rem; color: var(--navy); font-weight: 400; margin-bottom: 1.2rem; }
+        .sacramento-card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.8; margin-bottom: 2.5rem; }
+        .sacramento-info { border-left: 1px solid var(--accent); padding-left: 15px; font-size: 0.75rem; font-weight: 500; color: var(--navy); text-transform: uppercase; letter-spacing: 1.5px; }
 
-  .section-title em {
-    font-style: italic;
-    color: var(--gold);
-  }
+        /* ── PASTORI ── */
+        .pastori-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 5rem; justify-content: center;}
+        .pastore-item { text-align: center; }
+        .pastore-img-wrap { 
+            width: 100%; aspect-ratio: 1/1; overflow: hidden; margin-bottom: 2.5rem;
+            border-radius: 50%; max-width: 260px; margin-left: auto; margin-right: auto;
+            filter: grayscale(100%); transition: var(--transition);
+            box-shadow: 0 10px 35px rgba(9, 13, 22, 0.05);
+        }
+        .pastore-item:hover .pastore-img-wrap { filter: grayscale(0%); transform: scale(1.02); }
+        .pastore-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+        .pastore-item h3 { font-family: var(--serif); font-size: 1.8rem; color: var(--navy); font-weight: 400; margin-top: 0.5rem; }
 
-  .section-lead {
-    font-size: 1.1rem;
-    font-style: italic;
-    color: var(--muted);
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--border);
-  }
+        /* ── BOTTONI ── */
+        .btn {
+            display: inline-block; padding: 16px 42px; border-radius: 0px;
+            text-decoration: none; font-size: 0.65rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 2.5px; transition: var(--transition);
+            cursor: pointer; border: none;
+        }
+        .btn-primary { background: var(--navy); color: var(--white); }
+        .btn-primary:hover { background: var(--accent); transform: translateY(-2px); }
+        
+        .btn-outline { border: 1px solid rgba(255,255,255,0.3); color: var(--white); background: transparent; }
+        .btn-outline:hover { background: var(--white); color: var(--navy); border-color: var(--white); }
+        
+        .btn-social-light { background: var(--white); color: var(--navy); border: 1px solid rgba(9,13,22,0.1); }
+        .btn-social-light:hover { background: var(--accent-light); color: var(--navy); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
 
-  /* ── SECTION WRAPPER ── */
-  .section {
-    margin: 5rem 0;
-    padding-top: 0.5rem;
-  }
+        .btn-danger { background: #faf8f5; color: var(--danger); border: 1px solid rgba(219, 68, 68, 0.2); padding: 10px 18px; font-size: 0.6rem; border-radius: 2px; margin-top: auto; align-self: flex-start;}
+        .btn-danger:hover { background: var(--danger); color: var(--white); }
 
-  /* ── PULLQUOTE ── */
-  .pullquote {
-    margin: 3rem -1rem;
-    padding: 2rem 2.5rem;
-    border-top: 2px solid var(--gold);
-    border-bottom: 2px solid var(--gold);
-    text-align: center;
-  }
+        /* ── CONTATTI & ANTEPRIMA MAPPA ── */
+        .contact-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 6rem; align-items: center; }
+        .contact-info-item { margin-bottom: 3.5rem; }
+        .contact-info-item h4 { font-size: 0.65rem; text-transform: uppercase; color: var(--accent); letter-spacing: 3px; margin-bottom: 0.8rem; font-weight: 600; }
+        .contact-info-item p, .contact-info-item a { font-family: var(--serif); font-size: 2rem; text-decoration: none; color: var(--navy); line-height: 1.2; font-weight: 400; }
+        .contact-info-item a { border-bottom: 1px solid rgba(9,13,22,0.1); transition: var(--transition); }
+        .contact-info-item a:hover { border-bottom-color: var(--accent); color: var(--accent); }
+        
+        .map-container { width: 100%; height: 450px; border-radius: 4px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.05); }
+        .map-container iframe { width: 100%; height: 100%; border: 0; }
 
-  .pullquote p {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.3rem, 3vw, 1.8rem);
-    font-style: italic;
-    color: var(--dark);
-    line-height: 1.45;
-    margin: 0 !important;
-  }
+        /* ── ADMIN BOX ── */
+        .admin-box { background: var(--white); padding: 4rem; border-radius: 4px; max-width: 650px; margin: 0 auto; box-shadow: 0 4px 30px rgba(0,0,0,0.01); }
+        .form-group { margin-bottom: 2rem; display: flex; flex-direction: column; gap: 0.6rem; }
+        .form-group label { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); }
+        .form-control { padding: 14px; border: 1px solid #e2e8f0; border-radius: 0px; font-family: var(--sans); font-size: 0.85rem; background: #fafafa; transition: var(--transition); }
+        .form-control:focus { outline: none; border-color: var(--accent); background: var(--white); }
+        
+        .admin-dashboard { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+        @media(max-width: 900px) { .admin-dashboard { grid-template-columns: 1fr; } }
 
-  .pullquote cite {
-    display: block;
-    margin-top: 0.8rem;
-    font-family: 'Cinzel', serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.3em;
-    color: var(--gold);
-    text-transform: uppercase;
-    font-style: normal;
-  }
+        /* ── SPA UTILS ── */
+        .page { display: none; }
+        .page.active { display: block; animation: pageSlideIn 1s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes pageSlideIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* ── HIGHLIGHT BOX ── */
-  .highlight-box {
-    background: var(--gold-pale);
-    border-left: 3px solid var(--gold);
-    padding: 1.5rem 2rem;
-    margin: 2.5rem 0;
-    border-radius: 0 4px 4px 0;
-  }
+        /* ── FOOTER ── */
+        footer { background: var(--navy); color: var(--white); padding: 6rem 6% 4rem; border-top: 1px solid rgba(255,255,255,0.05); }
+        .footer-grid { display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; padding-top: 1rem; letter-spacing: 0.5px; color: rgba(255,255,255,0.4); }
 
-  .highlight-box p {
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
-  }
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 1024px) {
+            nav { height: 80px; padding: 0 5%; }
+            .menu-toggle { display: flex; }
+            
+            .nav-links {
+                position: fixed; top: 80px; right: -100%; width: 280px; height: calc(100vh - 80px);
+                background: var(--navy); flex-direction: column; align-items: flex-start;
+                padding: 3rem 2.5rem; gap: 2rem; box-shadow: -10px 10px 30px rgba(0,0,0,0.2);
+                transition: var(--transition); border-left: 1px solid rgba(255,255,255,0.05);
+            }
+            .nav-links.open { right: 0; }
+            .nav-links a { font-size: 0.85rem; width: 100%; display: block; }
+            
+            .menu-toggle.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .menu-toggle.open span:nth-child(2) { opacity: 0; }
+            .menu-toggle.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-  .highlight-box p:last-child { margin-bottom: 0 !important; }
-
-  .highlight-box strong {
-    color: var(--dark);
-    font-weight: 600;
-  }
-
-  /* ── NUMBERED LIST ── */
-  .aspect-list {
-    list-style: none;
-    counter-reset: aspect;
-    margin: 2rem 0 2.5rem;
-    padding: 0;
-  }
-
-  .aspect-list li {
-    counter-increment: aspect;
-    display: flex;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
-    align-items: flex-start;
-  }
-
-  .aspect-list li::before {
-    content: counter(aspect);
-    font-family: 'Cinzel', serif;
-    font-size: 1.1rem;
-    color: var(--gold);
-    min-width: 1.8rem;
-    line-height: 1.85;
-  }
-
-  /* ── BULLET LIST (doni) ── */
-  .gift-list {
-    list-style: none;
-    margin: 1.5rem 0 2rem;
-    padding: 0;
-  }
-
-  .gift-list li {
-    padding: 0.6rem 0 0.6rem 1.5rem;
-    position: relative;
-    border-bottom: 1px solid rgba(201,168,76,0.2);
-    font-weight: 300;
-  }
-
-  .gift-list li:last-child { border-bottom: none; }
-
-  .gift-list li::before {
-    content: '—';
-    position: absolute;
-    left: 0;
-    color: var(--gold);
-  }
-
-  .gift-list li strong {
-    font-weight: 600;
-    color: var(--dark);
-  }
-
-  /* ── FINAL PROVOCATION ── */
-  .final-block {
-    background: var(--dark);
-    color: var(--white);
-    padding: 3.5rem 3rem;
-    margin: 5rem -2rem 0;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .final-block::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(201,168,76,0.1) 0%, transparent 70%);
-  }
-
-  .final-block .cinzel-label {
-    font-family: 'Cinzel', serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 1.5rem;
-    display: block;
-    position: relative;
-  }
-
-  .final-block h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.6rem, 4vw, 2.4rem);
-    font-weight: 700;
-    color: var(--white);
-    line-height: 1.3;
-    margin-bottom: 1.5rem;
-    position: relative;
-  }
-
-  .final-block h2 em {
-    color: var(--gold-light);
-    font-style: italic;
-  }
-
-  .final-block p {
-    font-style: italic;
-    color: var(--gold-light);
-    font-size: 1.1rem;
-    max-width: 520px;
-    margin: 0 auto;
-    position: relative;
-  }
-
-  /* ── FIRMA ── */
-  .firma {
-    text-align: center;
-    margin-top: 5rem;
-    padding-top: 3rem;
-    border-top: 1px solid var(--border);
-  }
-
-  .firma p {
-    font-family: 'Cinzel', serif;
-    font-size: 0.8rem;
-    letter-spacing: 0.25em;
-    color: var(--muted);
-    text-transform: uppercase;
-    margin-bottom: 0.3rem !important;
-  }
-
-  .firma .cross-sign {
-    font-size: 1.5rem;
-    color: var(--gold);
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-
-  /* ── SECTION DIVIDER ── */
-  .divider {
-    display: flex;
-    align-items: center;
-    gap: 1.2rem;
-    margin: 4rem 0 3rem;
-    color: var(--gold);
-  }
-
-  .divider::before, .divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(to right, transparent, var(--border));
-  }
-
-  .divider::after {
-    background: linear-gradient(to left, transparent, var(--border));
-  }
-
-  .divider span {
-    font-family: 'Cinzel', serif;
-    font-size: 0.75rem;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
-
-  /* Scroll-triggered fade-in */
-  .reveal {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 600px) {
-    .article { padding: 3rem 1.5rem 4rem; }
-    .final-block { margin: 5rem -1.5rem 0; padding: 2.5rem 1.5rem; }
-    .pullquote { margin: 3rem 0; }
-    .opening-question { padding: 2rem 1.5rem; }
-  }
-</style>
+            .contact-layout { grid-template-columns: 1fr; gap: 5rem; }
+            section { padding: 8rem 5% 4rem; }
+            .omelia-article { padding: 3rem 1.5rem 4rem; }
+            .omelia-final-block { margin: 4rem -1.5rem 0; padding: 2.5rem 1.5rem; }
+            .omelia-pullquote { margin: 3rem 0; }
+            .omelia-opening-question { padding: 2rem 1.5rem; }
+        }
+    </style>
 </head>
 <body>
 
-<!-- ══ HERO ══ -->
-<header class="hero">
-  <div class="hero-cross">✦ ✦ ✦</div>
-  <div class="hero-feast">Solennità del Corpus Domini · Anno A</div>
-  <h1 class="hero-title">Di cosa<br><em>viviamo</em><br>veramente?</h1>
-  <div class="hero-divider"></div>
-  <p class="hero-subtitle">Un'omelia sul Pane che sazia ogni fame, dona ogni vita, guarisce ogni ferita.</p>
-  <div class="scroll-hint">Continua a leggere</div>
-</header>
-
-<!-- ══ ARTICLE ══ -->
-<main class="article">
-
-  <!-- Intro -->
-  <div class="intro-block reveal">
-    <p>Carissimi fratelli e sorelle, in questa solennità vorrei che ci ponessimo una domanda. Non una domanda retorica. Una domanda vera, che brucia dentro.</p>
-  </div>
-
-  <!-- Domanda apertura -->
-  <div class="opening-question reveal">
-    <p>Di cosa viviamo veramente?</p>
-    <p>Cos'è per noi essenziale?</p>
-  </div>
-
-  <p class="reveal">Ringraziando Dio, viviamo in una parte del mondo in cui non abbiamo pance da riempire di cibo. Anzi, spesso mangiamo più del necessario, finendo poi per ricorrere a diete varie. Abbiamo riempito la pancia — ma non abbiamo sfamato la bocca del cuore.</p>
-
-  <p class="reveal">Ho l'impressione che viviamo nella costante convinzione che ci manchi qualcosa per essere felici. Sembra che il nostro "bilancio interiore" sia sempre in rosso, sempre in perdita. E qui entra in gioco l'ultima illusione: che il possesso possa magicamente riempire questo vuoto che ci portiamo dentro.</p>
-
-  <div class="pullquote reveal">
-    <p>«La realtà supera sempre l'idea.»</p>
-    <cite>Papa Francesco</cite>
-  </div>
-
-  <p class="reveal">Questa fame — di senso, di valori, di vita — inquina irrimediabilmente le nostre relazioni, i nostri rapporti. Finiamo per vivere con la convinzione che le persone che ci circondano — amici, parenti, genitori, marito o moglie, figli — debbano soddisfare questo nostro vuoto interiore. Ma poi ci rendiamo conto che questo non accade. Che le situazioni e le persone, per fortuna, non le controlliamo.</p>
-
-  <p class="reveal">A questa nostra fame risponde Dio — dando da mangiare suo Figlio. Quanto tempo, denaro ed energie sprechiamo per compensare questo vuoto interiore? Laddove c'è un cibo, <em>il</em> cibo: quello dell'Eucaristia, che sazia ogni fame, che colma ogni vuoto.</p>
-
-  <!-- ── SEZIONE 1 ── -->
-  <div class="divider reveal"><span>I Aspetto</span></div>
-
-  <section class="section reveal">
-    <span class="section-number">Primo aspetto</span>
-    <h2 class="section-title">Eucaristia come<br><em>rendimento di grazie</em></h2>
-    <p class="section-lead">Dal greco εὐχαριστεῖν — gratitudine: un dono e un compito.</p>
-
-    <p>Tutta la fede biblica si fonda sulla memoria: il popolo di Israele lodava Dio ricordando le meraviglie del passato, l'uscita dall'Egitto, il mare aperto, la manna nel deserto. Anche per noi, celebrare l'Eucaristia significa avere il coraggio di voltarci indietro, guardare alla nostra storia personale e riconoscere le impronte digitali di Dio nella nostra vita.</p>
-
-    <p>Ringraziare significa fare memoria dei benefici ricevuti dal Signore: per il dono inestimabile della vita, per la grazia del battesimo, per le persone che ci hanno amato.</p>
-
-    <div class="highlight-box reveal">
-      <p>Quando sull'altare il sacerdote alza il pane e il vino, <strong>in quel pezzo di pane ci sono dentro tutti i doni che Dio ti ha fatto.</strong> Noi gli restituiamo ciò che Lui ci ha donato, dicendo:</p>
-      <p><em>«Signore, riconosco che tutto è grazia, tutto viene da Te.»</em></p>
+<nav id="navbar">
+    <div class="nav-brand" onclick="showPage('home')">
+        <img src="IMMAGINI/ico.png" alt="Logo" class="nav-logo">
+        <div class="nav-brand-text">
+            <span>Madonna del Rosario</span>
+            <span>Gricignano d'Aversa</span>
+        </div>
     </div>
+    
+    <button class="menu-toggle" id="menu-btn" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
 
-    <p>In un mondo che vuole farci soffermare sulle mancanze, su ciò che non va, il rendimento di grazie è un atto rivoluzionario. Non è ingenua positività: è la scelta coraggiosa di riconoscere che tutto è dono di Dio — e questo ci aiuta a toglierci dal centro, per mettere Dio al centro.</p>
-
-    <div class="highlight-box reveal">
-      <p><strong>Un impegno pratico per questa settimana:</strong> ogni sera, prima di chiudere gli occhi, imponiti di trovare almeno <em>un</em> motivo per dire grazie a Dio. Uno solo.</p>
-      <p>Può essere grande oppure minuscolo: un sorriso ricevuto, un buon pasto, un momento di pace, una difficoltà superata, la pazienza che hai saputo avere, persino la forza che Dio ti ha dato nel sopportare un dolore.</p>
-      <p>All'inizio farai fatica. Ma se ti alleni a cercare quel singolo "grazie" ogni sera, il tuo sguardo cambierà. Smetterai di essere un consumatore insoddisfatto della vita e diventerai una persona <strong>"eucaristica"</strong>.</p>
-    </div>
-
-    <p>Se viviamo questa gratitudine quotidiana, la Messa della domenica non inizia dal segno della croce del sacerdote. Inizia il lunedì, continua il martedì, cresce giorno dopo giorno attraverso le preghiere della sera, e culmina qui, la domenica, quando portiamo tutte le nostre piccole gocce di gratitudine per unirle al grande mare del "grazie" che Cristo dice al Padre. <strong>Questo è il Corpus Domini: una vita che impara a dire grazie.</strong></p>
-  </section>
-
-  <!-- ── SEZIONE 2 ── -->
-  <div class="divider reveal"><span>II Aspetto</span></div>
-
-  <section class="section reveal">
-    <span class="section-number">Secondo aspetto</span>
-    <h2 class="section-title">Eucaristia come<br><em>vita donata</em></h2>
-    <p class="section-lead">Quel vuoto che spesso ci abita è fame di senso — e si sazia donando.</p>
-
-    <p>La parola d'ordine del nostro tempo sembra essere "trattenere", "possedere". Ma nelle parole dell'Ultima Cena, pronunciate ad ogni Messa, Gesù dice qualcosa di sconvolgente: <em>"Questo è il mio corpo, offerto per voi."</em></p>
-
-    <p>Ci viene detto che nella logica di Dio <strong>tu possiedi veramente solo ciò che doni.</strong></p>
-
-    <p>Se tieni la tua vita stretta tra le mani, la perdi; marcisce come il pane tenuto troppo a lungo nella dispensa. Se invece la doni, la vita si moltiplica. Gesù, nel cenacolo, ci fa capire che non siamo stati creati per essere dei "recinti" chiusi a chiave, ma delle sorgenti. Non c'è gioia più grande, non c'è realizzazione più vera di una vita spesa per amore.</p>
-
-    <div class="pullquote reveal">
-      <p>La fame di senso si sazia donando la propria vita.</p>
-    </div>
-
-    <p><strong>Ma come si fa a donare la vita, in pratica?</strong> Quando usciamo da questa chiesa, come traduciamo quel pezzetto di pane nella nostra settimana? Non ci è richiesto — quasi mai — di versare fisicamente il nostro sangue. Ci è richiesto di donare la nostra vita a rate, goccia dopo goccia, nell'altare della nostra quotidianità.</p>
-
-    <p>Donare la vita è dire ai propri figli, al proprio marito, alla propria moglie, ai genitori anziani: <em>"Il mio corpo è per te."</em></p>
-
-    <ul class="gift-list reveal">
-      <li>È il mio <strong>tempo</strong> che ti dedico quando sono stanco dopo il lavoro, ma mi siedo ad ascoltarti.</li>
-      <li>Sono le mie <strong>mani</strong> che preparano un pasto, che curano una persona malata, che lavorano onestamente.</li>
-      <li>È la mia <strong>pazienza</strong> quando scelgo di perdonare un'offesa invece di vendicarmi o chiudermi nel mutismo.</li>
-      <li>È il mio <strong>sorriso</strong> regalato a chi è solo.</li>
+    <ul class="nav-links" id="nav-menu">
+        <li><a onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
+        <li><a onclick="showPage('avvisi')" id="nav-avvisi">Avvisi</a></li>
+        <li><a onclick="showPage('omelie')" id="nav-omelie">Omelie</a></li>
+        <li><a onclick="showPage('comunita')" id="nav-comunita">Comunità</a></li>
+        <li><a onclick="showPage('sacramenti')" id="nav-sacramenti">Sacramenti</a></li>
+        <li><a onclick="showPage('gruppi')" id="nav-gruppi">Gruppi</a></li>
+        <li><a onclick="showPage('contatti')" id="nav-contatti">Contatti</a></li>
+        <li><a onclick="showPage('admin')" id="nav-admin" style="color: var(--accent); font-weight:600;">Accedi</a></li>
     </ul>
+</nav>
 
-    <p>Ogni volta che fate questo, fratelli e sorelle, <strong>voi state celebrando l'Eucaristia nella strada, in casa, in ufficio.</strong> State prolungando la Messa. Quando vi avvicinate a ricevere la Comunione, ricordatevi che Gesù vi sta sussurrando: <em>"Io mi dono a te, affinché tu diventi dono per gli altri."</em></p>
+<!-- ── INTERFACCIA HOME ── -->
+<div class="page active" id="page-home">
+    <section class="hero">
+        <div class="hero-content">
+            <span class="section-eyebrow" style="color: var(--accent-light); margin-bottom: 2rem;">Accoglienza · Fede · Condivisione</span>
+            <h1 class="hero-title">L'essenziale è<br><em>Incontrarsi</em></h1>
+            <div style="display: flex; gap: 1.5rem; justify-content: center;">
+                <button class="btn btn-primary" onclick="showPage('avvisi')">Leggi gli Avvisi</button>
+                <button class="btn btn-outline" onclick="showPage('contatti')">Vieni a trovarci</button>
+            </div>
+        </div>
+    </section>
+</div>
 
-    <div class="highlight-box reveal">
-      <p>Non possiamo nutrirci di un Dio che si dona, e poi continuare a vivere da egoisti. Ricevere il Pane di vita è assumersi la meravigliosa responsabilità di <strong>diventare pane per la fame del mondo.</strong></p>
+<!-- ── SEZIONE AVVISI PUBBLICI ── -->
+<div class="page" id="page-avvisi">
+    <section>
+        <div class="section-header">
+            <span class="section-eyebrow">Vita Comunitaria</span>
+            <h2 class="section-heading">Avvisi ed Annunci</h2>
+        </div>
+        <div class="dynamic-grid" id="container-avvisi">
+            <!-- Riempito dal Database -->
+        </div>
+    </section>
+</div>
+
+<!-- ── SEZIONE OMELIE PUBBLICHE (ANTEPRIME) ── -->
+<div class="page" id="page-omelie">
+    <section>
+        <div class="section-header">
+            <span class="section-eyebrow">Ascolto e Meditazione</span>
+            <h2 class="section-heading">Le Omelie della Domenica</h2>
+        </div>
+        <div class="dynamic-grid" id="container-omelie">
+            <!-- Riempito dal Database con Anteprime -->
+        </div>
+    </section>
+</div>
+
+<!-- ── SEZIONE DETTAGLIO OMELIA INDIVIDUALE (DINAMICA ED EDITORIALE) ── -->
+<div class="page" id="page-dettaglio-omelia">
+    <!-- Generato interamente in modo dinamico tramite JavaScript -->
+</div>
+
+<!-- ── COMUNITÀ ── -->
+<div class="page" id="page-comunita">
+    <section>
+        <div class="section-header">
+            <span class="section-eyebrow">La nostra Identità</span>
+            <h2 class="section-heading">Una Famiglia di Famiglie</h2>
+        </div>
+        <div class="pastori-grid">
+            <div class="pastore-item">
+                <div class="pastore-img-wrap"><img src="IMMAGINI/dgio.png" alt="Don Giovanni"></div>
+                <span class="section-eyebrow" style="letter-spacing: 2px;">Parroco</span>
+                <h3>Don Giovanni Schiavone</h3>
+            </div>
+            <div class="pastore-item">
+                <div class="pastore-img-wrap"><img src="IMMAGINI/dgian.png" alt="Don Gianpietro"></div>
+                <span class="section-eyebrow" style="letter-spacing: 2px;">Vice Parroco</span>
+                <h3>Don Gianpietro Perillo</h3>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- ── SACRAMENTI ── -->
+<div class="page" id="page-sacramenti">
+    <section>
+        <div class="section-header">
+            <span class="section-eyebrow">Iniziazione e Cammino</span>
+            <h2 class="section-heading">I Sette Segni della Grazia</h2>
+        </div>
+        <div class="sacramenti-grid">
+            <div class="sacramento-card">
+                <span class="sacramento-icon">01 · Iniziazione</span>
+                <h3>Battesimo</h3>
+                <p>La porta della vita spirituale e l'ingresso nella grande famiglia della Chiesa. Accogliamo i nuovi nati e i genitori in un percorso condiviso.</p>
+                <div class="sacramento-info">Concordare con il Parroco</div>
+            </div>
+            <div class="sacramento-card">
+                <span class="sacramento-icon">02 · Nutrimento</span>
+                <h3>Eucarestia</h3>
+                <p>Fonte e culmine della vita cristiana. Accompagniamo con cura i fanciulli nel sentiero del catechismo verso l'incontro vivo nel Pane spezzato.</p>
+                <div class="sacramento-info">Catechismo: Venerdì e Sabato</div>
+            </div>
+            <div class="sacramento-card">
+                <span class="sacramento-icon">03 · Confirmation</span>
+                <h3>Cresima</h3>
+                <p>Ricevere il sigillo dello Spirito Santo per farsi testimoni solidi nel mondo quotidiano. Percorsi dedicati ad adolescenti ed adulti.</p>
+                <div class="sacramento-info">Percorsi annuali</div>
+            </div>
+            <div class="sacramento-card">
+                <span class="sacramento-icon">04 · Alleanza</span>
+                <h3>Matrimonio</h3>
+                <p>Due storie che si fondono nel disegno del Signore. Offriamo incontri di preparazione per riscoprire la bellezza e il valore della fede in coppia.</p>
+                <div class="sacramento-info">Contattare almeno 6 mesi prima</div>
+            </div>
+            <div class="sacramento-card">
+                <span class="sacramento-icon">05 · Riscatto</span>
+                <h3>Riconciliazione</h3>
+                <p>Sperimentare la carezza dell'infinito perdono di Dio. I sacerdoti mantengono costante ascolto e disponibilità per i colloqui spirituali.</p>
+                <div class="sacramento-info">Disponibilità quotidiana</div>
+            </div>
+            <div class="sacramento-card">
+                <span class="sacramento-icon">06 · Sollievo</span>
+                <h3>Unzione Infermi</h3>
+                <p>Presenza sacra e vicinancy per chi affronta la prova del dolore corporeo. La comunità sostiene i malati con la preghiera regolare.</p>
+                <div class="sacramento-info">Su richiesta in ogni momento</div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- ── GRUPPI ── -->
+<div class="page" id="page-gruppi">
+    <section>
+        <div class="section-header">
+            <span class="section-eyebrow">Partecipazione Attiva</span>
+            <h2 class="section-heading">Il Servizio nel Cuore della Chiesa</h2>
+        </div>
+        <div class="sacramenti-grid">
+            <div class="sacramento-card">
+                <span class="sacramento-icon">Azione</span>
+                <h3>Gruppo Giovani</h3>
+                <p>Percorsi di crescita spirituale, volti a incarnare il Vangelo nei luoghi di studio e lavoro.</p>
+            </div>
+            <div class="sacramento-card">
+                <span class="sacramento-icon">Carità</span>
+                <h3>Caritas Parrocchiale</h3>
+                <p>Sostegno silenzioso e operoso per i nuclei familiari e i fratelli che attraversano frangenti di forte fragilità.</p>
+            </div>
+            <div class="sacramento-card">
+                <span class="sacramento-icon">Liturgia</span>
+                <h3>Coro Giovani</h3>
+                <p>Servizio corale dedicato all'animazionecon protagonisti i della parrocchia</p>
+            </div>
+            <div class="sacramento-card">
+                <span class="sacramento-icon">Liturgia</span>
+                <h3>Coro Bambini</h3>
+                <p>Servizio corale dedicato all'animazione della messa dei Bambini interamente composto dai fanciulli della parrocchia</p>
+            </div>
+            <div class="sacramento-card">
+                <span class="sacramento-icon">Liturgia</span>
+                <h3>Coro Adulti</h3>
+                <p>Servizio corale dedicato all'animazione e alla lode, elevando la preghiera comunitaria attraverso la musica.</p>
+            </div>
+            <div class="sacramento-card">
+                <span class="sacramento-icon">Carità</span>
+                <h3>Gruppo Marta</h3>
+                <p>Gruppo di Volontari che contribuisce al decoro e alla manutenzione dei luoghi della Parrocchia mantenendoli puliti ed organizzati</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- ── CONTATTI ── -->
+<div class="page" id="page-contatti">
+    <section>
+        <div class="section-header">
+            <span class="section-eyebrow">Comunione</span>
+            <h2 class="section-heading">Mettiamoci in contatto</h2>
+        </div>
+        <div class="contact-layout">
+            <div class="contact-details">
+                <div class="contact-info-item">
+                    <h4>Vieni a trovarci</h4>
+                    <p>Via Campotonico,<br>Gricignano d'Aversa (CE)</p>
+                </div>
+                <div class="contact-info-item">
+                    <h4>Scrivici</h4>
+                    <a href="mailto:madonnadelrosario07@gmail.com">madonnadelrosario07@gmail.com</a>
+                </div>
+                <div class="contact-info-item">
+                    <h4>Canali Social</h4>
+                    <div style="display:flex; gap:1.5rem; margin-top:1.5rem;">
+                        <a href="https://www.facebook.com/PARROCCHIAMADONNADELROSARIO" target="_blank" class="btn btn-social-light" style="padding:14px 28px; font-size:0.6rem;">Facebook</a>
+                        <a href="https://www.instagram.com/parrocchiamadonnadelrosario?igsh=MWRtZnFpbWg0aGkZA%3D%3D&utm_source=qr" target="_blank" class="btn btn-social-light" style="padding:14px 28px; font-size:0.6rem;">Instagram</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="map-container">
+               <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d753.08013524187!2d14.22721236962801!3d40.9744613982097!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x133b013d563321d3%3A0x8156a1ffa5798dee!2sChiesa%20Madonna%20del%20Rosario!5e0!3m2!1sit!2sit!4v1780510848085!5m2!1sit!2sit" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- ── SEZIONE AMMINISTRAZIONE ── -->
+<div class="page" id="page-admin">
+    <section>
+        <div id="admin-login-box" class="admin-box">
+            <span class="section-eyebrow">Autenticazione</span>
+            <h2 style="font-family: var(--serif); font-size: 2rem; margin-bottom: 2.5rem; color: var(--navy); font-weight:400;">Redazione Riservata</h2>
+            <div class="form-group">
+                <label>Nome Utente (Username)</label>
+                <input type="text" id="admin-username" class="form-control" placeholder="Inserisci username" autocomplete="username">
+            </div>
+            <div class="form-group">
+                <label>Chiave di Accesso (Password)</label>
+                <input type="password" id="admin-password" class="form-control" placeholder="••••••••" autocomplete="current-password">
+            </div>
+            <button class="btn btn-primary" onclick="handleSecureLogin()" style="width: 100%; padding: 15px;">Entra nel Pannello</button>
+            <p id="login-error" style="color: var(--danger); font-size: 0.75rem; margin-top: 1.5rem; text-align:center; display: none;">Credenziali non corrette. Riprovare.</p>
+        </div>
+
+        <div id="admin-panel" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5rem; border-bottom: 1px solid rgba(0,0,0,0.06); padding-bottom: 2rem;">
+                <div>
+                    <span class="section-eyebrow">Editor dei Contenuti</span>
+                    <h2 class="section-heading" style="margin-bottom: 0;">Console Amministrativa</h2>
+                </div>
+                <button class="btn btn-primary" onclick="logout()" style="padding: 12px 30px; background:var(--danger)">Termina Sessione</button>
+            </div>
+
+            <div class="admin-dashboard">
+                <!-- Modulo Avvisi -->
+                <div class="admin-box" style="margin: 0; max-width: 100%; padding: 3rem 2.5rem;">
+                    <h3 style="font-family: var(--serif); font-size: 1.7rem; margin-bottom: 2rem; color: var(--navy); font-weight:400;">Nuovo Annuncio / Avviso</h3>
+                    <form id="form-avviso" onsubmit="savePost(event, 'avvisi')">
+                        <div class="form-group">
+                            <label>Titolo Principale *</label>
+                            <input type="text" id="avviso-titolo" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Sottotitolo Correlato</label>
+                            <input type="text" id="avviso-sottotitolo" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>File Immagine Copertina</label>
+                            <input type="file" id="avviso-immagine" class="form-control" accept="image/*" style="background:transparent; padding:5px 0;">
+                        </div>
+                        <div class="form-group">
+                            <label>Testo dell'Avviso *</label>
+                            <textarea id="avviso-testo" class="form-control" rows="6" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px;">Pubblica nel Sito</button>
+                    </form>
+                </div>
+
+                <!-- Modulo Omelie -->
+                <div class="admin-box" style="margin: 0; max-width: 100%; padding: 3rem 2.5rem;">
+                    <h3 style="font-family: var(--serif); font-size: 1.7rem; margin-bottom: 2rem; color: var(--navy); font-weight:400;">Nuovo Testo / Omelia</h3>
+                    <form id="form-omelia" onsubmit="savePost(event, 'omelie')">
+                        <div class="form-group">
+                            <label>Titolo Omelia *</label>
+                            <input type="text" id="omelia-titolo" class="form-control" required placeholder="Es. Di cosa viviamo veramente?">
+                        </div>
+                        <div class="form-group">
+                            <label>Sottotitolo o Riferimento</label>
+                            <input type="text" id="omelia-sottotitolo" class="form-control" placeholder="Es. Solennità del Corpus Domini · Anno A">
+                        </div>
+                        <div class="form-group">
+                            <label>File Immagine Omelia (Copertina / Sfondo Eroe)</label>
+                            <input type="file" id="omelia-immagine" class="form-control" accept="image/*" style="background:transparent; padding:5px 0;">
+                        </div>
+                        <div class="form-group">
+                            <label>Testo Completo Omelia *</label>
+                            <textarea id="omelia-testo" class="form-control" rows="8" required placeholder="Inserisci il testo dell'omelia. Usa codici speciali a inizio riga per i blocchi grafici avanzati:&#10;[DOMANDA] Testo domanda...&#10;[CITAZIONE] Testo citazione... | Autore&#10;[EVIDENZA] Testo blocco evidenziato...&#10;[DIVISORE] Titolo Aspetto&#10;[TITOLO] Titolo di sezione"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px;">Pubblica nel Sito</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- ── STRUTTURA DEL LIGHTBOX POP-UP ── -->
+<div id="lightbox" class="lightbox-overlay" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightbox-img" class="lightbox-img" src="" alt="Ingrandimento">
+</div>
+
+<footer>
+    <div class="footer-grid">
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <img src="IMMAGINI/ico.png" alt="Logo" style="width: 25px;">
+            <span style="font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;">Parrocchia Madonna del Rosario</span>
+        </div>
+        <p>© 2026 · Diocesi di Aversa · Tutti i diritti riservati</p>
     </div>
-  </section>
+</footer>
 
-  <!-- ── SEZIONE 3 ── -->
-  <div class="divider reveal"><span>III Aspetto</span></div>
-
-  <section class="section reveal">
-    <span class="section-number">Terzo aspetto</span>
-    <h2 class="section-title">Eucaristia come<br><em>vita spezzata</em></h2>
-    <p class="section-lead">La <em>fractio panis</em> — non un dettaglio liturgico, ma il cuore del Vangelo.</p>
-
-    <p>C'è un gesto durante la Messa che il sacerdote compie quasi in silenzio: si spezza l'ostia. I primi cristiani non usavano nemmeno la parola "Eucaristia" — chiamavano la celebrazione semplicemente <em>fractio panis</em>, "lo spezzare il pane". Non è un semplice dettaglio pratico. <strong>È il cuore del Vangelo.</strong></p>
-
-    <p>Pensate a una pagnotta di pane appena sfornata, messa al centro della tavola. È rotonda, intatta, perfetta, bellissima da vedere. Ma finché rimane così, intera e chiusa in se stessa, non serve a nulla. Non sfama nessuno. Per poter nutrire, per poter essere condivisa e arrivare alla bocca e al cuore di chi ha fame, quella pagnotta deve essere rotta. Deve perdere la sua forma perfetta.</p>
-
-    <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--gold);margin:2rem 0 1rem;font-style:italic;">L'illusione della perfezione e lo scandalo della fragilità</h3>
-
-    <p>Questo ci parla immensamente, perché noi viviamo immersi in una cultura che esige la perfezione. Ci viene insegnato fin da piccoli che dobbiamo essere interi, sani, efficienti, di successo. E quando nella vita arriva il momento in cui ci "spezziamo" — per l'impatto con una malattia severa, per un lutto che ci toglie il respiro, per un licenziamento, per una relazione che va in frantumi o per un fallimento personale — noi ci sentiamo difettosi. Ci guardiamo allo specchio e pensiamo: <em>«Sono rotto. Sono un fallimento. La mia vita non ha più valore.»</em> Il mondo guarda a chi è "spezzato" come a uno scarto da mettere da parte.</p>
-
-    <div class="pullquote reveal">
-      <p>Quando vi sentite a pezzi, quando sentite che la vita vi ha spezzato,<br>voi non siete lontani da Dio.<br>Anzi, è proprio in quel momento che gli somigliate di più.</p>
-    </div>
-
-    <p>Sull'altare, oggi, adoriamo un Dio "spezzato". Sulla croce, il corpo di Gesù è stato ferito, lacerato, frammentato. Egli non ha salvato il mondo con la sua forza invincibile, ma attraverso la sua vulnerabilità.</p>
-
-    <p>Avete mai fatto caso a chi è più capace di consolare chi piange? Non chi ha avuto una vita liscia e perfetta. Le persone che sanno amare di più, che sanno ascoltare, che sanno farsi vicine a chi soffre, sono spesso quelle che sono state spezzate dalla vita, ma non si sono lasciate incattivire dal dolore.</p>
-
-    <div class="highlight-box reveal">
-      <p>La tua ferita di ieri, guarita dalla grazia di Dio, diventa la tua capacità di nutrire e consolare oggi. <strong>Non abbiate paura delle vostre cicatrici, fratelli e sorelle.</strong> Portatele qui sull'altare. Il Signore non ci chiede di essere perfetti e intatti; ci chiede di essere pane che, seppur spezzato, si lascia distribuire per sfamare chi ha perso la speranza.</p>
-    </div>
-  </section>
-
-  <!-- ── SEZIONE 4 ── -->
-  <div class="divider reveal"><span>IV Aspetto</span></div>
-
-  <section class="section reveal">
-    <span class="section-number">Quarto aspetto</span>
-    <h2 class="section-title">Eucaristia come<br><em>comunione</em></h2>
-    <p class="section-lead">L'Eucaristia non è un momento privato — è il farmaco contro le nostre divisioni.</p>
-
-    <p>Fin dai primi secoli, i cristiani usavano un'immagine bellissima: come questo pane è fatto di tantissimi chicchi di grano che, una volta macinati, diventano un solo impasto, così noi, pur essendo in tanti, nutrendoci di questo unico pane diventiamo un corpo solo.</p>
-
-    <p>Sant'Agostino, distribuendo l'Eucaristia ai suoi fedeli, diceva una frase che fa tremare i polsi: <em>"Siate ciò che vedete, e ricevete ciò che siete."</em> Noi stiamo ricevendo il Corpo di Cristo per diventare il Corpo di Cristo. <strong>Comunione.</strong></p>
-
-    <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--gold);margin:2rem 0 1rem;font-style:italic;">Il banco di prova del nostro "Amen"</h3>
-
-    <p>Ecco allora la grande sfida. Quando vi avvicinate all'altare e il sacerdote vi presenta l'ostia dicendo: <em>"Il Corpo di Cristo"</em>, voi rispondete: <em>"Amen"</em>, che significa <em>"Sì, ci credo, è così."</em></p>
-
-    <p>Ma attenzione: dicendo quell'Amen, voi non state dicendo di sì soltanto a Gesù presente in quel pezzo di pane. State dicendo di sì anche al Corpo di Cristo che è il fratello o la sorella seduti nel banco accanto al vostro. State dicendo di sì al povero che chiede l'elemosina sui gradini della chiesa. State dicendo di sì al collega che vi è antipatico, al familiare con cui non vi parlate da anni.</p>
-
-    <div class="highlight-box reveal">
-      <p>Non possiamo dire "Amen" a Cristo sull'altare, se poi nella vita di tutti i giorni voltiamo le spalle al "Cristo" che ci cammina a fianco. Come diceva San Giovanni Crisostomo:</p>
-      <p><em>«Vuoi onorare il corpo di Cristo? Non permettere che sia oggetto di disprezzo nelle sue membra, cioè nei poveri, privi di panni per coprirsi.»</em></p>
-    </div>
-
-    <p>La Comunione è una medicina contro le nostre divisioni. Ci spinge a demolire i muri che continuiamo a costruire. Guardiamo le nostre famiglie, le nostre parrocchie, i nostri luoghi di lavoro, la nostra società: c'è così tanta rabbia, così tanta polarizzazione, così tanto pettegolezzo che distrugge l'altro. L'Eucaristia ci guarisce da tutto questo. Ci rende fratelli non perché ci stiamo simpatici, ma perché abbiamo lo stesso Sangue che scorre nelle vene: il sangue di Cristo.</p>
-  </section>
-
-  <!-- ── CONCLUSIONE ── -->
-  <div class="final-block reveal">
-    <span class="cinzel-label">✦ Provocazione finale ✦</span>
-    <h2>Il vero ostensorio di Cristo,<br><em>da oggi, sei tu.</em></h2>
-    <p>Fra poco porteremo l'Ostia nelle strade. Ma il vero segno è questo: da domani, sarai tu a portare Gesù nelle strade del tuo quartiere, tra le mura della tua casa, nei corridoi del tuo posto di lavoro o nella stanza di un ospedale. Il modo in cui guarderai gli altri, il modo in cui perdonerai, il modo in cui saprai condividere il tuo tempo: tutto questo mostrerà al mondo chi è il Dio in cui crediamo.</p>
-  </div>
-
-  <!-- Firma -->
-  <footer class="firma reveal">
-    <span class="cross-sign">✝</span>
-    <p>Solennità del Corpus Domini · Anno A</p>
-    <p>Parrocchia Madonna del Rosario · Gricignano di Aversa</p>
-  </footer>
-
-</main>
+<!-- ── CONNETTORE DATABASE CLOUD (SUPABASE) ── -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 60);
-        observer.unobserve(e.target);
-      }
+    const SUPABASE_URL = "https://telmexztaluqizmzhnvn.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRlbG1leHp0YWx1cWl6bXpobnZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0OTk3MTQsImV4cCI6MjA5NjA3NTcxNH0.qmeRVSdxr_k7YE_xbB7_ubji6SHjDuULdFbKcEhr3Sg";
+    
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const AUTH_USER_OBF = "YWRtaW5fcm9zYXJpbw=="; 
+    const AUTH_PASS_OBF = "Um9zYXJpbzIwMjYh"; 
+
+    // Variabile globale temporanea per le omelie caricate
+    let omelieDataCache = [];
+
+    // Funzioni Lightbox Ingrandimento Immagini
+    function openLightbox(src) {
+        const lb = document.getElementById('lightbox');
+        const lbImg = document.getElementById('lightbox-img');
+        lbImg.src = src;
+        lb.classList.add('active');
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightbox').classList.remove('active');
+    }
+
+    function showPage(id) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+        
+        document.getElementById('page-' + id).classList.add('active');
+        
+        const link = document.getElementById('nav-' + id);
+        if(link) link.classList.add('active');
+        
+        document.getElementById('nav-menu').classList.remove('open');
+        document.getElementById('menu-btn').classList.remove('open');
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleMenu() {
+        document.getElementById('nav-menu').classList.toggle('open');
+        document.getElementById('menu-btn').classList.toggle('open');
+    }
+
+    window.addEventListener('scroll', () => {
+        const nav = document.getElementById('navbar');
+        if (window.scrollY > 50) nav.classList.add('scrolled');
+        else nav.classList.remove('scrolled');
     });
-  }, { threshold: 0.08 });
-  reveals.forEach(el => observer.observe(el));
+
+    function handleSecureLogin() {
+        const userInpt = document.getElementById('admin-username').value;
+        const passInpt = document.getElementById('admin-password').value;
+
+        if(btoa(userInpt) === AUTH_USER_OBF && btoa(passInpt) === AUTH_PASS_OBF) {
+            document.getElementById('admin-login-box').style.display = 'none';
+            document.getElementById('admin-panel').style.display = 'block';
+            document.getElementById('login-error').style.display = 'none';
+            renderPosts();
+        } else {
+            document.getElementById('login-error').style.display = 'block';
+        }
+    }
+
+    function logout() {
+        document.getElementById('admin-username').value = '';
+        document.getElementById('admin-password').value = '';
+        document.getElementById('admin-login-box').style.display = 'block';
+        document.getElementById('admin-panel').style.display = 'none';
+        renderPosts();
+        showPage('home');
+    }
+
+    async function savePost(event, tipo) {
+        event.preventDefault();
+        
+        const form = event.target;
+        const titolo = form.querySelector('[id$="-titolo"]').value;
+        const sottotitolo = form.querySelector('[id$="-sottotitolo"]').value;
+        const testo = form.querySelector('[id$="-testo"]').value;
+        const fileInput = form.querySelector('input[type="file"]');
+        
+        const dataFormattata = new Date().toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
+
+        if(fileInput && fileInput.files && fileInput.files[0]) {
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                await sendToSupabase(tipo, { titolo, sottotitolo, testo, data: dataFormattata, immagine: e.target.result });
+            }
+            reader.readAsDataURL(fileInput.files[0]);
+        } else {
+            await sendToSupabase(tipo, { titolo, sottotitolo, testo, data: dataFormattata, immagine: null });
+        }
+    }
+
+    async function sendToSupabase(tabella, objetoDatos) {
+        const { error } = await _supabase.from(tabella).insert([objetoDatos]);
+        if (error) {
+            alert("Errore durante il salvataggio sul server: " + error.message);
+        } else {
+            if(tabella === 'avvisi') document.getElementById('form-avviso').reset();
+            else document.getElementById('form-omelia').reset();
+            
+            await renderPosts();
+            showPage(tabella);
+        }
+    }
+
+    async function deletePost(id, tipo) {
+        if(confirm("Rimuovere definitivamente questo contenuto dal server?")) {
+            const { error } = await _supabase.from(tipo).delete().eq('id', id);
+            if (error) alert("Errore nell'eliminazione: " + error.message);
+            else await renderPosts();
+        }
+    }
+
+    // INTERPRETE INTELLIGENTE PER CREARE L'IMPATTO EDITORIALE DA SEMPLICE TESTO NUMEROSO
+    function parseOmeliaText(text) {
+        const lines = text.split('\n');
+        let htmlResult = "";
+        
+        lines.forEach(line => {
+            let cleanLine = line.trim();
+            if (!cleanLine) return;
+
+            if (cleanLine.startsWith("[DOMANDA]")) {
+                let content = cleanLine.replace("[DOMANDA]", "").trim();
+                htmlResult += `<div class="omelia-opening-question"><p>${content}</p></div>`;
+            } 
+            else if (cleanLine.startsWith("[CITAZIONE]")) {
+                let content = cleanLine.replace("[CITAZIONE]", "").trim();
+                let parts = content.split('|');
+                let quote = parts[0] ? parts[0].trim() : "";
+                let author = parts[1] ? parts[1].trim() : "";
+                htmlResult += `
+                    <div class="omelia-pullquote">
+                        <p>«${quote}»</p>
+                        ${author ? `<cite>${author}</cite>` : ''}
+                    </div>`;
+            } 
+            else if (cleanLine.startsWith("[EVIDENZA]")) {
+                let content = cleanLine.replace("[EVIDENZA]", "").trim();
+                htmlResult += `<div class="omelia-highlight-box"><p>${content}</p></div>`;
+            } 
+            else if (cleanLine.startsWith("[DIVISORE]")) {
+                let content = cleanLine.replace("[DIVISORE]", "").trim();
+                htmlResult += `<div class="omelia-divider"><span>${content}</span></div>`;
+            } 
+            else if (cleanLine.startsWith("[TITOLO]")) {
+                let content = cleanLine.replace("[TITOLO]", "").trim();
+                htmlResult += `<h2 class="omelia-section-title">${content}</h2>`;
+            } 
+            else {
+                htmlResult += `<p>${cleanLine}</p>`;
+            }
+        });
+
+        return htmlResult;
+    }
+
+    // APRE LA VISTA EDITORIALE DETTAGLIATA DI UNA OMELIA
+    function openOmeliaDetail(id) {
+        const omelia = omelieDataCache.find(o => o.id === id);
+        if (!omelia) return;
+
+        const containerDettaglio = document.getElementById('page-dettaglio-omelia');
+        const parsedBody = parseOmeliaText(omelia.testo);
+
+        containerDettaglio.innerHTML = `
+            <header class="omelia-hero ${omelia.immagine ? 'has-bg' : ''}" style="${omelia.immagine ? `background-image: url('${omelia.immagine}');` : ''}">
+                ${omelia.immagine ? `<div class="omelia-hero-overlay"></div>` : ''}
+                <div class="omelia-hero-content">
+                    <div class="omelia-hero-cross">✦ ✦ ✦</div>
+                    <div class="omelia-hero-feast">${omelia.sottotitolo || 'Omelia della Domenica'}</div>
+                    <h1 class="omelia-hero-title">${omelia.titolo}</h1>
+                    <div class="omelia-hero-divider"></div>
+                    <p class="omelia-hero-subtitle">${omelia.data}</p>
+                </div>
+            </header>
+
+            <main class="omelia-article">
+                <button class="btn-back" onclick="showPage('omelie')">← Torna alle Omelie</button>
+                
+                ${parsedBody}
+
+                <div class="omelia-final-block">
+                    <span class="label">✦ Riflessione Comunitaria ✦</span>
+                    <h2>Il vero ostensorio di Cristo,<br><em>da oggi, sei tu.</em></h2>
+                    <p>Porta la Parola ascoltata nelle strade, in famiglia e nei luoghi del tuo vivere quotidiano.</p>
+                </div>
+
+                <footer class="omelia-firma">
+                    <span class="cross">✝</span>
+                    <p>${omelia.sottotitolo || 'Diocesi di Aversa'}</p>
+                    <p>Parrocchia Madonna del Rosario · Gricignano di Aversa</p>
+                </footer>
+            </main>
+        `;
+
+        showPage('dettaglio-omelia');
+    }
+
+    async function renderPosts() {
+        const isAdminVisible = document.getElementById('admin-panel').style.display === 'block';
+
+        const { data: avvisi, error: errA } = await _supabase.from('avvisi').select('*').order('id', { ascending: false });
+        const { data: omelie, error: errO } = await _supabase.from('omelie').select('*').order('id', { ascending: false });
+
+        // Salvataggio locale in cache per i dettagli
+        omelieDataCache = omelie || [];
+
+        const containerAvvisi = document.getElementById('container-avvisi');
+        if(!avvisi || avvisi.length === 0) {
+            containerAvvisi.innerHTML = `<p style="color: var(--text-muted); font-style: italic; font-size:0.9rem; grid-column: 1/-1; text-align:center;">Nessun avviso presente al momento.</p>`;
+        } else {
+            containerAvvisi.innerHTML = avvisi.map(a => `
+                <div class="dynamic-card">
+                    ${a.immagine ? `<img src="${a.immagine}" class="dynamic-card-img" alt="Copertina" onclick="openLightbox('${a.immagine}')">` : ''}
+                    <div class="dynamic-card-content">
+                        <span class="dynamic-card-meta">${a.data}</span>
+                        <h3>${a.titolo}</h3>
+                        ${a.sottotitolo ? `<h4>${a.sottotitolo}</h4>` : ''}
+                        <p>${a.testo.substring(0, 140)}...</p>
+                        ${isAdminVisible ? `<button class="btn btn-danger" onclick="deletePost(${a.id}, 'avvisi')">Elimina contenuto</button>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // AGGIORNATO: Rendering delle Omelie come anteprime cliccabili
+        const containerOmelie = document.getElementById('container-omelie');
+        if(!omelie || omelie.length === 0) {
+            containerOmelie.innerHTML = `<p style="color: var(--text-muted); font-style: italic; font-size:0.9rem; grid-column: 1/-1; text-align:center;">Nessuna omelia presente al momento.</p>`;
+        } else {
+            containerOmelie.innerHTML = omelie.map(o => `
+                <div class="dynamic-card">
+                    ${o.immagine ? `<img src="${o.immagine}" class="dynamic-card-img" alt="Copertina" onclick="openOmeliaDetail(${o.id})">` : `
+                        <div class="dynamic-card-img" style="background: var(--navy); display:flex; align-items:center; justify-content:center; color: var(--accent); font-size:2.5rem; font-family:var(--serif);" onclick="openOmeliaDetail(${o.id})">✝</div>
+                    `}
+                    <div class="dynamic-card-content">
+                        <span class="dynamic-card-meta">${o.data}</span>
+                        <h3>${o.titolo}</h3>
+                        ${o.sottotitolo ? `<h4>${o.sottotitolo}</h4>` : ''}
+                        <p>${o.testo.substring(0, 140).replace(/\[.*?\]/g, '')}...</p>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto; width:100%;">
+                            <a class="read-more-link" onclick="openOmeliaDetail(${o.id})">Leggi l'Omelia →</a>
+                            ${isAdminVisible ? `<button class="btn btn-danger" style="margin:0;" onclick="event.stopPropagation(); deletePost(${o.id}, 'omelie')">Elimina</button>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", renderPosts);
 </script>
+
 </body>
 </html>
