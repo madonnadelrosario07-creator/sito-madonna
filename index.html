@@ -814,7 +814,52 @@ function showPage(id) {
     }
 
     // APRE LA VISTA EDITORIALE DETTAGLIATA DI UNA OMELIA
-    function openOmeliaDetail(id) {
+function openOmeliaDetail(id) {
+    // Aggiorna l'URL con l'ID specifico dell'omelia
+    window.location.hash = `omelia-dettaglio?id=${id}`;
+
+    const omelia = omelieDataCache.find(o => o.id === id);
+    if (!omelia) return;
+
+    const containerDettaglio = document.getElementById('page-dettaglio-omelia');
+    const parsedBody = parseOmeliaText(omelia.testo);
+
+    containerDettaglio.innerHTML = `
+        <header class="omelia-hero ${omelia.immagine ? 'has-bg' : ''}" style="${omelia.immagine ? `background-image: url('${omelia.immagine}');` : ''}">
+            ${omelia.immagine ? `<div class="omelia-hero-overlay"></div>` : ''}
+            <div class="omelia-hero-content">
+                <div class="omelia-hero-cross">✦ ✦ ✦</div>
+                <div class="omelia-hero-feast">${omelia.sottotitolo || 'Omelia della Domenica'}</div>
+                <h1 class="omelia-hero-title">${omelia.titolo}</h1>
+                <div class="omelia-hero-divider"></div>
+                <p class="omelia-hero-subtitle">${omelia.data}</p>
+            </div>
+        </header>
+
+        <main class="omelia-article">
+            <button class="btn-back" onclick="showPage('omelie')">← Torna alle Omelie</button>
+            
+            ${parsedBody}
+
+            <div class="omelia-final-block">
+                <span class="label">✦ Riflessione Comunitaria ✦</span>
+                <h2>Il vero ostensorio di Cristo,<br><em>da oggi, sei tu.</em></h2>
+                <p>Porta la Parola ascoltata nelle strade, in famiglia e nei luoghi del tuo vivere quotidiano.</p>
+            </div>
+
+            <footer class="omelia-firma">
+                <span class="cross">✝</span>
+                <p>${omelia.sottotitolo || 'Diocesi di Aversa'}</p>
+                <p>Parrocchia Madonna del Rosario · Gricignano di Aversa</p>
+            </footer>
+        </main>
+    `;
+
+    // Mostra la pagina di dettaglio
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-dettaglio-omelia').classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
         const omelia = omelieDataCache.find(o => o.id === id);
         if (!omelia) return;
 
