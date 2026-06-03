@@ -758,7 +758,46 @@
         navigateTo('home');
     }
 
-    async function savePost(event, tipo) {
+async function savePost(event, tipo) {
+    event.preventDefault();
+    const form = event.target;
+    const titolo = form.querySelector('[id$="-titolo"]').value;
+    const sottotitolo = form.querySelector('[id$="-sottotitolo"]').value;
+    const testo = form.querySelector('[id$="-testo"]').value;
+    const fileInput = form.querySelector('input[type="file"]');
+    
+    const dataFormattata = new Date().toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
+
+    // Se c'è un file selezionato, lo carichiamo prima su Supabase Storage
+    if(fileInput && fileInput.files && fileInput.files[0]) {
+        const file = fileInput.files[0];
+        const fileExt = file.name.split('.').pop();
+        // Genera un nome unico per evitare sovrascritture (es. omelia-171829382.jpg)
+        const fileName = `${tipo}-${Date.now()}.${fileExt}`; 
+
+        // Caricamento nel Bucket dedicato
+        const { data: storageData, error: storageErr } = await _supabase.storage
+            .from('immagini-omelie')
+            .upload(fileName, file);
+
+        if (storageErr) {
+            alert("Errore nel caricamento dell'immagine: " + storageErr.message);
+            return;
+        }
+
+        // Recuperiamo il link pubblico e definitivo dell'immagine
+        const { data: urlData } = _supabase.storage
+            .from('immagini-omelie')
+            .getPublicUrl(fileName);
+            
+        const imageUrl = urlData.publicUrl;
+
+        // Salviamo il post nel database con il link reale dell'immagine
+        await sendToSupabase(tipo, { titolo, sottotitolo, testo, data: dataFormattata, immagine: imageUrl });
+    } else {
+        await sendToSupabase(tipo, { titolo, sottotitolo, testo, data: dataFormattata, immagine: null });
+    }
+}
         event.preventDefault();
         const form = event.target;
         const titolo = form.querySelector('[id$="-titolo"]').value;
