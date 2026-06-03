@@ -587,43 +587,29 @@
         showPage('home');
     }
 
-    // Inserimento post nel database centrale (Risolti ID nulli e Aggiunta gestione immagine Omelie)
+    // FUNZIONE DI SALVATAGGIO COMPRENSIVA ED ANTI-ERRORE NULL
     async function savePost(event, tipo) {
         event.preventDefault();
         
-        let titolo, sottotitolo, testo;
+        // Estrazione dinamica e sicura basata sul modulo inviato (esclude l'uso di selettori rigidi)
+        const form = event.target;
+        const titolo = form.querySelector('[id$="-titolo"]').value;
+        const sottotitolo = form.querySelector('[id$="-sottotitolo"]').value;
+        const testo = form.querySelector('[id$="-testo"]').value;
+        const fileInput = form.querySelector('input[type="file"]');
+        
         const dataFormattata = new Date().toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
 
-        if (tipo === 'avvisi') {
-            titolo = document.getElementById('avviso-titolo').value;
-            sottotitolo = document.getElementById('avviso-sottotitolo').value;
-            testo = document.getElementById('avviso-testo').value;
-
-            const fileInput = document.getElementById('avviso-immagine');
-            if(fileInput.files && fileInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = async function(e) {
-                    await sendToSupabase('avvisi', { titolo, sottotitolo, testo, data: dataFormattata, immagine: e.target.result });
-                }
-                reader.readAsDataURL(fileInput.files[0]);
-            } else {
-                await sendToSupabase('avvisi', { titolo, sottotitolo, testo, data: dataFormattata, immagine: null });
+        // Gestione del flusso di caricamento asincrono file/immagine
+        if(fileInput && fileInput.files && fileInput.files[0]) {
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                await sendToSupabase(tipo, { titolo, sottotitolo, testo, data: dataFormattata, immagine: e.target.result });
             }
-        } else if (tipo === 'omelie') {
-            titolo = document.getElementById('omelia-titolo').value;
-            sottotitolo = document.getElementById('omelia-sottotitolo').value;
-            testo = document.getElementById('omelia-testo').value;
-
-            const fileInput = document.getElementById('omelia-immagine');
-            if(fileInput.files && fileInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = async function(e) {
-                    await sendToSupabase('omelie', { titolo, sottotitolo, testo, data: dataFormattata, immagine: e.target.result });
-                }
-                reader.readAsDataURL(fileInput.files[0]);
-            } else {
-                await sendToSupabase('omelie', { titolo, sottotitolo, testo, data: dataFormattata, immagine: null });
-            }
+            reader.readAsDataURL(fileInput.files[0]);
+        } else {
+            // Se non c'è immagine, la passiamo esplicitamente come null
+            await sendToSupabase(tipo, { titolo, sottotitolo, testo, data: dataFormattata, immagine: null });
         }
     }
 
@@ -632,7 +618,7 @@
         if (error) {
             alert("Errore durante il salvataggio sul server: " + error.message);
         } else {
-            // Svuota il modulo corretto
+            // Reset automatico del form corretto
             if(tabella === 'avvisi') document.getElementById('form-avviso').reset();
             else document.getElementById('form-omelia').reset();
             
