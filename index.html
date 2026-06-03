@@ -127,13 +127,40 @@
             box-shadow: 0 4px 20px rgba(9, 13, 22, 0.02);
         }
         .dynamic-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px rgba(9, 13, 22, 0.06); }
-        .dynamic-card-img { width: 100%; aspect-ratio: 16/10; object-fit: cover; filter: grayscale(15%); transition: var(--transition); }
+        
+        /* Immagine interattiva cliccabile */
+        .dynamic-card-img { 
+            width: 100%; aspect-ratio: 16/10; object-fit: cover; filter: grayscale(15%); 
+            transition: var(--transition); cursor: zoom-in;
+        }
         .dynamic-card:hover .dynamic-card-img { filter: grayscale(0%); }
         .dynamic-card-content { padding: 3rem 2.5rem; flex-grow: 1; display: flex; flex-direction: column; }
         .dynamic-card-meta { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); font-weight: 600; margin-bottom: 1rem; }
         .dynamic-card h3 { font-family: var(--serif); font-size: 1.9rem; color: var(--navy); line-height: 1.25; font-weight: 400; margin-bottom: 0.6rem; }
         .dynamic-card h4 { font-size: 0.85rem; font-weight: 400; color: var(--text-muted); font-style: italic; margin-bottom: 1.5rem; }
         .dynamic-card p { color: var(--text-main); font-size: 0.95rem; line-height: 1.7; white-space: pre-line; margin-bottom: 1.5rem; }
+
+        /* ── LIGHTBOX SCHERMO INTERO ── */
+        .lightbox-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(9, 13, 22, 0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            z-index: 2000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: zoom-out;
+        }
+        .lightbox-overlay.active { opacity: 1; pointer-events: auto; }
+        .lightbox-img {
+            max-width: 90%; max-height: 85vh; border-radius: 4px; object-fit: contain;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5); transform: scale(0.92);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .lightbox-overlay.active .lightbox-img { transform: scale(1); }
+        .lightbox-close {
+            position: absolute; top: 30px; right: 40px; color: var(--white);
+            font-size: 2.5rem; font-weight: 300; cursor: pointer; transition: var(--transition);
+            line-height: 1; user-select: none;
+        }
+        .lightbox-close:hover { color: var(--accent); transform: scale(1.1); }
 
         /* ── SACRAMENTI & GRUPPI CARDS ── */
         .sacramenti-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem; }
@@ -365,7 +392,7 @@
             <div class="sacramento-card">
                 <span class="sacramento-icon">06 · Sollievo</span>
                 <h3>Unzione Infermi</h3>
-                <p>Presenza sacra e vicinanza per chi affronta la prova del dolore corporeo. La comunità sostiene i malati con la preghiera regolare.</p>
+                <p>Presenza sacra e vicinancy per chi affronta la prova del dolore corporeo. La comunità sostiene i malati con la preghiera regolare.</p>
                 <div class="sacramento-info">Su richiesta in ogni momento</div>
             </div>
         </div>
@@ -392,7 +419,17 @@
             </div>
             <div class="sacramento-card">
                 <span class="sacramento-icon">Liturgia</span>
-                <h3>Schola Cantorum</h3>
+                <h3>Coro Giovani</h3>
+                <p>Servizio corale dedicato all'animazionecon protagonisti i della parrocchia</p>
+            </div>
+            <div class="sacramento-card">
+                <span class="sacramento-icon">Liturgia</span>
+                <h3>Coro Bambini</h3>
+                <p>Servizio corale dedicato all'animazione della messa dei Bambini interamente composto dai fanciulli della parrocchia</p>
+            </div>
+            <div class="sacramento-card">
+                <span class="sacramento-icon">Liturgia</span>
+                <h3>Coro Adulti</h3>
                 <p>Servizio corale dedicato all'animazione e alla lode, elevando la preghiera comunitaria attraverso la musica.</p>
             </div>
         </div>
@@ -512,6 +549,12 @@
     </section>
 </div>
 
+<!-- ── STRUTTURA DEL LIGHTBOX POP-UP ── -->
+<div id="lightbox" class="lightbox-overlay" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightbox-img" class="lightbox-img" src="" alt="Ingrandimento">
+</div>
+
 <footer>
     <div class="footer-grid">
         <div style="display: flex; align-items: center; gap: 15px;">
@@ -526,17 +569,26 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-    // Configurazione Cloud Database integrata ed esclusiva
     const SUPABASE_URL = "https://telmexztaluqizmzhnvn.supabase.co";
     const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRlbG1leHp0YWx1cWl6bXpobnZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0OTk3MTQsImV4cCI6MjA5NjA3NTcxNH0.qmeRVSdxr_k7YE_xbB7_ubji6SHjDuULdFbKcEhr3Sg";
     
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // Credenziali Amministratore (User: admin_rosario | Pass: Rosario2026!)
     const AUTH_USER_OBF = "YWRtaW5fcm9zYXJpbw=="; 
     const AUTH_PASS_OBF = "Um9zYXJpbzIwMjYh"; 
 
-    // Sistema Navigazione Single Page App
+    // Funzioni Lightbox Ingrandimento Immagini
+    function openLightbox(src) {
+        const lb = document.getElementById('lightbox');
+        const lbImg = document.getElementById('lightbox-img');
+        lbImg.src = src;
+        lb.classList.add('active');
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightbox').classList.remove('active');
+    }
+
     function showPage(id) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
@@ -563,7 +615,6 @@
         else nav.classList.remove('scrolled');
     });
 
-    // Controllo Sessione Amministratore
     function handleSecureLogin() {
         const userInpt = document.getElementById('admin-username').value;
         const passInpt = document.getElementById('admin-password').value;
@@ -587,11 +638,9 @@
         showPage('home');
     }
 
-    // FUNZIONE DI SALVATAGGIO COMPRENSIVA ED ANTI-ERRORE NULL
     async function savePost(event, tipo) {
         event.preventDefault();
         
-        // Estrazione dinamica e sicura basata sul modulo inviato (esclude l'uso di selettori rigidi)
         const form = event.target;
         const titolo = form.querySelector('[id$="-titolo"]').value;
         const sottotitolo = form.querySelector('[id$="-sottotitolo"]').value;
@@ -600,7 +649,6 @@
         
         const dataFormattata = new Date().toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
 
-        // Gestione del flusso di caricamento asincrono file/immagine
         if(fileInput && fileInput.files && fileInput.files[0]) {
             const reader = new FileReader();
             reader.onload = async function(e) {
@@ -608,17 +656,15 @@
             }
             reader.readAsDataURL(fileInput.files[0]);
         } else {
-            // Se non c'è immagine, la passiamo esplicitamente come null
             await sendToSupabase(tipo, { titolo, sottotitolo, testo, data: dataFormattata, immagine: null });
         }
     }
 
-    async function sendToSupabase(tabella, oggettoDati) {
-        const { error } = await _supabase.from(tabella).insert([oggettoDati]);
+    async function sendToSupabase(tabella, objetoDatos) {
+        const { error } = await _supabase.from(tabella).insert([objetoDatos]);
         if (error) {
             alert("Errore durante il salvataggio sul server: " + error.message);
         } else {
-            // Reset automatico del form corretto
             if(tabella === 'avvisi') document.getElementById('form-avviso').reset();
             else document.getElementById('form-omelia').reset();
             
@@ -627,7 +673,6 @@
         }
     }
 
-    // Cancellazione permanente post dal database
     async function deletePost(id, tipo) {
         if(confirm("Rimuovere definitivamente questo contenuto dal server?")) {
             const { error } = await _supabase.from(tipo).delete().eq('id', id);
@@ -636,7 +681,6 @@
         }
     }
 
-    // Lettura Real-time con Rendering Dinamico ordinato per ID descrescente
     async function renderPosts() {
         const isAdminVisible = document.getElementById('admin-panel').style.display === 'block';
 
@@ -649,7 +693,7 @@
         } else {
             containerAvvisi.innerHTML = avvisi.map(a => `
                 <div class="dynamic-card">
-                    ${a.immagine ? `<img src="${a.immagine}" class="dynamic-card-img" alt="Copertina">` : ''}
+                    ${a.immagine ? `<img src="${a.immagine}" class="dynamic-card-img" alt="Copertina" onclick="openLightbox('${a.immagine}')">` : ''}
                     <div class="dynamic-card-content">
                         <span class="dynamic-card-meta">${a.data}</span>
                         <h3>${a.titolo}</h3>
@@ -667,7 +711,7 @@
         } else {
             containerOmelie.innerHTML = omelie.map(o => `
                 <div class="dynamic-card">
-                    ${o.immagine ? `<img src="${o.immagine}" class="dynamic-card-img" alt="Copertina">` : ''}
+                    ${o.immagine ? `<img src="${o.immagine}" class="dynamic-card-img" alt="Copertina" onclick="openLightbox('${o.immagine}')">` : ''}
                     <div class="dynamic-card-content">
                         <span class="dynamic-card-meta">${o.data}</span>
                         <h3>${o.titolo}</h3>
