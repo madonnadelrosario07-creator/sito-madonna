@@ -768,6 +768,47 @@ async function savePost(event, tipo) {
     
     const dataFormattata = new Date().toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
 
+    // Se l'utente ha selezionato un file immagine
+    if(fileInput && fileInput.files && fileInput.files[0]) {
+        const file = fileInput.files[0];
+        const fileExt = file.name.split('.').pop();
+        // Crea un nome unico per il file (es: omelie-171829382.jpg)
+        const fileName = `${tipo}-${Date.now()}.${fileExt}`; 
+
+        // 1. Carica il file fisicamente nel Bucket pubblico di Supabase
+        const { data: storageData, error: storageErr } = await _supabase.storage
+            .from('immagini-omelie')
+            .upload(fileName, file);
+
+        if (storageErr) {
+            alert("Errore nel caricamento dell'immagine nello Storage: " + storageErr.message);
+            return;
+        }
+
+        // 2. Recupera l'URL pubblico reale (https://...) generato da Supabase
+        const { data: urlData } = _supabase.storage
+            .from('immagini-omelie')
+            .getPublicUrl(fileName);
+            
+        const imageUrl = urlData.publicUrl;
+
+        // 3. Salva l'omelia nel Database passando l'URL reale anziché il Base64
+        await sendToSupabase(tipo, { titolo, sottotitolo, testo, data: dataFormattata, immagine: imageUrl });
+    } else {
+        // Se non c'è immagine, salva normalmente con null
+        await sendToSupabase(tipo, { titolo, sottotitolo, testo, data: dataFormattata, immagine: null });
+    }
+}
+
+    event.preventDefault();
+    const form = event.target;
+    const titolo = form.querySelector('[id$="-titolo"]').value;
+    const sottotitolo = form.querySelector('[id$="-sottotitolo"]').value;
+    const testo = form.querySelector('[id$="-testo"]').value;
+    const fileInput = form.querySelector('input[type="file"]');
+    
+    const dataFormattata = new Date().toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
+
     // Se c'è un file selezionato, lo carichiamo prima su Supabase Storage
     if(fileInput && fileInput.files && fileInput.files[0]) {
         const file = fileInput.files[0];
