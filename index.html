@@ -671,20 +671,26 @@
         document.getElementById('lightbox').classList.remove('active');
     }
 
-    function showPage(id) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-        
-        document.getElementById('page-' + id).classList.add('active');
-        
-        const link = document.getElementById('nav-' + id);
-        if(link) link.classList.add('active');
-        
-        document.getElementById('nav-menu').classList.remove('open');
-        document.getElementById('menu-btn').classList.remove('open');
-        
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+function showPage(id) {
+    // Evita di duplicare l'hash se stiamo già navigando tramite evento popstate
+    if (window.location.hash !== '#' + id) {
+        window.location.hash = id;
     }
+
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    
+    const targetPage = document.getElementById('page-' + id);
+    if (targetPage) targetPage.classList.add('active');
+    
+    const link = document.getElementById('nav-' + id);
+    if (link) link.classList.add('active');
+    
+    document.getElementById('nav-menu').classList.remove('open');
+    document.getElementById('menu-btn').classList.remove('open');
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
     function toggleMenu() {
         document.getElementById('nav-menu').classList.toggle('open');
