@@ -35,7 +35,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* ── NAVBAR BLU SCURO ── */
+        /* ── NAVBAR CON TESTO LOGO ADATTIVO FLUIDO ── */
         nav {
             position: fixed;
             top: 0; width: 100%; height: 100px;
@@ -53,22 +53,35 @@
             -webkit-backdrop-filter: blur(20px);
         }
 
-        .nav-brand { display: flex; align-items: center; gap: 15px; text-decoration: none; cursor: pointer; }
-        .nav-logo { width: 38px; height: auto; }
-        .nav-brand-text { display: flex; flex-direction: column; }
+        .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; cursor: pointer; flex-shrink: 1; min-width: 0; }
+        .nav-logo { width: 38px; height: auto; flex-shrink: 0; }
+        .nav-brand-text { display: flex; flex-direction: column; min-width: 0; }
+        
+        /* Testo adattivo calcolato sulla larghezza schermo (viewport) */
         .nav-brand-text span:first-child { 
-            font-family: var(--serif); font-size: 1.35rem; font-weight: 600; color: var(--white); 
+            font-family: var(--serif); 
+            font-size: clamp(1.05rem, 1.8vw, 1.4rem); 
+            font-weight: 600; 
+            color: var(--white); 
             letter-spacing: 0.5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .nav-brand-text span:last-child { 
-            font-size: 0.55rem; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); 
-            font-weight: 500; margin-top: 2px;
+            font-size: clamp(0.5rem, 0.8vw, 0.6rem); 
+            letter-spacing: clamp(1.5px, 0.4vw, 3px); 
+            text-transform: uppercase; 
+            color: var(--accent); 
+            font-weight: 500; 
+            margin-top: 1px;
+            white-space: nowrap;
         }
 
-        .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+        .nav-links { display: flex; gap: 1.8rem; list-style: none; align-items: center; flex-shrink: 0; }
         .nav-links a {
-            text-decoration: none; font-size: 0.7rem; font-weight: 500;
-            text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.75);
+            text-decoration: none; font-size: 0.68rem; font-weight: 500;
+            text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.75);
             transition: var(--transition); cursor: pointer;
             position: relative; padding: 5px 0;
         }
@@ -79,22 +92,11 @@
         }
         .nav-links a.active::after, .nav-links a:hover::after { width: 100%; }
 
-        /* MENU HAMBURGER */
         .menu-toggle {
-            display: none;
-            flex-direction: column;
-            gap: 6px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            z-index: 1001;
+            display: none; flex-direction: column; gap: 6px; cursor: pointer;
+            background: none; border: none; z-index: 1001; flex-shrink: 0;
         }
-        .menu-toggle span {
-            width: 28px;
-            height: 2px;
-            background-color: var(--white);
-            transition: var(--transition);
-        }
+        .menu-toggle span { width: 26px; height: 2px; background-color: var(--white); transition: var(--transition); }
 
         /* ── HERO ELEGANT ── */
        .hero {
@@ -119,7 +121,7 @@
         }
         .section-heading { font-family: var(--serif); font-size: clamp(2.4rem, 4vw, 3.5rem); color: var(--navy); line-height: 1.15; font-weight: 400; }
 
-        /* ── SCHEDE CONTENUTI DINAMICI ── */
+        /* ── GRID E CARTE DINAMICHE standard (AVVISI) ── */
         .dynamic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 3.5rem; }
         .dynamic-card {
             background: var(--white); border-radius: 4px; overflow: hidden;
@@ -127,7 +129,6 @@
             box-shadow: 0 4px 20px rgba(9, 13, 22, 0.02);
         }
         .dynamic-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px rgba(9, 13, 22, 0.06); }
-        
         .dynamic-card-img { 
             width: 100%; aspect-ratio: 16/10; object-fit: cover; filter: grayscale(15%); 
             transition: var(--transition); cursor: pointer;
@@ -139,26 +140,43 @@
         .dynamic-card h4 { font-size: 0.85rem; font-weight: 400; color: var(--text-muted); font-style: italic; margin-bottom: 1.5rem; }
         .dynamic-card p { color: var(--text-main); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.5rem; }
 
-        /* ── LINK LEGGI TUTTO ── */
+        /* ── ESCLUSIVO: EDITORIAL ROW LAYOUT PER ANTEPRIME OMELIE ── */
+        .omelia-editorial-stack { display: flex; flex-direction: column; gap: 2.5rem; max-width: 1000px; margin: 0 auto; }
+        .omelia-row-card {
+            background: var(--white); border-radius: 4px; padding: 2.5rem;
+            display: flex; gap: 2.5rem; align-items: flex-start; transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(9, 13, 22, 0.02); position: relative;
+        }
+        .omelia-row-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(9, 13, 22, 0.05); }
+        
+        /* Miniatura compatta posizionata a lato */
+        .omelia-thumb {
+            width: 110px; height: 110px; border-radius: 4px; object-fit: cover;
+            flex-shrink: 0; filter: grayscale(20%); transition: var(--transition); cursor: pointer;
+        }
+        .omelia-thumb-placeholder {
+            width: 110px; height: 110px; border-radius: 4px; background: var(--navy);
+            display: flex; align-items: center; justify-content: center; color: var(--accent);
+            font-size: 1.8rem; font-family: var(--serif); flex-shrink: 0; cursor: pointer;
+        }
+        .omelia-row-card:hover .omelia-thumb { filter: grayscale(0%); }
+        .omelia-row-body { flex-grow: 1; display: flex; flex-direction: column; min-width: 0; }
+
         .read-more-link {
             font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px;
             color: var(--accent); text-decoration: none; margin-top: auto; display: inline-flex;
-            align-items: center; gap: 5px; transition: var(--transition); cursor: pointer;
+            align-items: center; gap: 5px; transition: var(--transition); cursor: pointer; padding-top: 1rem;
         }
         .read-more-link:hover { color: var(--navy); transform: translateX(3px); }
 
-        /* ── STILE DETTAGLIO OMELIA EDITORIALE (ADATTATO) ── */
+        /* ── STILE DETTAGLIO OMELIA EDITORIALE ── */
         .omelia-hero {
             position: relative; background: var(--navy); min-height: 75vh;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             text-align: center; padding: 6rem 2rem; overflow: hidden; color: var(--white);
         }
-        .omelia-hero.has-bg {
-            background-size: cover; background-position: center; background-repeat: no-repeat;
-        }
-        .omelia-hero-overlay {
-            position: absolute; inset: 0; background: linear-gradient(rgba(9, 13, 22, 0.85), rgba(9, 13, 22, 0.9)); z-index: 1;
-        }
+        .omelia-hero.has-bg { background-size: cover; background-position: center; background-repeat: no-repeat; }
+        .omelia-hero-overlay { position: absolute; inset: 0; background: linear-gradient(rgba(9, 13, 22, 0.85), rgba(9, 13, 22, 0.9)); z-index: 1; }
         .omelia-hero-content { position: relative; z-index: 2; max-width: 900px; }
         .omelia-hero-cross { font-size: 1.8rem; color: var(--accent); letter-spacing: 0.3em; margin-bottom: 1.5rem; font-family: var(--serif); }
         .omelia-hero-feast { font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; font-weight: 500; }
@@ -322,6 +340,11 @@
 
             .contact-layout { grid-template-columns: 1fr; gap: 5rem; }
             section { padding: 8rem 5% 4rem; }
+            
+            /* Adattamento mobile della riga omelia: torna a colonna se lo schermo è piccolo */
+            .omelia-row-card { flex-direction: column; gap: 1.5rem; padding: 2rem; }
+            .omelia-thumb, .omelia-thumb-placeholder { width: 100%; height: 160px; }
+
             .omelia-article { padding: 3rem 1.5rem 4rem; }
             .omelia-final-block { margin: 4rem -1.5rem 0; padding: 2.5rem 1.5rem; }
             .omelia-pullquote { margin: 3rem 0; }
@@ -332,8 +355,8 @@
 <body>
 
 <nav id="navbar">
-    <div class="nav-brand" onclick="showPage('home')">
-        <img src="IMMAGINI/ico.png" alt="Logo" class="nav-logo">
+    <div class="nav-brand" onclick="navigateTo('home')">
+        <img src="IMNAV/ico.png" alt="Logo" class="nav-logo" onerror="this.src='IMMAGINI/ico.png'">
         <div class="nav-brand-text">
             <span>Madonna del Rosario</span>
             <span>Gricignano d'Aversa</span>
@@ -347,14 +370,14 @@
     </button>
 
     <ul class="nav-links" id="nav-menu">
-        <li><a onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
-        <li><a onclick="showPage('avvisi')" id="nav-avvisi">Avvisi</a></li>
-        <li><a onclick="showPage('omelie')" id="nav-omelie">Omelie</a></li>
-        <li><a onclick="showPage('comunita')" id="nav-comunita">Comunità</a></li>
-        <li><a onclick="showPage('sacramenti')" id="nav-sacramenti">Sacramenti</a></li>
-        <li><a onclick="showPage('gruppi')" id="nav-gruppi">Gruppi</a></li>
-        <li><a onclick="showPage('contatti')" id="nav-contatti">Contatti</a></li>
-        <li><a onclick="showPage('admin')" id="nav-admin" style="color: var(--accent); font-weight:600;">Accedi</a></li>
+        <li><a onclick="navigateTo('home')" id="nav-home" class="active">Home</a></li>
+        <li><a onclick="navigateTo('avvisi')" id="nav-avvisi">Avvisi</a></li>
+        <li><a onclick="navigateTo('omelie')" id="nav-omelie">Omelie</a></li>
+        <li><a onclick="navigateTo('comunita')" id="nav-comunita">Comunità</a></li>
+        <li><a onclick="navigateTo('sacramenti')" id="nav-sacramenti">Sacramenti</a></li>
+        <li><a onclick="navigateTo('gruppi')" id="nav-gruppi">Gruppi</a></li>
+        <li><a onclick="navigateTo('contatti')" id="nav-contatti">Contatti</a></li>
+        <li><a onclick="navigateTo('admin')" id="nav-admin" style="color: var(--accent); font-weight:600;">Accedi</a></li>
     </ul>
 </nav>
 
@@ -365,8 +388,8 @@
             <span class="section-eyebrow" style="color: var(--accent-light); margin-bottom: 2rem;">Accoglienza · Fede · Condivisione</span>
             <h1 class="hero-title">L'essenziale è<br><em>Incontrarsi</em></h1>
             <div style="display: flex; gap: 1.5rem; justify-content: center;">
-                <button class="btn btn-primary" onclick="showPage('avvisi')">Leggi gli Avvisi</button>
-                <button class="btn btn-outline" onclick="showPage('contatti')">Vieni a trovarci</button>
+                <button class="btn btn-primary" onclick="navigateTo('avvisi')">Leggi gli Avvisi</button>
+                <button class="btn btn-outline" onclick="navigateTo('contatti')">Vieni a trovarci</button>
             </div>
         </div>
     </section>
@@ -385,20 +408,20 @@
     </section>
 </div>
 
-<!-- ── SEZIONE OMELIE PUBBLICHE (ANTEPRIME) ── -->
+<!-- ── SEZIONE OMELIE PUBBLICHE (CON ANTEPRIME A FIANCO) ── -->
 <div class="page" id="page-omelie">
     <section>
         <div class="section-header">
             <span class="section-eyebrow">Ascolto e Meditazione</span>
             <h2 class="section-heading">Le Omelie della Domenica</h2>
         </div>
-        <div class="dynamic-grid" id="container-omelie">
-            <!-- Riempito dal Database con Anteprime -->
+        <div class="omelia-editorial-stack" id="container-omelie">
+            <!-- Riempito dinamicamente in formato compatto/miniatura -->
         </div>
     </section>
 </div>
 
-<!-- ── SEZIONE DETTAGLIO OMELIA INDIVIDUALE (DINAMICA ED EDITORIALE) ── -->
+<!-- ── SEZIONE DETTAGLIO OMELIA INDIVIDUALE (A PAGINA INTERA) ── -->
 <div class="page" id="page-dettaglio-omelia">
     <!-- Generato interamente in modo dinamico tramite JavaScript -->
 </div>
@@ -487,19 +510,19 @@
                 <p>Percorsi di crescita spirituale, volti a incarnare il Vangelo nei luoghi di studio e lavoro.</p>
             </div>
             <div class="sacramento-card">
-                <span class="sacramento-icon">Carità</span>
+                <span class="carità">Caritas Parrocchiale</span>
                 <h3>Caritas Parrocchiale</h3>
                 <p>Sostegno silenzioso e operoso per i nuclei familiari e i fratelli che attraversano frangenti di forte fragilità.</p>
             </div>
             <div class="sacramento-card">
                 <span class="sacramento-icon">Liturgia</span>
                 <h3>Coro Giovani</h3>
-                <p>Servizio corale dedicato all'animazionecon protagonisti i della parrocchia</p>
+                <p>Servizio corale dedicato all'animazione con protagonisti i giovani della parrocchia.</p>
             </div>
             <div class="sacramento-card">
                 <span class="sacramento-icon">Liturgia</span>
                 <h3>Coro Bambini</h3>
-                <p>Servizio corale dedicato all'animazione della messa dei Bambini interamente composto dai fanciulli della parrocchia</p>
+                <p>Servizio corale dedicato all'animazione della messa dei Bambini interamente composto dai fanciulli della parrocchia.</p>
             </div>
             <div class="sacramento-card">
                 <span class="sacramento-icon">Liturgia</span>
@@ -509,7 +532,7 @@
             <div class="sacramento-card">
                 <span class="sacramento-icon">Carità</span>
                 <h3>Gruppo Marta</h3>
-                <p>Gruppo di Volontari che contribuisce al decoro e alla manutenzione dei luoghi della Parrocchia mantenendoli puliti ed organizzati</p>
+                <p>Gruppo di Volontari che contribuisce al decoro e alla manutenzione dei luoghi della Parrocchia mantenendoli puliti ed organizzati.</p>
             </div>
         </div>
     </section>
@@ -656,10 +679,9 @@
     const AUTH_USER_OBF = "YWRtaW5fcm9zYXJpbw=="; 
     const AUTH_PASS_OBF = "Um9zYXJpbzIwMjYh"; 
 
-    // Variabile globale temporanea per le omelie caricate
     let omelieDataCache = [];
+    let isInitialLoadDone = false;
 
-    // Funzioni Lightbox Ingrandimento Immagini
     function openLightbox(src) {
         const lb = document.getElementById('lightbox');
         const lbImg = document.getElementById('lightbox-img');
@@ -671,26 +693,27 @@
         document.getElementById('lightbox').classList.remove('active');
     }
 
-function showPage(id) {
-    // Evita di duplicare l'hash se stiamo già navigando tramite evento popstate
-    if (window.location.hash !== '#' + id) {
-        window.location.hash = id;
+    // Navigazione centralizzata che pilota l'hash dell'URL
+    function navigateTo(pageId) {
+        window.location.hash = pageId;
     }
 
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-    
-    const targetPage = document.getElementById('page-' + id);
-    if (targetPage) targetPage.classList.add('active');
-    
-    const link = document.getElementById('nav-' + id);
-    if (link) link.classList.add('active');
-    
-    document.getElementById('nav-menu').classList.remove('open');
-    document.getElementById('menu-btn').classList.remove('open');
-    
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+    // Esegue il cambio pagina visivo reale basato sull'hash corrente
+    function showPage(id) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+        
+        const targetPage = document.getElementById('page-' + id);
+        if(targetPage) targetPage.classList.add('active');
+        
+        const link = document.getElementById('nav-' + id);
+        if(link) link.classList.add('active');
+        
+        document.getElementById('nav-menu').classList.remove('open');
+        document.getElementById('menu-btn').classList.remove('open');
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
     function toggleMenu() {
         document.getElementById('nav-menu').classList.toggle('open');
@@ -723,12 +746,11 @@ function showPage(id) {
         document.getElementById('admin-login-box').style.display = 'block';
         document.getElementById('admin-panel').style.display = 'none';
         renderPosts();
-        showPage('home');
+        navigateTo('home');
     }
 
     async function savePost(event, tipo) {
         event.preventDefault();
-        
         const form = event.target;
         const titolo = form.querySelector('[id$="-titolo"]').value;
         const sottotitolo = form.querySelector('[id$="-sottotitolo"]').value;
@@ -757,7 +779,7 @@ function showPage(id) {
             else document.getElementById('form-omelia').reset();
             
             await renderPosts();
-            showPage(tabella);
+            navigateTo(tabella);
         }
     }
 
@@ -769,7 +791,6 @@ function showPage(id) {
         }
     }
 
-    // INTERPRETE INTELLIGENTE PER CREARE L'IMPATTO EDITORIALE DA SEMPLICE TESTO NUMEROSO
     function parseOmeliaText(text) {
         const lines = text.split('\n');
         let htmlResult = "";
@@ -813,56 +834,8 @@ function showPage(id) {
         return htmlResult;
     }
 
-    // APRE LA VISTA EDITORIALE DETTAGLIATA DI UNA OMELIA
-function openOmeliaDetail(id) {
-    // Aggiorna l'URL con l'ID specifico dell'omelia
-    window.location.hash = `omelia-dettaglio?id=${id}`;
-
-    const omelia = omelieDataCache.find(o => o.id === id);
-    if (!omelia) return;
-
-    const containerDettaglio = document.getElementById('page-dettaglio-omelia');
-    const parsedBody = parseOmeliaText(omelia.testo);
-
-    containerDettaglio.innerHTML = `
-        <header class="omelia-hero ${omelia.immagine ? 'has-bg' : ''}" style="${omelia.immagine ? `background-image: url('${omelia.immagine}');` : ''}">
-            ${omelia.immagine ? `<div class="omelia-hero-overlay"></div>` : ''}
-            <div class="omelia-hero-content">
-                <div class="omelia-hero-cross">✦ ✦ ✦</div>
-                <div class="omelia-hero-feast">${omelia.sottotitolo || 'Omelia della Domenica'}</div>
-                <h1 class="omelia-hero-title">${omelia.titolo}</h1>
-                <div class="omelia-hero-divider"></div>
-                <p class="omelia-hero-subtitle">${omelia.data}</p>
-            </div>
-        </header>
-
-        <main class="omelia-article">
-            <button class="btn-back" onclick="showPage('omelie')">← Torna alle Omelie</button>
-            
-            ${parsedBody}
-
-            <div class="omelia-final-block">
-                <span class="label">✦ Riflessione Comunitaria ✦</span>
-                <h2>Il vero ostensorio di Cristo,<br><em>da oggi, sei tu.</em></h2>
-                <p>Porta la Parola ascoltata nelle strade, in famiglia e nei luoghi del tuo vivere quotidiano.</p>
-            </div>
-
-            <footer class="omelia-firma">
-                <span class="cross">✝</span>
-                <p>${omelia.sottotitolo || 'Diocesi di Aversa'}</p>
-                <p>Parrocchia Madonna del Rosario · Gricignano di Aversa</p>
-            </footer>
-        </main>
-    `;
-
-    // Mostra la pagina di dettaglio
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById('page-dettaglio-omelia').classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-        const omelia = omelieDataCache.find(o => o.id === id);
-        if (!omelia) return;
-
+    // Costruisce la vista di lettura e ripulisce le classi di navigazione attiva
+    function buildOmeliaView(omelia) {
         const containerDettaglio = document.getElementById('page-dettaglio-omelia');
         const parsedBody = parseOmeliaText(omelia.testo);
 
@@ -879,7 +852,7 @@ function openOmeliaDetail(id) {
             </header>
 
             <main class="omelia-article">
-                <button class="btn-back" onclick="showPage('omelie')">← Torna alle Omelie</button>
+                <button class="btn-back" onclick="navigateTo('omelie')">← Torna alle Omelie</button>
                 
                 ${parsedBody}
 
@@ -897,8 +870,46 @@ function openOmeliaDetail(id) {
             </main>
         `;
 
-        showPage('dettaglio-omelia');
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+        document.getElementById('nav-omelie').classList.add('active');
+        containerDettaglio.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
+    // GESTORE DELLE ROTTE (ROUTER) REALE E COERENTE CON GLI EVENTI ASINCRONI
+    async function handleRouting() {
+        const hash = window.location.hash.replace('#', '');
+        
+        if (!hash) {
+            showPage('home');
+            return;
+        }
+
+        // Se l'URL punta a un'omelia specifica (Es. #omelia?id=14)
+        if (hash.startsWith('omelia?id=')) {
+            const id = parseInt(hash.split('=')[1]);
+            
+            // Se la cache del database è vuota, forziamo il caricamento immediato prima di mostrare la pagina
+            if (!isInitialLoadDone || omelieDataCache.length === 0) {
+                await renderPosts();
+            }
+            
+            const omelia = omelieDataCache.find(o => o.id === id);
+            if (omelia) {
+                buildOmeliaView(omelia);
+            } else {
+                // Se l'ID non esiste o è vecchio, rimanda alla lista
+                navigateTo('omelie');
+            }
+        } else {
+            // Rotta ordinaria per le sezioni standard
+            showPage(hash);
+        }
+    }
+
+    // Intercetta i cambiamenti di indirizzo (es: clic sui pulsanti, frecce avanti/indietro del browser)
+    window.addEventListener('hashchange', handleRouting);
 
     async function renderPosts() {
         const isAdminVisible = document.getElementById('admin-panel').style.display === 'block';
@@ -906,9 +917,10 @@ function openOmeliaDetail(id) {
         const { data: avvisi, error: errA } = await _supabase.from('avvisi').select('*').order('id', { ascending: false });
         const { data: omelie, error: errO } = await _supabase.from('omelie').select('*').order('id', { ascending: false });
 
-        // Salvataggio locale in cache per i dettagli
         omelieDataCache = omelie || [];
+        isInitialLoadDone = true;
 
+        // Renderizzazione degli Avvisi
         const containerAvvisi = document.getElementById('container-avvisi');
         if(!avvisi || avvisi.length === 0) {
             containerAvvisi.innerHTML = `<p style="color: var(--text-muted); font-style: italic; font-size:0.9rem; grid-column: 1/-1; text-align:center;">Nessun avviso presente al momento.</p>`;
@@ -927,24 +939,26 @@ function openOmeliaDetail(id) {
             `).join('');
         }
 
-        // AGGIORNATO: Rendering delle Omelie come anteprime cliccabili
+        // AGGIORNATO: Impaginazione a righe editoriali con miniatura laterale
         const containerOmelie = document.getElementById('container-omelie');
         if(!omelie || omelie.length === 0) {
-            containerOmelie.innerHTML = `<p style="color: var(--text-muted); font-style: italic; font-size:0.9rem; grid-column: 1/-1; text-align:center;">Nessuna omelia presente al momento.</p>`;
+            containerOmelie.innerHTML = `<p style="color: var(--text-muted); font-style: italic; font-size:0.9rem; text-align:center; padding: 2rem;">Nessuna omelia presente al momento.</p>`;
         } else {
             containerOmelie.innerHTML = omelie.map(o => `
-                <div class="dynamic-card">
-                    ${o.immagine ? `<img src="${o.immagine}" class="dynamic-card-img" alt="Copertina" onclick="openOmeliaDetail(${o.id})">` : `
-                        <div class="dynamic-card-img" style="background: var(--navy); display:flex; align-items:center; justify-content:center; color: var(--accent); font-size:2.5rem; font-family:var(--serif);" onclick="openOmeliaDetail(${o.id})">✝</div>
-                    `}
-                    <div class="dynamic-card-content">
-                        <span class="dynamic-card-meta">${o.data}</span>
-                        <h3>${o.titolo}</h3>
-                        ${o.sottotitolo ? `<h4>${o.sottotitolo}</h4>` : ''}
-                        <p>${o.testo.substring(0, 140).replace(/\[.*?\]/g, '')}...</p>
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto; width:100%;">
-                            <a class="read-more-link" onclick="openOmeliaDetail(${o.id})">Leggi l'Omelia →</a>
-                            ${isAdminVisible ? `<button class="btn btn-danger" style="margin:0;" onclick="event.stopPropagation(); deletePost(${o.id}, 'omelie')">Elimina</button>` : ''}
+                <div class="omelia-row-card">
+                    ${o.immagine ? 
+                        `<img src="${o.immagine}" class="omelia-thumb" alt="Miniatura" onclick="navigateTo('omelia?id=${o.id}')">` : 
+                        `<div class="omelia-thumb-placeholder" onclick="navigateTo('omelia?id=${o.id}')">✝</div>`
+                    }
+                    <div class="omelia-row-body">
+                        <span class="dynamic-card-meta" style="margin-bottom: 0.4rem;">${o.data}</span>
+                        <h3 style="cursor:pointer; margin-bottom: 0.3rem;" onclick="navigateTo('omelia?id=${o.id}')">${o.titolo}</h3>
+                        ${o.sottotitolo ? `<h4 style="margin-bottom: 0.8rem;">${o.sottotitolo}</h4>` : ''}
+                        <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;">${o.testo.substring(0, 130).replace(/\[.*?\]/g, '')}...</p>
+                        
+                        <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+                            <a class="read-more-link" onclick="navigateTo('omelia?id=${o.id}')">Apri e Medita →</a>
+                            ${isAdminVisible ? `<button class="btn btn-danger" style="margin:0; padding: 6px 14px;" onclick="deletePost(${o.id}, 'omelie')">Elimina</button>` : ''}
                         </div>
                     </div>
                 </div>
@@ -952,43 +966,11 @@ function openOmeliaDetail(id) {
         }
     }
 
-    document.addEventListener("DOMContentLoaded", renderPosts);
-
-// Funzione che legge l'URL attuale e mostra la pagina corretta
-async function handleRouting() {
-    const hash = window.location.hash.replace('#', '');
-    
-    // Se l'URL è vuoto, mostra la home
-    if (!hash) {
-        showPage('home');
-        return;
-    }
-
-    // Gestione del link profondo per la singola omelia (Es: #omelia-dettaglio?id=12)
-    if (hash.startsWith('omelia-dettaglio?id=')) {
-        const id = parseInt(hash.split('=')[1]);
-        
-        // Se i dati dal server non sono ancora pronti, aspettiamo che vengano caricati
-        if (omelieDataCache.length === 0) {
-            await renderPosts(); 
-        }
-        openOmeliaDetail(id);
-    } else {
-        // Altrimenti mostra la sezione normale (avvisi, omelie, contatti, ecc.)
-        showPage(hash);
-    }
-}
-
-// Ascolta quando l'utente usa le frecce Avanti/Indietro del browser
-window.addEventListener('hashchange', handleRouting);
-
-// Sostituisci la vecchia riga: document.addEventListener("DOMContentLoaded", renderPosts);
-// Con questa versione che inizializza i post e poi gestisce il link copiato
-document.addEventListener("DOMContentLoaded", async () => {
-    await renderPosts();
-    handleRouting();
-});
-
+    // Avvio combinato unico: carica i post dal database e attiva subito dopo il controllo dell'URL
+    window.addEventListener("DOMContentLoaded", async () => {
+        await renderPosts();
+        handleRouting();
+    });
 </script>
 
 </body>
