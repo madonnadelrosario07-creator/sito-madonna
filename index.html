@@ -497,8 +497,12 @@
                             <input type="text" id="omelia-sottotitolo" class="form-control" placeholder="Es. XXX Domenica del Tempo Ordinario">
                         </div>
                         <div class="form-group">
+                            <label>File Immagine Omelia (Opzionale)</label>
+                            <input type="file" id="omelia-immagine" class="form-control" accept="image/*" style="background:transparent; padding:5px 0;">
+                        </div>
+                        <div class="form-group">
                             <label>Testo Completo Omelia *</label>
-                            <textarea id="omelia-testo" class="form-control" rows="9" required></textarea>
+                            <textarea id="omelia-testo" class="form-control" rows="6" required></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px;">Pubblica nel Sito</button>
                     </form>
@@ -583,16 +587,18 @@
         showPage('home');
     }
 
-    // Inserimento post nel database centrale
+    // Inserimento post nel database centrale (Risolti ID nulli e Aggiunta gestione immagine Omelie)
     async function savePost(event, tipo) {
         event.preventDefault();
         
-        const titolo = document.getElementById(`${tipo.slice(0, -1)}-titolo`).value;
-        const sottotitolo = document.getElementById(`${tipo.slice(0, -1)}-sottotitolo`).value;
-        const testo = document.getElementById(`${tipo.slice(0, -1)}-testo`).value;
+        let titolo, sottotitolo, testo;
         const dataFormattata = new Date().toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
 
         if (tipo === 'avvisi') {
+            titolo = document.getElementById('avviso-titolo').value;
+            sottotitolo = document.getElementById('avviso-sottotitolo').value;
+            testo = document.getElementById('avviso-testo').value;
+
             const fileInput = document.getElementById('avviso-immagine');
             if(fileInput.files && fileInput.files[0]) {
                 const reader = new FileReader();
@@ -603,8 +609,21 @@
             } else {
                 await sendToSupabase('avvisi', { titolo, sottotitolo, testo, data: dataFormattata, immagine: null });
             }
-        } else {
-            await sendToSupabase('omelie', { titolo, sottotitolo, testo, data: dataFormattata });
+        } else if (tipo === 'omelie') {
+            titolo = document.getElementById('omelia-titolo').value;
+            sottotitolo = document.getElementById('omelia-sottotitolo').value;
+            testo = document.getElementById('omelia-testo').value;
+
+            const fileInput = document.getElementById('omelia-immagine');
+            if(fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = async function(e) {
+                    await sendToSupabase('omelie', { titolo, sottotitolo, testo, data: dataFormattata, immagine: e.target.result });
+                }
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                await sendToSupabase('omelie', { titolo, sottotitolo, testo, data: dataFormattata, immagine: null });
+            }
         }
     }
 
@@ -613,7 +632,10 @@
         if (error) {
             alert("Errore durante il salvataggio sul server: " + error.message);
         } else {
-            document.getElementById(`form-${tabella.slice(0, -1)}`).reset();
+            // Svuota il modulo corretto
+            if(tabella === 'avvisi') document.getElementById('form-avviso').reset();
+            else document.getElementById('form-omelia').reset();
+            
             await renderPosts();
             showPage(tabella);
         }
@@ -659,6 +681,7 @@
         } else {
             containerOmelie.innerHTML = omelie.map(o => `
                 <div class="dynamic-card">
+                    ${o.immagine ? `<img src="${o.immagine}" class="dynamic-card-img" alt="Copertina">` : ''}
                     <div class="dynamic-card-content">
                         <span class="dynamic-card-meta">${o.data}</span>
                         <h3>${o.titolo}</h3>
