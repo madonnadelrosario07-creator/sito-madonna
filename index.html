@@ -733,6 +733,26 @@
     function closeLightbox() {
         document.getElementById('lightbox').classList.remove('active');
     }
+    // Funzione che legge l'ancora dall'URL e attiva la pagina corretta
+function handleRouting() {
+    // Prende l'hash dall'URL (es. "#avvisi") e rimuove il carattere "#"
+    const hash = window.location.hash.replace('#', '');
+    
+    // Se l'hash corrisponde a una delle tue sezioni, naviga lì
+    if (hash) {
+        // Nota: Assicurati che il nome dell'hash coincida con il parametro di navigateTo
+        navigateTo(hash);
+    }
+}
+
+// 1. Ascolta quando l'utente clicca su un link o va avanti/indietro nel browser
+window.addEventListener('hashchange', handleRouting);
+
+// 2. Controlla l'URL al primissimo caricamento della pagina (se l'utente arriva da un link esterno)
+document.addEventListener('DOMContentLoaded', () => {
+    // Lascia un minimo di delay se i dati da Supabase devono prima essere renderizzati
+    setTimeout(handleRouting, 100); 
+});
 
     // Errore fallback del logo
     if(document.getElementById('logo-img')) {
