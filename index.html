@@ -11,7 +11,7 @@
     <meta property="og:locale" content="it_IT">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Parrocchia Madonna del Rosario – Gricignano d'Aversa">
-    <meta property="og:description" content="Rimani aggiornato sulla vita della comunità parrocchiale: avvisi, eventi, sacramenti e le omelie domenicali di Don Giovanni e Don Gianpietro.">
+    <meta property="og:description" content="Rimani aggiornato sulla vita della comunità parrocchiale: avvisi, eventi, sacramenti e le omelie domenicali di Don Giovanni e Don Gianpietro Simonelli.">
     <meta property="og:url" content="http://madonnadelrosariogricignano.qzz.io/">
     <meta property="og:image" content="IMMAGINI/BACK1.jpg">
     <meta property="og:image:width" content="1200">
@@ -133,7 +133,7 @@
         }
         .section-heading { font-family: var(--serif); font-size: clamp(2.4rem, 4vw, 3.5rem); color: var(--navy); line-height: 1.15; font-weight: 400; }
 
-        /* ── GRID E CARTE DINAMICHE standard (AVVISI E GALLERIA) ── */
+        /* ── GRID E CARTE DINAMICHE standard ── */
         .dynamic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 3.5rem; }
         .dynamic-card {
             background: var(--white); border-radius: 4px; overflow: hidden;
@@ -456,7 +456,7 @@
             <div class="pastore-item">
                 <div class="pastore-img-wrap"><img src="IMMAGINI/dgian.png" alt="Don Gianpietro"></div>
                 <span class="section-eyebrow" style="letter-spacing: 2px;">Vice Parroco</span>
-                <h3>Don Gianpietro Perillo</h3>
+                <h3>Don Gianpietro Simonelli</h3>
             </div>
         </div>
     </section>
@@ -694,7 +694,8 @@
     const SUPABASE_URL = "https://telmexztaluqizmzhnvn.supabase.co";
     const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRlbG1leHp0YWx1cWl6bXpobnZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0OTk3MTQsImV4cCI6MjA5NjA3NTcxNH0.qmeRVSdxr_k7YE_xbB7_ubji6SHjDuULdFbKcEhr3Sg";
     
-    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    // Inizializzazione corretta di 'supabase' per l'intera applicazione
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     const AUTH_USER_OBF = "YWRtaW5fcm9zYXJpbw=="; 
     const AUTH_PASS_OBF = "Um9zYXJpbzIwMjYh"; 
@@ -756,7 +757,7 @@
             document.getElementById('admin-login-box').style.display = 'none';
             document.getElementById('admin-panel').style.display = 'block';
             document.getElementById('login-error').style.display = 'none';
-            renderPosts();
+            renderData();
         } else {
             document.getElementById('login-error').style.display = 'block';
         }
@@ -767,7 +768,7 @@
         document.getElementById('admin-password').value = '';
         document.getElementById('admin-login-box').style.display = 'block';
         document.getElementById('admin-panel').style.display = 'none';
-        renderPosts();
+        renderData();
         navigateTo('home');
     }
 
@@ -793,45 +794,41 @@
     }
 
     async function sendToSupabase(tabella, objetoDatos) {
-        const { error } = await _supabase.from(tabella).insert([objetoDatos]);
+        const { error } = await supabase.from(tabella).insert([objetoDatos]);
         if (error) {
             alert("Errore durante il salvataggio sul server: " + error.message);
         } else {
             if(tabella === 'avvisi') document.getElementById('form-avviso').reset();
             else document.getElementById('form-omelia').reset();
             
-            await renderPosts();
+            await renderData();
             navigateTo(tabella);
         }
     }
 
     async function deletePost(id, tipo) {
         if(confirm("Rimuovere definitivamente questo contenuto dal server?")) {
-            const { error } = await _supabase.from(tipo).delete().eq('id', id);
+            const { error } = await supabase.from(tipo).delete().eq('id', id);
             if (error) alert("Errore nell'elimazione: " + error.message);
-            else await renderPosts();
+            else await renderData();
         }
     }
 
-    // ── STRUMENTO PONTE AGGIORNATO E POTENZIATO PER GOOGLE FOTO ──
+    // ── STRUMENTO PONTE: ESTRAZIONE LINK DI GOOGLE FOTO VIA PROXY ──
     async function extractPhotoLinksFromAlbum(albumUrl) {
         try {
-            // Utilizziamo un bypass cors alternativo se allorigins fa i capricci, oppure forziamo una lettura pulita
             const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(albumUrl)}`);
             if (!response.ok) throw new Error("Risposta di rete non valida");
             const data = await response.json();
             
-            // Nuova Regex estesa: Google inserisce i link alle immagini sia con il prefisso /pw/ che con altri pattern di caching strutturato
+            // Regex strutturata per individuare gli url immagine immuni da ridimensionamento
             const regex = /(https:\/\/lh3\.googleusercontent\.com\/[a-zA-Z0-9\-_=]+)/g;
             const foundMatches = data.contents.match(regex) || [];
             
-            // Pulizia profonda dei duplicati e dei file di sistema di Google (es. icone di profilo, avatar, bottoni)
             const uniqueBaseUrls = [...new Set(foundMatches)].filter(url => {
-                // Escludiamo miniature minuscole, parametri di ridimensionamento e immagini di profilo fisse
                 return !url.includes('=w') && !url.includes('=h') && !url.includes('=s') && url.length > 50;
             });
             
-            // Se la prima ricerca fallisce, tentiamo un approccio di riserva analizzando i metadati JSON nascosti nella pagina
             if (uniqueBaseUrls.length === 0) {
                 const jsonRegex = /\"(https:\/\/lh3\.googleusercontent\.com\/[^\"]+)\"/g;
                 let match;
@@ -843,15 +840,12 @@
                 }
             }
 
-            // Rimuoviamo ulteriormente i duplicati accumulati
             const finalUrls = [...new Set(uniqueBaseUrls)];
 
             return finalUrls.map(baseUrl => {
-                // Generiamo un hash basato sugli ultimi caratteri stabili dell'URL per tracciarlo univocamente su Supabase
                 const hashEsterno = baseUrl.substring(baseUrl.length - 40);
                 return {
                     id_esterno: hashEsterno,
-                    // '=w1200' forza Google a mandare lo scatto originale ad alta risoluzione (1200px) invece della miniatura
                     immagine: `${baseUrl}=w1200`
                 };
             });
@@ -861,10 +855,10 @@
         }
     }
 
-    // ── PROCESSO DI ALLINEAMENTO E AGGIORNAMENTO SU SUPABASE ──
+    // ── ALLINEAMENTO E AGGIORNAMENTO SU TABELLA GALLERIA SUPABASE ──
     async function syncAlbumWithSupabase() {
         const btn = document.getElementById('btn-sync');
-        const inputUrl = document.getElementById('album-url-config').value || "https://photos.app.goo.gl/76Z38auWhcXDXNPV7";
+        const inputUrl = document.getElementById('album-url-config')?.value || "https://photos.app.goo.gl/76Z38auWhcXDXNPV7";
 
         if (!inputUrl) {
             alert("Per favore, inserisci un link valido prima di procedere.");
@@ -873,90 +867,48 @@
 
         if(btn) { btn.disabled = true; btn.innerText = "Estrazione ed allineamento in corso..."; }
 
-        // 1. Avvia l'estrazione con i nuovi filtri intelligenti
         const onlinePhotos = await extractPhotoLinksFromAlbum(inputUrl);
 
-        // Se l'estrazione fallisce ancora a causa del proxy AllOrigins bloccato da Google, usiamo una lista di fallback o mostriamo un avviso chiaro
         if (onlinePhotos.length === 0) {
-            alert("I sistemi di protezione temporanea di Google stanno rallentando la lettura automatica. Riprova tra qualche istante o verifica che l'opzione 'Collabora/Aggiungi foto' sia attiva nelle impostazioni dell'album su Google Foto.");
+            alert("Nessun link estratto. Assicurati che l'album sia impostato come PUBBLICO, condivisibile e riprova tra qualche istante.");
             if(btn) { btn.disabled = false; btn.innerText = "Esegui Sincronizzazione Album"; }
             return;
         }
 
-        // 2. Prendiamo l'elenco attuale dei link salvati nel DB Supabase
-        const { data: dbPhotos } = await _supabase.from('galleria').select('*');
-        const currentDbList = dbPhotos || [];
+        try {
+            const { data: dbPhotos } = await supabase.from('galleria').select('*');
+            const currentDbList = dbPhotos || [];
 
-        // 3. RIMOZIONE CANCELLATE: Elimina dal database i link che Don Giovanni ha rimosso dall'album originario
-        const onlineIds = onlinePhotos.map(p => p.id_esterno);
-        const expiredPhotos = currentDbList.filter(p => !onlineIds.includes(p.id_esterno));
+            // 1. Rimuove dal DB le foto cancellate dall'album originario
+            const onlineIds = onlinePhotos.map(p => p.id_esterno);
+            const expiredPhotos = currentDbList.filter(p => !onlineIds.includes(p.id_esterno));
 
-        for (let item of expiredPhotos) {
-            await _supabase.from('galleria').delete().eq('id', item.id);
+            for (let item of expiredPhotos) {
+                await supabase.from('galleria').delete().eq('id', item.id);
+            }
+
+            // 2. Inserisce nel DB le nuove foto caricate nell'album
+            const dbIds = currentDbList.map(p => p.id_esterno);
+            const newPhotosToInsert = onlinePhotos.filter(p => !dbIds.includes(p.id_esterno));
+
+            if (newPhotosToInsert.length > 0) {
+                const batchToInsert = newPhotosToInsert.map(p => ({
+                    id_esterno: p.id_esterno,
+                    immagine: p.immagine
+                }));
+                await supabase.from('galleria').insert(batchToInsert);
+            }
+
+            alert(`Sincronizzazione completata!\n\nFoto trovate nell'album: ${onlinePhotos.length}\nNuove aggiunte al sito: ${newPhotosToInsert.length}\nVecchie rimosse dal sito: ${expiredPhotos.length}`);
+            
+            await renderData();
+        } catch(err) {
+            console.error(err);
+            alert("Errore di sincronizzazione con il server database.");
+        } finally {
+            if(btn) { btn.disabled = false; btn.innerText = "Esegui Sincronizzazione Album"; }
         }
-
-        // 4. INSERIMENTO NUOVE: Cerca le nuove foto caricate nell'album e non ancora registrate su Supabase
-        const dbIds = currentDbList.map(p => p.id_esterno);
-        const newPhotosToInsert = onlinePhotos.filter(p => !dbIds.includes(p.id_esterno));
-
-        // Per evitare blocchi di memoria su Supabase, inseriamo solo i campi necessari richiesti dalla struttura attuale della tabella
-        if (newPhotosToInsert.length > 0) {
-            const batchToInsert = newPhotosToInsert.map(p => ({
-                id_esterno: p.id_esterno,
-                immagine: p.immagine
-            }));
-            await _supabase.from('galleria').insert(batchToInsert);
-        }
-
-        alert(`Sincronizzazione completata con successo!\n\nFoto trovate online: ${onlinePhotos.length}\nNuove aggiunte al sito: ${newPhotosToInsert.length}\nVecchie rimosse dal sito: ${expiredPhotos.length}`);
-        
-        if(btn) { btn.disabled = false; btn.innerText = "Esegui Sincronizzazione Album"; }
-        await renderPosts();
     }
-        const btn = document.getElementById('btn-sync');
-        const inputUrl = document.getElementById('album-url-config').value;
-
-        if (!inputUrl) {
-            alert("Per favore, inserisci un link valido prima di procedere.");
-            return;
-        }
-
-        if(btn) { btn.disabled = true; btn.innerText = "Estrazione ed allineamento in corso..."; }
-
-        // 1. Chiamiamo il tool estrattore per prendere i link delle foto dell'album online
-        const onlinePhotos = await extractPhotoLinksFromAlbum(inputUrl);
-
-        if (onlinePhotos.length === 0) {
-            alert("Nessun link estratto. Assicurati che l'album sia impostato come PUBBLICO e condivisibile.");
-            if(btn) { btn.disabled = false; btn.innerText = "Esegui Sincronizzazione Album"; }
-            return;
-        }
-
-        // 2. Prendiamo l'elenco attuale dei link salvati nel DB Supabase
-        const { data: dbPhotos } = await _supabase.from('galleria').select('*');
-        const currentDbList = dbPhotos || [];
-
-        // 3. RIMOZIONE: Cerca nel DB i link che sono stati rimossi dall'album originale
-        const onlineIds = onlinePhotos.map(p => p.id_esterno);
-        const expiredPhotos = currentDbList.filter(p => !onlineIds.includes(p.id_esterno));
-
-        for (let item of expiredPhotos) {
-            await _supabase.from('galleria').delete().eq('id', item.id);
-        }
-
-        // 4. INSERIMENTO: Cerca le nuove foto presenti nell'album ma non ancora salvate nel DB
-        const dbIds = currentDbList.map(p => p.id_esterno);
-        const newPhotosToInsert = onlinePhotos.filter(p => !dbIds.includes(p.id_esterno));
-
-        if (newPhotosToInsert.length > 0) {
-            await _supabase.from('galleria').insert(newPhotosToInsert);
-        }
-
-        alert(`Allineamento completato con successo!\nFoto Aggiunte nel DB: ${newPhotosToInsert.length}\nFoto Vecchie Rimosse dal DB: ${expiredPhotos.length}`);
-        
-        if(btn) { btn.disabled = false; btn.innerText = "Esegui Sincronizzazione Album"; }
-        await renderPosts();
-
 
     function parseOmeliaText(text) {
         const lines = text.split('\n');
@@ -1071,7 +1023,7 @@
         if (hash.startsWith('omelia?id=')) {
             const id = parseInt(hash.split('=')[1]);
             if (!isInitialLoadDone || omelieDataCache.length === 0) {
-                await renderPosts();
+                await renderData();
             }
             const omelia = omelieDataCache.find(o => o.id === id);
             if (omelia) {
@@ -1086,14 +1038,13 @@
 
     window.addEventListener('hashchange', handleRouting);
 
-    // ── RENDER PRINCIPALE AGGIORNATO PER SCARICARE I LINK FOTO DA SUPABASE ──
-    async function renderPosts() {
+    // ── RENDERING COMPLETO DEI CONTENUTI DAL SERVER CLOUD ──
+    async function renderData() {
         const isAdminVisible = document.getElementById('admin-panel').style.display === 'block';
 
-        const { data: avvisi } = await _supabase.from('avvisi').select('*').order('id', { ascending: false });
-        const { data: omelie } = await _supabase.from('omelie').select('*').order('id', { ascending: false });
-        // Lettura della nuova tabella galleria che ospita tutti i singoli link pronti per essere mostrati
-        const { data: galleria } = await _supabase.from('galleria').select('*').order('id', { ascending: false });
+        const { data: avvisi } = await supabase.from('avvisi').select('*').order('id', { ascending: false });
+        const { data: omelie } = await supabase.from('omelie').select('*').order('id', { ascending: false });
+        const { data: galleria } = await supabase.from('galleria').select('*').order('id', { ascending: false });
 
         omelieDataCache = omelie || [];
         isInitialLoadDone = true;
@@ -1146,7 +1097,7 @@
             }
         }
 
-        // Renderizzazione Galleria: prende i link puliti da Supabase ed inietta le singole immagini
+        // Renderizzazione Galleria: inietta le immagini prendendo i link diretti memorizzati nel database
         const containerGalleria = document.getElementById('container-galleria');
         if(containerGalleria) {
             if(!galleria || galleria.length === 0) {
@@ -1162,7 +1113,7 @@
     }
 
     document.addEventListener("DOMContentLoaded", async () => {
-        await renderPosts();
+        await renderData();
         handleRouting();
     });
 </script>
