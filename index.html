@@ -694,9 +694,59 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-    function navigateTo(pageId) {
-        window.location.hash = pageId;
+function navigateTo(page) {
+    // 1. Gestione dei Contenitori delle Pagine (.page)
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(p => p.classList.remove('active'));
+    
+    // Mappa per associare i nomi standard ai tuoi ID reali delle pagine
+    let targetPageId = 'page-' + page;
+    if (page === 'home') targetPageId = 'page-home';
+    
+    const targetPage = document.getElementById(targetPageId);
+    if (targetPage) {
+        targetPage.classList.remove('active'); // reset per forzare l'animazione CSS
+        void targetPage.offsetWidth;           // trucco per resettare il DOM
+        targetPage.classList.add('active');
     }
+
+    // 2. Gestione degli Stati della Barra di Navigazione (Links della Navbar)
+    const links = document.querySelectorAll('.nav-links a');
+    links.forEach(l => l.classList.remove('active'));
+    
+    const activeLink = document.getElementById('nav-' + page);
+    if (activeLink) {
+        activeLink.classList.add('active');
+    }
+
+    // 3. Forziamo l'aggiornamento dell'URL con il cancelletto (#) senza ricaricare la pagina
+    if (window.location.hash !== '#' + page) {
+        history.pushState(null, null, '#' + page);
+    }
+
+    // 4. Riporta lo schermo in cima alla pagina quando si cambia sezione
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// --- ASCOLTO DEI LINK DIRETTI E AL CARICAMENTO ---
+function handleRouting() {
+    let hash = window.location.hash.replace('#', '');
+    const pagineValide = ['home', 'avvisi', 'omelie', 'galleria', 'comunita', 'sacramenti', 'gruppi', 'contatti', 'admin'];
+    
+    if (hash && pagineValide.includes(hash)) {
+        navigateTo(hash);
+    } else if (!hash) {
+        navigateTo('home');
+    }
+}
+
+// Gestisce i clic sui tasti "Avanti/Indietro" del browser o cambi di URL diretti
+window.addEventListener('hashchange', handleRouting);
+
+// Gestisce l'apertura iniziale se l'utente digita direttamente l'URL nella barra indirizzi
+window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(handleRouting, 150);
+});
 
     function showPage(id) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -748,7 +798,7 @@
             else nav.classList.remove('scrolled');
         }
     });
-    
+
     // --- SISTEMA DI ROUTING PER I LINK DIRETTI (#avvisi, #omelie, ecc.) ---
 function handleRouting() {
     // Rileva l'ancora dall'URL (es: "#avvisi") e rimuove il cancelletto
