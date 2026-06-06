@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <!-- TITOLO E DESCRIZIONE OTTIMIZZATI PER GOOGLE (SEO) -->
     <title>Parrocchia Madonna del Rosario – Gricignano d'Aversa</title>
     <meta name="description" content="Sito ufficiale della Parrocchia Madonna del Rosario a Gricignano d'Aversa. Scopri gli orari delle messe, gli avvisi parrocchiali, le omelie domenicali e le attività della comunità.">
     <link rel="canonical" href="http://madonnadelrosariogricignano.qzz.io/">
 
+    <!-- META TAG OPEN GRAPH (Anteprime perfette per WhatsApp, Facebook e Instagram) -->
     <meta property="og:locale" content="it_IT">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Parrocchia Madonna del Rosario – Gricignano d'Aversa">
@@ -17,8 +19,10 @@
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
 
+    <!-- ICONA DEL SITO (FAVICON) -->
     <link rel="icon" type="image/png" href="IMMAGINI/favicon.png">
     
+    <!-- FONT DI GOOGLE -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     
@@ -436,6 +440,7 @@
     </ul>
 </nav>
 
+<!-- ── INTERFACCIA HOME ── -->
 <div class="page active" id="page-home">
     <section class="hero">
         <div class="hero-content">
@@ -449,6 +454,7 @@
     </section>
 </div>
 
+<!-- ── SEZIONE AVVISI PUBBLICI ── -->
 <div class="page" id="page-avvisi">
     <section>
         <div class="section-header">
@@ -456,10 +462,12 @@
             <h2 class="section-heading">Avvisi ed Annunci</h2>
         </div>
         <div class="dynamic-grid" id="container-avvisi">
-            </div>
+            <!-- Riempito dal Database -->
+        </div>
     </section>
 </div>
 
+<!-- ── SEZIONE OMELIE PUBBLICHE ── -->
 <div class="page" id="page-omelie">
     <section>
         <div class="section-header">
@@ -467,13 +475,17 @@
             <h2 class="section-heading">Le Omelie della Domenica</h2>
         </div>
         <div class="omelia-editorial-stack" id="container-omelie">
-            </div>
+            <!-- Riempito dal Database -->
+        </div>
     </section>
 </div>
 
+<!-- ── SEZIONE DETTAGLIO OMELIA ── -->
 <div class="page" id="page-dettaglio-omelia">
-    </div>
+    <!-- Dinamico -->
+</div>
 
+<!-- ── COMUNITÀ ── -->
 <div class="page" id="page-comunita">
     <section>
         <div class="section-header">
@@ -495,6 +507,7 @@
     </section>
 </div>
 
+<!-- ── SACRAMENTI ── -->
 <div class="page" id="page-sacramenti">
     <section>
         <div class="section-header">
@@ -524,6 +537,7 @@
     </section>
 </div>
 
+<!-- ── GRUPPI ── -->
 <div class="page" id="page-gruppi">
     <section>
         <div class="section-header">
@@ -550,6 +564,7 @@
     </section>
 </div>
 
+<!-- ── SEZIONE GALLERIA 100% AUTOMATICA DA GOOGLE FOTO ── -->
 <div class="page" id="page-galleria">
     <section>
         <div class="section-header">
@@ -557,12 +572,14 @@
             <h2 class="section-heading">Galleria Fotografica</h2>
         </div>
         
+        <!-- Il Mosaico che caricherà le foto in automatico -->
         <div class="mosaico-gallery" id="google-mosaico">
             <div class="gallery-loader">Collegamento all'album di Google Foto in corso...</div>
         </div>
     </section>
 </div>
 
+<!-- ── CONTATTI ── -->
 <div class="page" id="page-contatti">
     <section>
         <div class="section-header">
@@ -595,6 +612,7 @@
     </section>
 </div>
 
+<!-- ── SEZIONE AMMINISTRAZIONE ── -->
 <div class="page" id="page-admin">
     <section>
         <div id="admin-login-box" class="admin-box">
@@ -648,6 +666,7 @@
     </section>
 </div>
 
+<!-- LIGHTBOX POP-UP -->
 <div id="lightbox" class="lightbox-overlay" onclick="closeLightbox()">
     <span class="lightbox-close">×</span>
     <img id="lightbox-img" class="lightbox-img" src="" alt="Ingrandimento">
@@ -687,15 +706,19 @@
     }
 
     function closeLightbox() { document.getElementById('lightbox').classList.remove('active'); }
+    
     function navigateTo(pageId) { window.location.hash = pageId; }
 
     function showPage(id) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+        
         const targetPage = document.getElementById('page-' + id);
         if(targetPage) targetPage.classList.add('active');
+        
         const link = document.getElementById('nav-' + id);
         if(link) link.classList.add('active');
+        
         document.getElementById('nav-menu').classList.remove('open');
         document.getElementById('menu-btn').classList.remove('open');
         
@@ -703,7 +726,6 @@
             document.title = "Parrocchia Madonna del Rosario – Gricignano d'Aversa";
         }
         
-        // Se l'utente clicca sulla pagina galleria, carichiamo le foto al volo
         if (id === 'galleria') {
             fetchGooglePhotos();
         }
@@ -722,44 +744,30 @@
         else nav.classList.remove('scrolled');
     });
 
-    // ── MOTORE DI SINCRONIZZAZIONE AUTOMATICA GOOGLE PHOTOS ──
-   // ── MOTORE DI SINCRONIZZAZIONE POTENZIATO GOOGLE PHOTOS ──
+    // ── MOTORE DI CONDIVISIONE FOTO COMPILATO IN SICUREZZA ──
     async function fetchGooglePhotos() {
         const mosaicoContainer = document.getElementById('google-mosaico');
-        
-        if (mosaicoContainer.querySelectorAll('.mosaico-item').length > 0) return;
+        if (!mosaicoContainer || mosaicoContainer.querySelectorAll('.mosaico-item').length > 0) return;
 
         try {
-            // Utilizzo di un proxy alternativo più stabile per i contenuti multimediali
             const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent(GOOGLE_ALBUM_URL);
             const response = await fetch(proxyUrl);
+            if (!response.ok) throw new Error("Errore proxy");
             
-            if (!response.ok) throw new Error("Risposta del server non valida");
             const htmlText = await response.text();
-
-            // Nuova espressione regolare più estesa: intercetta tutti i server di memorizzazione Google (lh3, lh4, googleusercontent, ecc.)
             const regex = /https:\/\/lh[3-6]\.googleusercontent\.com\/pw\/[a-zA-Z0-9\-_=]+/g;
             const matches = htmlText.match(regex) || [];
-            
-            // Rimuove i duplicati
             const uniquePhotos = [...new Set(matches)];
 
             if (uniquePhotos.length === 0) {
-                // Se fallisce anche il raggruppamento avanzato, mostriamo un fallback elegante
-                mosaicoContainer.innerHTML = `
-                    <div class="gallery-loader" style="grid-column: 1/-1; text-align: center;">
-                        <p>Le restrizioni di sicurezza di Google Foto non permettono il caricamento diretto.</p>
-                        <a href="${GOOGLE_ALBUM_URL}" target="_blank" class="btn btn-primary" style="margin-top: 1.5rem;">Apri l'Album della Parrocchia</a>
-                    </div>`;
+                showFallbackButton();
                 return;
             }
 
             mosaicoContainer.innerHTML = '';
-
             uniquePhotos.forEach(photoUrl => {
-                // Forza dimensioni web standard per non appesantire la pagina
-                const optimizedUrl = `${photoUrl}=w800-h800`;
-                const fullResUrl = `${photoUrl}=w1600-h1600`;
+                const optimizedUrl = photoUrl + "=w800-h800";
+                const fullResUrl = photoUrl + "=w1600-h1600";
 
                 const item = document.createElement('div');
                 item.className = 'mosaico-item';
@@ -767,7 +775,7 @@
 
                 const img = document.createElement('img');
                 img.src = optimizedUrl;
-                img.alt = "Foto Parrocchia Madonna del Rosario";
+                img.alt = "Foto Parrocchia";
                 img.loading = "lazy";
 
                 item.appendChild(img);
@@ -775,62 +783,19 @@
             });
 
         } catch (error) {
-            console.error("Errore nel caricamento dinamico:", error);
-            mosaicoContainer.innerHTML = `
-                <div class="gallery-loader" style="grid-column: 1/-1; text-align: center;">
-                    <p>Si è verificato un errore di connessione con l'album.</p>
-                    <a href="${GOOGLE_ALBUM_URL}" target="_blank" class="btn btn-primary" style="margin-top: 1.5rem;">Visualizza Foto su Google</a>
-                </div>`;
+            console.error("Errore fetch controllato:", error);
+            showFallbackButton();
         }
     }
+
+    function showFallbackButton() {
         const mosaicoContainer = document.getElementById('google-mosaico');
-        
-        // Se abbiamo già popolato le foto, non riscaricarle per risparmiare tempo
-        if (mosaicoContainer.querySelectorAll('.mosaico-item').length > 0) return;
-
-        try {
-            // Usiamo un proxy gratuito per bypassare il blocco di sicurezza dei server Google (CORS)
-            const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent(GOOGLE_ALBUM_URL);
-            const response = await fetch(proxyUrl);
-            const htmlText = await response.text();
-
-            // Espressione regolare per raccogliere i link diretti ad alta risoluzione memorizzati nell'album
-            const regex = /(https:\/\/lh3\.googleusercontent\.com\/pw\/[a-zA-Z0-9\-_=]+)/g;
-            const matches = htmlText.match(regex) || [];
-            
-            // Eliminiamo i duplicati fisiologici prodotti da Google
-            const uniquePhotos = [...new Set(matches)];
-
-            if (uniquePhotos.length === 0) {
-                mosaicoContainer.innerHTML = `<div class="gallery-loader">Nessuna foto trovata. Assicurati che l'album sia impostato come pubblico.</div>`;
-                return;
-            }
-
-            // Svuotiamo il testo del caricamento
-            mosaicoContainer.innerHTML = '';
-
-            // Generiamo i blocchi a mosaico per ogni foto trovata
-            uniquePhotos.forEach(photoUrl => {
-                // Configura il link per richiedere un'anteprima web ottimizzata (riduce il tempo di caricamento)
-                const optimizedUrl = `${photoUrl}=w800-h800-no`;
-                const fullResUrl = `${photoUrl}=w1600-h1600-no`;
-
-                const item = document.createElement('div');
-                item.className = 'mosaico-item';
-                item.onclick = () => openLightbox(fullResUrl);
-
-                const img = document.createElement('img');
-                img.src = optimizedUrl;
-                img.alt = "Foto Comunità Parrocchiale";
-                img.loading = "lazy"; // Ottimizzazione: scarica la foto solo quando appare sullo schermo
-
-                item.appendChild(img);
-                mosaicoContainer.appendChild(item);
-            });
-
-        } catch (error) {
-            console.error("Errore caricamento foto:", error);
-            mosaicoContainer.innerHTML = `<div class="gallery-loader">Impossibile caricare le foto in tempo reale. Riprovare più tardi.</div>`;
+        if(mosaicoContainer) {
+            mosaicoContainer.innerHTML = `
+                <div class="gallery-loader" style="grid-column: 1/-1; text-align: center;">
+                    <p style="margin-bottom:1.5rem;">I sistemi di sicurezza Google non consentono la visualizzazione diretta in pagina.</p>
+                    <a href="${GOOGLE_ALBUM_URL}" target="_blank" class="btn btn-primary">Apri l'Album Fotografico Parrocchiale</a>
+                </div>`;
         }
     }
 
@@ -915,8 +880,9 @@
 
     function buildOmeliaView(omelia) {
         const containerDettaglio = document.getElementById('page-dettaglio-omelia');
+        if(!containerDettaglio) return;
         const parsedBody = parseOmeliaText(omelia.testo);
-        document.title = `${omelia.titolo} – Omelie`;
+        document.title = omelia.titolo + " – Omelie";
 
         containerDettaglio.innerHTML = `
             <header class="omelia-hero ${omelia.immagine ? 'has-bg' : ''}" style="${omelia.immagine ? `background-image: url('${omelia.immagine}');` : ''}">
@@ -959,48 +925,54 @@
     window.addEventListener('hashchange', handleRouting);
 
     async function renderPosts() {
-        const isAdminVisible = document.getElementById('admin-panel').style.display === 'block';
+        const panel = document.getElementById('admin-panel');
+        const isAdminVisible = panel && panel.style.display === 'block';
+        
         const { data: avvisi } = await _supabase.from('avvisi').select('*').order('id', { ascending: false });
         const { data: omelie } = await _supabase.from('omelie').select('*').order('id', { ascending: false });
         omelieDataCache = omelie || []; isInitialLoadDone = true;
 
         const containerAvvisi = document.getElementById('container-avvisi');
-        if(!avvisi || avvisi.length === 0) {
-            containerAvvisi.innerHTML = `<p style="color: var(--text-muted); text-align:center; grid-column:1/-1;">Nessun avviso presente.</p>`;
-        } else {
-            containerAvvisi.innerHTML = avvisi.map(a => `
-                <div class="dynamic-card">
-                    ${a.immagine ? `<img src="${a.immagine}" class="dynamic-card-img" onclick="openLightbox('${a.immagine}')">` : ''}
-                    <div class="dynamic-card-content">
-                        <span class="dynamic-card-meta">${a.data}</span>
-                        <h3>${a.titolo}</h3>
-                        ${a.sottotitolo ? `<h4>${a.sottotitolo}</h4>` : ''}
-                        <p>${a.testo.substring(0, 140)}...</p>
-                        ${isAdminVisible ? `<button class="btn btn-danger" onclick="deletePost(${a.id}, 'avvisi')">Elimina contenuto</button>` : ''}
+        if(containerAvvisi) {
+            if(!avvisi || avvisi.length === 0) {
+                containerAvvisi.innerHTML = `<p style="color: var(--text-muted); text-align:center; grid-column:1/-1;">Nessun avviso presente.</p>`;
+            } else {
+                containerAvvisi.innerHTML = avvisi.map(a => `
+                    <div class="dynamic-card">
+                        ${a.immagine ? `<img src="${a.immagine}" class="dynamic-card-img" onclick="openLightbox('${a.immagine}')">` : ''}
+                        <div class="dynamic-card-content">
+                            <span class="dynamic-card-meta">${a.data}</span>
+                            <h3>${a.titolo}</h3>
+                            ${a.sottotitolo ? `<h4>${a.sottotitolo}</h4>` : ''}
+                            <p>${a.testo.substring(0, 140)}...</p>
+                            ${isAdminVisible ? `<button class="btn btn-danger" onclick="deletePost(${a.id}, 'avvisi')">Elimina contenuto</button>` : ''}
+                        </div>
                     </div>
-                </div>
-            `).join('');
+                `).join('');
+            }
         }
 
         const containerOmelie = document.getElementById('container-omelie');
-        if(!omelie || omelie.length === 0) {
-            containerOmelie.innerHTML = `<p style="color: var(--text-muted); text-align:center; padding:2rem;">Nessuna omelia presente.</p>`;
-        } else {
-            containerOmelie.innerHTML = omelie.map(o => `
-                <div class="omelia-row-card">
-                    ${o.immagine ? `<img src="${o.immagine}" class="omelia-thumb" onclick="navigateTo('omelia?id=${o.id}')">` : `<div class="omelia-thumb-placeholder" onclick="navigateTo('omelia?id=${o.id}')">✝</div>`}
-                    <div class="omelia-row-body">
-                        <span class="dynamic-card-meta">${o.data}</span>
-                        <h3 style="cursor:pointer;" onclick="navigateTo('omelia?id=${o.id}')">${o.titolo}</h3>
-                        ${o.sottotitolo ? `<h4>${o.sottotitolo}</h4>` : ''}
-                        <p>${o.testo.replace(/\[.*?\]/g, '').substring(0, 130)}...</p>
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <a class="read-more-link" onclick="navigateTo('omelia?id=${o.id}')">Apri e Medita →</a>
-                            ${isAdminVisible ? `<button class="btn btn-danger" style="margin:0; padding:6px 14px;" onclick="deletePost(${o.id}, 'omelie')">Elimina</button>` : ''}
+        if(containerOmelie) {
+            if(!omelie || omelie.length === 0) {
+                containerOmelie.innerHTML = `<p style="color: var(--text-muted); text-align:center; padding:2rem;">Nessuna omelia presente.</p>`;
+            } else {
+                containerOmelie.innerHTML = omelie.map(o => `
+                    <div class="omelia-row-card">
+                        ${o.immagine ? `<img src="${o.immagine}" class="omelia-thumb" onclick="navigateTo('omelia?id=${o.id}')">` : `<div class="omelia-thumb-placeholder" onclick="navigateTo('omelia?id=${o.id}')">✝</div>`}
+                        <div class="omelia-row-body">
+                            <span class="dynamic-card-meta">${o.data}</span>
+                            <h3 style="cursor:pointer;" onclick="navigateTo('omelia?id=${o.id}')">${o.titolo}</h3>
+                            ${o.sottotitolo ? `<h4>${o.sottotitolo}</h4>` : ''}
+                            <p>${o.testo.replace(/\[.*?\]/g, '').substring(0, 130)}...</p>
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <a class="read-more-link" onclick="navigateTo('omelia?id=${o.id}')">Apri e Medita →</a>
+                                ${isAdminVisible ? `<button class="btn btn-danger" style="margin:0; padding:6px 14px;" onclick="deletePost(${o.id}, 'omelie')">Elimina</button>` : ''}
+                            </div>
                         </div>
                     </div>
-                </div>
-            `).join('');
+                `).join('');
+            }
         }
     }
 
