@@ -813,27 +813,45 @@
         }
     }
 
-    // ── STRUMENTO PONTE: Legge l'album ed estrae i link di tutte le singole foto ──
+    // ── STRUMENTO PONTE AGGIORNATO E POTENZIATO PER GOOGLE FOTO ──
     async function extractPhotoLinksFromAlbum(albumUrl) {
         try {
-            // AllOrigins aggira le protezioni CORS permettendo la lettura del contenuto dell'album
+            // Utilizziamo un bypass cors alternativo se allorigins fa i capricci, oppure forziamo una lettura pulita
             const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(albumUrl)}`);
             if (!response.ok) throw new Error("Risposta di rete non valida");
             const data = await response.json();
             
-            // Regex per isolare gli URL originali delle immagini di Google Foto
-            const regex = /(https:\/\/lh3\.googleusercontent\.com\/pw\/[a-zA-Z0-9\-_=]+)/g;
+            // Nuova Regex estesa: Google inserisce i link alle immagini sia con il prefisso /pw/ che con altri pattern di caching strutturato
+            const regex = /(https:\/\/lh3\.googleusercontent\.com\/[a-zA-Z0-9\-_=]+)/g;
             const foundMatches = data.contents.match(regex) || [];
             
-            // Filtro per rimuovere duplicati di sistema o icone di profilo
-            const uniqueBaseUrls = [...new Set(foundMatches)].filter(url => !url.includes('=w'));
+            // Pulizia profonda dei duplicati e dei file di sistema di Google (es. icone di profilo, avatar, bottoni)
+            const uniqueBaseUrls = [...new Set(foundMatches)].filter(url => {
+                // Escludiamo miniature minuscole, parametri di ridimensionamento e immagini di profilo fisse
+                return !url.includes('=w') && !url.includes('=h') && !url.includes('=s') && url.length > 50;
+            });
             
-            return uniqueBaseUrls.map(baseUrl => {
-                // Genera una chiave fissa di 35 caratteri per rintracciare e allineare la foto nel DB
-                const hashEsterno = baseUrl.substring(40, 75);
+            // Se la prima ricerca fallisce, tentiamo un approccio di riserva analizzando i metadati JSON nascosti nella pagina
+            if (uniqueBaseUrls.length === 0) {
+                const jsonRegex = /\"(https:\/\/lh3\.googleusercontent\.com\/[^\"]+)\"/g;
+                let match;
+                while ((match = jsonRegex.exec(data.contents)) !== null) {
+                    let u = match[1];
+                    if (!u.includes('=w') && !u.includes('=h') && !u.includes('=s') && u.length > 50) {
+                        uniqueBaseUrls.push(u);
+                    }
+                }
+            }
+
+            // Rimuoviamo ulteriormente i duplicati accumulati
+            const finalUrls = [...new Set(uniqueBaseUrls)];
+
+            return finalUrls.map(baseUrl => {
+                // Generiamo un hash basato sugli ultimi caratteri stabili dell'URL per tracciarlo univocamente su Supabase
+                const hashEsterno = baseUrl.substring(baseUrl.length - 40);
                 return {
                     id_esterno: hashEsterno,
-                    // '=w1200' istruisce i server di Google a servire la foto a 1200px di qualità eccellente
+                    // '=w1200' forza Google a mandare lo scatto originale ad alta risoluzione (1200px) invece della miniatura
                     immagine: `${baseUrl}=w1200`
                 };
             });
@@ -845,6 +863,56 @@
 
     // ── PROCESSO DI ALLINEAMENTO E AGGIORNAMENTO SU SUPABASE ──
     async function syncAlbumWithSupabase() {
+        const btn = document.getElementById('btn-sync');
+        const inputUrl = document.getElementById('album-url-config').value || "https://photos.app.goo.gl/76Z38auWhcXDXNPV7";
+
+        if (!inputUrl) {
+            alert("Per favore, inserisci un link valido prima di procedere.");
+            return;
+        }
+
+        if(btn) { btn.disabled = true; btn.innerText = "Estrazione ed allineamento in corso..."; }
+
+        // 1. Avvia l'estrazione con i nuovi filtri intelligenti
+        const onlinePhotos = await extractPhotoLinksFromAlbum(inputUrl);
+
+        // Se l'estrazione fallisce ancora a causa del proxy AllOrigins bloccato da Google, usiamo una lista di fallback o mostriamo un avviso chiaro
+        if (onlinePhotos.length === 0) {
+            alert("I sistemi di protezione temporanea di Google stanno rallentando la lettura automatica. Riprova tra qualche istante o verifica che l'opzione 'Collabora/Aggiungi foto' sia attiva nelle impostazioni dell'album su Google Foto.");
+            if(btn) { btn.disabled = false; btn.innerText = "Esegui Sincronizzazione Album"; }
+            return;
+        }
+
+        // 2. Prendiamo l'elenco attuale dei link salvati nel DB Supabase
+        const { data: dbPhotos } = await _supabase.from('galleria').select('*');
+        const currentDbList = dbPhotos || [];
+
+        // 3. RIMOZIONE CANCELLATE: Elimina dal database i link che Don Giovanni ha rimosso dall'album originario
+        const onlineIds = onlinePhotos.map(p => p.id_esterno);
+        const expiredPhotos = currentDbList.filter(p => !onlineIds.includes(p.id_esterno));
+
+        for (let item of expiredPhotos) {
+            await _supabase.from('galleria').delete().eq('id', item.id);
+        }
+
+        // 4. INSERIMENTO NUOVE: Cerca le nuove foto caricate nell'album e non ancora registrate su Supabase
+        const dbIds = currentDbList.map(p => p.id_esterno);
+        const newPhotosToInsert = onlinePhotos.filter(p => !dbIds.includes(p.id_esterno));
+
+        // Per evitare blocchi di memoria su Supabase, inseriamo solo i campi necessari richiesti dalla struttura attuale della tabella
+        if (newPhotosToInsert.length > 0) {
+            const batchToInsert = newPhotosToInsert.map(p => ({
+                id_esterno: p.id_esterno,
+                immagine: p.immagine
+            }));
+            await _supabase.from('galleria').insert(batchToInsert);
+        }
+
+        alert(`Sincronizzazione completata con successo!\n\nFoto trovate online: ${onlinePhotos.length}\nNuove aggiunte al sito: ${newPhotosToInsert.length}\nVecchie rimosse dal sito: ${expiredPhotos.length}`);
+        
+        if(btn) { btn.disabled = false; btn.innerText = "Esegui Sincronizzazione Album"; }
+        await renderPosts();
+    }
         const btn = document.getElementById('btn-sync');
         const inputUrl = document.getElementById('album-url-config').value;
 
