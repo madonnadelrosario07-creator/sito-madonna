@@ -159,6 +159,43 @@
         .dynamic-card h4 { font-size: 0.85rem; font-weight: 400; color: var(--text-muted); font-style: italic; margin-bottom: 1.5rem; }
         .dynamic-card p { color: var(--text-main); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.5rem; }
 
+        /* ── SEZIONE GALLERIA A MOSAICO EDITORIALE ── */
+        .mosaico-gallery { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+            grid-auto-rows: 280px; 
+            gap: 25px; 
+        }
+        .mosaico-item { 
+            position: relative; 
+            overflow: hidden; 
+            border-radius: 4px; 
+            box-shadow: 0 4px 20px rgba(9, 13, 22, 0.02); 
+            cursor: zoom-in; 
+            background: var(--white);
+            border: 1px solid var(--border);
+        }
+        .mosaico-item img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            transition: var(--transition);
+            filter: grayscale(15%);
+        }
+        .mosaico-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(9, 13, 22, 0.08);
+            border-color: var(--accent);
+        }
+        .mosaico-item:hover img { 
+            transform: scale(1.05); 
+            filter: grayscale(0%);
+        }
+
+        /* Geometria irregolare per l'effetto mosaico asimmetrico moderno */
+        .mosaico-item:nth-child(4n+1) { grid-column: span 2; }
+        .mosaico-item:nth-child(5n+3) { grid-row: span 2; }
+
         /* ── ESCLUSIVO: EDITORIAL ROW LAYOUT PER ANTEPRIME OMELIE ── */
         .omelia-editorial-stack { display: flex; flex-direction: column; gap: 2.5rem; max-width: 1000px; margin: 0 auto; }
         .omelia-row-card {
@@ -368,6 +405,10 @@
             .omelia-final-block { margin: 4rem -1.5rem 0; padding: 2.5rem 1.5rem; }
             .omelia-pullquote { margin: 3rem 0; }
             .omelia-opening-question { padding: 2rem 1.5rem; }
+
+            /* Reset del mosaico su mobile per scorrimento verticale pulito */
+            .mosaico-item:nth-child(4n+1) { grid-column: span 1; }
+            .mosaico-item:nth-child(5n+3) { grid-row: span 1; }
         }
     </style>
 </head>
@@ -395,6 +436,7 @@
         <li><a onclick="navigateTo('comunita')" id="nav-comunita">Comunità</a></li>
         <li><a onclick="navigateTo('sacramenti')" id="nav-sacramenti">Sacramenti</a></li>
         <li><a onclick="navigateTo('gruppi')" id="nav-gruppi">Gruppi</a></li>
+        <li><a onclick="navigateTo('galleria')" id="nav-galleria">Galleria</a></li>
         <li><a onclick="navigateTo('contatti')" id="nav-contatti">Contatti</a></li>
         <li><a onclick="navigateTo('admin')" id="nav-admin" style="color: var(--accent); font-weight:600;">Accedi</a></li>
     </ul>
@@ -552,6 +594,37 @@
                 <span class="sacramento-icon">Carità</span>
                 <h3>Gruppo Marta</h3>
                 <p>Gruppo di Volontari che contribuisce al decoro e alla manutenzione dei luoghi della Parrocchia mantenendoli puliti ed organizzati.</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- ── SEZIONE NUOVA: GALLERIA FOTO A MOSAICO ── -->
+<div class="page" id="page-galleria">
+    <section>
+        <div class="section-header">
+            <span class="section-eyebrow">Momenti di Comunità</span>
+            <h2 class="section-heading">Galleria Fotografica</h2>
+        </div>
+        
+        <div class="mosaico-gallery">
+            <div class="mosaico-item" onclick="openLightbox('https://lh3.googleusercontent.com/pw/AP1GczP1lHaN9aFjA_MyU-jqps0teisSa2fV0yfG-vQPCXHUbO2n4oyuuyA641h4KS4oVYTLsVc8lir4BPwfcWI99DkLi4Nn1nvY9ZoKiwA1Rtx7UB7tmQ=w1920-h1080')">
+                <img src="https://lh3.googleusercontent.com/pw/AP1GczP1lHaN9aFjA_MyU-jqps0teisSa2fV0yfG-vQPCXHUbO2n4oyuuyA641h4KS4oVYTLsVc8lir4BPwfcWI99DkLi4Nn1nvY9ZoKiwA1Rtx7UB7tmQ=w1920-h1080" alt="Foto Parrocchia">
+            </div>
+            <div class="mosaico-item" onclick="openLightbox('https://lh3.googleusercontent.com/pw/AP1GczNiXFQsK3ZGmz6d6tCZW0bPzwG30FyYh-nduWfs1fnOjSg9rTSWC_vjfMb9yH4lSf9eU6iRmSxpFY_TX_BgbSS5yk1TdBXJmr4RHJc04mL0sW9VPQ=w1920-h1080')">
+                <img src="https://lh3.googleusercontent.com/pw/AP1GczNiXFQsK3ZGmz6d6tCZW0bPzwG30FyYh-nduWfs1fnOjSg9rTSWC_vjfMb9yH4lSf9eU6iRmSxpFY_TX_BgbSS5yk1TdBXJmr4RHJc04mL0sW9VPQ=w1920-h1080" alt="Foto Parrocchia">
+            </div>
+            <div class="mosaico-item" onclick="openLightbox('https://lh3.googleusercontent.com/pw/AP1GczOdKQkm3zjB2g91Oy-NEkz6Zac84vO8pRrpmqehq2sY-nuktUUxt-LgnG2AXEyjzuDgT9vIxImHLayKISnErG8SDAKHCaQFLodU738-BcdzDA8aRg=w1920-h1080')">
+                <img src="https://lh3.googleusercontent.com/pw/AP1GczOdKQkm3zjB2g91Oy-NEkz6Zac84vO8pRrpmqehq2sY-nuktUUxt-LgnG2AXEyjzuDgT9vIxImHLayKISnErG8SDAKHCaQFLodU738-BcdzDA8aRg=w1920-h1080" alt="Foto Parrocchia">
+            </div>
+            <div class="mosaico-item" onclick="openLightbox('https://lh3.googleusercontent.com/pw/AP1GczM9ZgzzUXREo2GaL0bCOlm1cfk-k-v7wSkcxgl84JwmL9J7VEMf6M9X-iwRFK-gmCS2c8XEKWUVMaZozYHxD1rEwX9jnbdcdlMUgDUUjItYDBXoLg=w1920-h1080')">
+                <img src="https://lh3.googleusercontent.com/pw/AP1GczM9ZgzzUXREo2GaL0bCOlm1cfk-k-v7wSkcxgl84JwmL9J7VEMf6M9X-iwRFK-gmCS2c8XEKWUVMaZozYHxD1rEwX9jnbdcdlMUgDUUjItYDBXoLg=w1920-h1080" alt="Foto Parrocchia">
+            </div>
+            <div class="mosaico-item" onclick="openLightbox('https://lh3.googleusercontent.com/pw/AP1GczNpEV5rmZXzwLwjDD7Zdq0Xzk_DbAdUYQFzhaJJHfRmSOQDGN9e4Ndy2R7nvBqCwQvYEN2DPSqO1TXlEEaVeyhMdzF_aYDZo_VQ7lyGBUm2mNMqDQ=w1920-h1080')">
+                <img src="https://lh3.googleusercontent.com/pw/AP1GczNpEV5rmZXzwLwjDD7Zdq0Xzk_DbAdUYQFzhaJJHfRmSOQDGN9e4Ndy2R7nvBqCwQvYEN2DPSqO1TXlEEaVeyhMdzF_aYDZo_VQ7lyGBUm2mNMqDQ=w1920-h1080" alt="Foto Parrocchia">
+            </div>
+            <div class="mosaico-item" onclick="openLightbox('https://lh3.googleusercontent.com/pw/AP1GczPRscxo2YIDkcJnZiFf2pJCj7YeyQEsyiVvJJ3hSFGKH4b5o2n3n_24bOMLbXyRi-_jcZk4llwecb-GSWUsuM7Vusja_3ZRcCoLwWEWonybhdvcng=w1920-h1080')">
+                <img src="https://lh3.googleusercontent.com/pw/AP1GczPRscxo2YIDkcJnZiFf2pJCj7YeyQEsyiVvJJ3hSFGKH4b5o2n3n_24bOMLbXyRi-_jcZk4llwecb-GSWUsuM7Vusja_3ZRcCoLwWEWonybhdvcng=w1920-h1080" alt="Foto Parrocchia">
             </div>
         </div>
     </section>
@@ -856,18 +929,13 @@
         return htmlResult;
     }
 
-    // ── CONFIGURAZIONE DETTAGLIO ED INIEZIONE METATAG OPEN GRAPH ──
     function buildOmeliaView(omelia) {
         const containerDettaglio = document.getElementById('page-dettaglio-omelia');
         const parsedBody = parseOmeliaText(omelia.testo);
 
-        // 1. Aggiorna il Titolo della Scheda Browser
         document.title = `${omelia.titolo} – Omelie`;
-        
-        // 2. Crea un testo pulito e compatto per la descrizione dell'anteprima
         const testoPulito = omelia.testo.replace(/\[.*?\]/g, '').substring(0, 150) + '...';
 
-        // Helper interno per scrivere o aggiornare i tag d'anteprima dentro la head
         const updateMeta = (attr, value, content) => {
             let element = document.querySelector(`meta[${attr}="${value}"]`);
             if (!element) {
@@ -878,7 +946,6 @@
             element.setAttribute('content', content);
         };
 
-        // 3. Scrittura dinamica dei Metatag Open Graph (per sistemi e app compatibili)
         updateMeta('property', 'og:title', omelia.titolo);
         updateMeta('property', 'og:description', testoPulito);
         updateMeta('property', 'og:url', window.location.href);
@@ -887,7 +954,6 @@
         }
         updateMeta('name', 'description', testoPulito);
 
-        // 4. Generazione del Layout della pagina
         containerDettaglio.innerHTML = `
             <header class="omelia-hero ${omelia.immagine ? 'has-bg' : ''}" style="${omelia.immagine ? `background-image: url('${omelia.immagine}');` : ''}">
                 ${omelia.immagine ? `<div class="omelia-hero-overlay"></div>` : ''}
@@ -926,7 +992,6 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // GESTORE DELLE ROTTE (ROUTER) REALE
     async function handleRouting() {
         const hash = window.location.hash.replace('#', '');
         
@@ -938,7 +1003,6 @@
         if (hash.startsWith('omelia?id=')) {
             const id = parseInt(hash.split('=')[1]);
             
-            // Se i dati dal server non sono pronti, attendiamo il caricamento
             if (!isInitialLoadDone || omelieDataCache.length === 0) {
                 await renderPosts();
             }
@@ -984,7 +1048,7 @@
             `).join('');
         }
 
-        // Renderizzazione Omelie (Layout con miniatura laterale elegante)
+        // Renderizzazione Omelie
         const containerOmelie = document.getElementById('container-omelie');
         if(!omelie || omelie.length === 0) {
             containerOmelie.innerHTML = `<p style="color: var(--text-muted); font-style: italic; font-size:0.9rem; text-align:center; padding: 2rem;">Nessuna omelia presente al momento.</p>`;
