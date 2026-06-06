@@ -723,7 +723,66 @@
     });
 
     // ── MOTORE DI SINCRONIZZAZIONE AUTOMATICA GOOGLE PHOTOS ──
+   // ── MOTORE DI SINCRONIZZAZIONE POTENZIATO GOOGLE PHOTOS ──
     async function fetchGooglePhotos() {
+        const mosaicoContainer = document.getElementById('google-mosaico');
+        
+        if (mosaicoContainer.querySelectorAll('.mosaico-item').length > 0) return;
+
+        try {
+            // Utilizzo di un proxy alternativo più stabile per i contenuti multimediali
+            const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent(GOOGLE_ALBUM_URL);
+            const response = await fetch(proxyUrl);
+            
+            if (!response.ok) throw new Error("Risposta del server non valida");
+            const htmlText = await response.text();
+
+            // Nuova espressione regolare più estesa: intercetta tutti i server di memorizzazione Google (lh3, lh4, googleusercontent, ecc.)
+            const regex = /https:\/\/lh[3-6]\.googleusercontent\.com\/pw\/[a-zA-Z0-9\-_=]+/g;
+            const matches = htmlText.match(regex) || [];
+            
+            // Rimuove i duplicati
+            const uniquePhotos = [...new Set(matches)];
+
+            if (uniquePhotos.length === 0) {
+                // Se fallisce anche il raggruppamento avanzato, mostriamo un fallback elegante
+                mosaicoContainer.innerHTML = `
+                    <div class="gallery-loader" style="grid-column: 1/-1; text-align: center;">
+                        <p>Le restrizioni di sicurezza di Google Foto non permettono il caricamento diretto.</p>
+                        <a href="${GOOGLE_ALBUM_URL}" target="_blank" class="btn btn-primary" style="margin-top: 1.5rem;">Apri l'Album della Parrocchia</a>
+                    </div>`;
+                return;
+            }
+
+            mosaicoContainer.innerHTML = '';
+
+            uniquePhotos.forEach(photoUrl => {
+                // Forza dimensioni web standard per non appesantire la pagina
+                const optimizedUrl = `${photoUrl}=w800-h800`;
+                const fullResUrl = `${photoUrl}=w1600-h1600`;
+
+                const item = document.createElement('div');
+                item.className = 'mosaico-item';
+                item.onclick = () => openLightbox(fullResUrl);
+
+                const img = document.createElement('img');
+                img.src = optimizedUrl;
+                img.alt = "Foto Parrocchia Madonna del Rosario";
+                img.loading = "lazy";
+
+                item.appendChild(img);
+                mosaicoContainer.appendChild(item);
+            });
+
+        } catch (error) {
+            console.error("Errore nel caricamento dinamico:", error);
+            mosaicoContainer.innerHTML = `
+                <div class="gallery-loader" style="grid-column: 1/-1; text-align: center;">
+                    <p>Si è verificato un errore di connessione con l'album.</p>
+                    <a href="${GOOGLE_ALBUM_URL}" target="_blank" class="btn btn-primary" style="margin-top: 1.5rem;">Visualizza Foto su Google</a>
+                </div>`;
+        }
+    }
         const mosaicoContainer = document.getElementById('google-mosaico');
         
         // Se abbiamo già popolato le foto, non riscaricarle per risparmiare tempo
