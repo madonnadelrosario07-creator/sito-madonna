@@ -412,7 +412,8 @@
             <h2 class="section-heading">Avvisi ed Annunci</h2>
         </div>
         <div class="dynamic-grid" id="container-avvisi">
-            </div>
+            <p style="color: var(--text-muted); font-style: italic; font-size:0.9rem; grid-column: 1/-1; text-align:center;">Caricamento annunci in corso...</p>
+        </div>
     </section>
 </div>
 
@@ -423,7 +424,8 @@
             <h2 class="section-heading">Le Omelie della Domenica</h2>
         </div>
         <div class="omelia-editorial-stack" id="container-omelie">
-            </div>
+            <p style="color: var(--text-muted); font-style: italic; font-size:0.9rem; text-align:center; padding: 2rem;">Caricamento omelie in corso...</p>
+        </div>
     </section>
 </div>
 
@@ -437,7 +439,8 @@
             <h2 class="section-heading">Galleria Parrocchiale</h2>
         </div>
         <div class="dynamic-grid" id="container-galleria">
-            </div>
+            <p style="color: var(--text-muted); font-style: italic; font-size:0.9rem; grid-column:1/-1; text-align:center; padding:4rem 0;">Caricamento immagini in corso...</p>
+        </div>
     </section>
 </div>
 
@@ -682,7 +685,7 @@
     <div class="footer-grid">
         <div style="display: flex; align-items: center; gap: 15px;">
             <img src="IMMAGINI/ico.png" alt="Logo" style="width: 25px;" onerror="this.style.display='none'">
-            <span style="font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;">Parrocchia Madonna del Rosario</span>
+            <span style="font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;">Parrocchya Madonna del Rosario</span>
         </div>
         <p>© 2026 · Diocesi di Aversa · Tutti i diritti riservati</p>
     </div>
@@ -731,15 +734,19 @@
         document.getElementById('lightbox').classList.remove('active');
     }
 
-    // Gestione dell'errore fallback del logo
-    document.getElementById('logo-img').onerror = function() {
-        this.src = 'IMMAGINI/ico.png';
-    };
+    // Errore fallback del logo
+    if(document.getElementById('logo-img')) {
+        document.getElementById('logo-img').onerror = function() {
+            this.src = 'IMMAGINI/ico.png';
+        };
+    }
 
     window.addEventListener('scroll', () => {
         const nav = document.getElementById('navbar');
-        if (window.scrollY > 50) nav.classList.add('scrolled');
-        else nav.classList.remove('scrolled');
+        if (nav) {
+            if (window.scrollY > 50) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+        }
     });
 </script>
 
@@ -956,8 +963,9 @@
 
     function buildOmeliaView(omelia) {
         const containerDettaglio = document.getElementById('page-dettaglio-omelia');
-        const parsedBody = parseOmeliaText(omelia.testo);
+        if (!containerDettaglio) return;
 
+        const parsedBody = parseOmeliaText(omelia.testo);
         document.title = `${omelia.titolo} – Omelie`;
         const testoPulito = omelia.testo.replace(/\[.*?\]/g, '').substring(0, 150) + '...';
 
@@ -974,9 +982,7 @@
         updateMeta('property', 'og:title', omelia.titolo);
         updateMeta('property', 'og:description', testoPulito);
         updateMeta('property', 'og:url', window.location.href);
-        if (omelia.immagine) {
-            updateMeta('property', 'og:image', omelia.immagine);
-        }
+        if (omelia.immagine) updateMeta('property', 'og:image', omelia.immagine);
         updateMeta('name', 'description', testoPulito);
 
         containerDettaglio.innerHTML = `
@@ -1009,38 +1015,50 @@
 
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-        document.getElementById('nav-omelie').classList.add('active');
+        const l = document.getElementById('nav-omelie');
+        if(l) l.classList.add('active');
         containerDettaglio.classList.add('active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    // GESTIONE DELLA NAVIGAZIONE (ROUTING FLUIDO)
     async function handleRouting() {
         const hash = window.location.hash.replace('#', '');
-        if (!hash) {
+        
+        // Se non c'è hash, andiamo sulla home
+        if (!hash || hash === '') {
             showPage('home');
             return;
         }
 
+        // Se è un dettaglio di un'omelia singola
         if (hash.startsWith('omelia?id=')) {
             const id = parseInt(hash.split('=')[1]);
+            
+            // Se i dati non sono pronti, facciamo prima vedere la sezione principale
             if (!isInitialLoadDone || omelieDataCache.length === 0) {
+                showPage('omelie');
                 await renderData();
             }
+            
             const omelia = omelieDataCache.find(o => o.id === id);
             if (omelia) {
                 buildOmeliaView(omelia);
             } else {
-                navigateTo('omelie');
+                showPage('omelie');
             }
         } else {
+            // MOSTRAMO SUBITO LA PAGINA RICHIESTA (Navigazione istantanea)
             showPage(hash);
         }
     }
 
+    // Ascolta il cambio di hash nell'URL del browser
     window.addEventListener('hashchange', handleRouting);
 
     async function renderData() {
-        const isAdminVisible = document.getElementById('admin-panel').style.display === 'block';
+        const adminPanel = document.getElementById('admin-panel');
+        const isAdminVisible = adminPanel && adminPanel.style.display === 'block';
 
         try {
             const { data: avvisi } = await supabase.from('avvisi').select('*').order('id', { ascending: false });
@@ -1112,13 +1130,14 @@
                 }
             }
         } catch(e) {
-            console.error("Errore critico durante il fetch dei dati iniziali:", e);
+            console.error("Errore nel fetch dei dati:", e);
         }
     }
 
-    document.addEventListener("DOMContentLoaded", async () => {
-        await renderData();
+    // Al caricamento completo eseguiamo subito il controllo dell'URL e la sincronizzazione dati
+    document.addEventListener("DOMContentLoaded", () => {
         handleRouting();
+        renderData();
     });
 </script>
 
