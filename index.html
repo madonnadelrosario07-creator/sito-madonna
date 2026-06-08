@@ -1017,10 +1017,13 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+   // ── BLOCCO 5 REVISIONATO: LOGICA DI ROUTING CORRETTA ──
     async function handleRouting() {
-        const hash = window.location.hash.replace('#', '');
+        let hash = window.location.hash.replace('#', '');
+        
+        // Se l'hash è vuoto, forza la navigazione sulla "home" per allineare lo stato dell'URL
         if (!hash) {
-            showPage('home');
+            window.location.hash = 'home';
             return;
         }
 
@@ -1041,6 +1044,16 @@
     }
 
     window.addEventListener('hashchange', handleRouting);
+
+    // ... (Mantieni il Blocco 6 del tuo renderData() invariato) ...
+
+    // ── GESTORE CARICAMENTO PAGINA CORRETTO ──
+    document.addEventListener("DOMContentLoaded", async () => {
+        // 1. Prima carichiamo i dati da Supabase per popolare le sezioni
+        await renderData();
+        // 2. Poi gestiamo il routing per mostrare la pagina corretta senza conflitti
+        handleRouting();
+    });
 
     // ── BLOCCO 6: RENDERING DEI FLUSSI DINAMICI DAL DATABASE CLOUD SU HTML ──
     async function renderData() {
@@ -1119,11 +1132,6 @@
             console.error("Errore critico durante il fetch dei dati iniziali:", e);
         }
     }
-
-    document.addEventListener("DOMContentLoaded", async () => {
-        await renderData();
-        handleRouting();
-    });
 </script>
 
 </body>
