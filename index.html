@@ -781,7 +781,7 @@
 
     async function savePost(event, tipo) {
         event.preventDefault();
-        const form = event.target;
+        const form = event.currentTarget || event.target;
         const titolo = form.querySelector('[id$="-titolo"]').value;
         const sottotitolo = form.querySelector('[id$="-sottotitolo"]').value;
         const testo = form.querySelector('[id$="-testo"]').value;
