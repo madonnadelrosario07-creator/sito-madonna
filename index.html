@@ -822,7 +822,83 @@
     }
 
     // ── BLOCCO 4: ESTRAZIONE LINK GOOGLE FOTO (OTTIMIZZATO) ──
-    async function extractPhotoLinksFromAlbum(albumUrl) {
+// Funzione aggiornata per estrarre i link delle foto direttamente dall'HTML di Google Foto
+function extractPhotoLinksFromAlbum(html) {
+    const links = [];
+    // Questa espressione regolare intercetta i pattern moderni usati da Google per i link delle foto negli album condivisi
+    const regex = /(https:\/\/lh3\.googleusercontent\.com\/pw\/[a-zA-Z0-9\-_]+)=w/g;
+    let match;
+    
+    while ((match = regex.exec(html)) !== null) {
+        // match[1] contiene l'URL pulito della foto. 
+        // Aggiungiamo =w1000 per richiedere a Google una risoluzione di ottima qualità (es. larghezza 1000px)
+        const photoUrl = match[1] + "=w1000";
+        if (!links.includes(photoUrl)) {
+            links.push(photoUrl);
+        }
+    }
+    return links;
+}
+
+// Funzione di sincronizzazione originale corretta
+async function sincronizzaGalleria() {
+    const inputElement = document.getElementById('galleria-url');
+    if(!inputElement) return;
+
+    const albumUrl = inputElement.value.trim();
+
+    if(!albumUrl) {
+        alert("Inserisci l'URL dell'album condiviso!");
+        return;
+    }
+
+    try {
+        // Utilizziamo allorigins come facevi prima per bypassare i blocchi CORS del browser
+        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(albumUrl)}`;
+        
+        const response = await fetch(proxyUrl);
+        if(!response.ok) throw new Error("Errore nel recupero dell'album tramite proxy.");
+        
+        const data = await response.json();
+        const html = data.contents;
+
+        // Estraiamo i link con la nuova logica regex
+        const links = extractPhotoLinksFromAlbum(html);
+
+        if(links.length === 0) {
+            alert("Nessun link estratto. Assicurati che l'album sia impostato come PUBBLICO/CONDIVISO e riprova.");
+            return;
+        }
+
+        // 1. Svuota la vecchia galleria nel database Supabase
+        const { error: deleteError } = await _supabase
+            .from('galleria')
+            .delete()
+            .neq('id', 0); // Rimuove tutte le righe
+
+        if(deleteError) throw deleteError;
+
+        // 2. Prepara i record per Supabase
+        const rows = links.map(url => ({ immagine: url }));
+
+        // 3. Inserisci i nuovi link
+        const { error: insertError } = await _supabase
+            .from('galleria')
+            .insert(rows);
+
+        if(insertError) throw insertError;
+
+        alert(`Sincronizzazione completata! Caricate ${links.length} foto nel mosaico.`);
+        
+        // Resetta l'input e aggiorna la pagina
+        inputElement.value = '';
+        await renderData();
+
+    } catch(error) {
+        console.error("Errore durante la sincronizzazione della galleria:", error);
+        alert("Errore durante la sincronizzazione: " + error.message);
+    }
+}
         try {
             const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(albumUrl)}`);
             if (!response.ok) throw new Error("Risposta di rete non valida");
