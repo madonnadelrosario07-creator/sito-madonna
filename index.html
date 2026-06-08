@@ -133,6 +133,17 @@
         }
         .section-heading { font-family: var(--serif); font-size: clamp(2.4rem, 4vw, 3.5rem); color: var(--navy); line-height: 1.15; font-weight: 400; }
 
+        /* ── SEZIONE ORARI MESSE (NUOVA) ── */
+        .orari-messe-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; max-width: 1000px; margin: 0 auto; }
+        .orari-card { background: var(--white); border: 1px solid var(--border); padding: 3.5rem 2.5rem; border-radius: 4px; text-align: center; transition: var(--transition); box-shadow: 0 4px 20px rgba(9, 13, 22, 0.01); }
+        .orari-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(9, 13, 22, 0.04); border-color: rgba(184, 147, 80, 0.3); }
+        .orari-card h3 { font-family: var(--serif); font-size: 2rem; font-weight: 400; color: var(--navy); margin-bottom: 1.5rem; }
+        .orari-list { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; }
+        .orari-list li { font-size: 1.05rem; color: var(--text-main); }
+        .orari-list li strong { color: var(--accent); font-family: var(--serif); font-size: 1.3rem; font-weight: 600; margin-left: 5px; }
+        .orari-warning { max-width: 1000px; margin: 2.5rem auto 0; background: var(--accent-light); border-left: 3px solid var(--accent); padding: 1.2rem 2rem; border-radius: 0 4px 4px 0; text-align: left; }
+        .orari-warning p { font-size: 0.85rem; font-weight: 500; color: var(--navy); letter-spacing: 0.5px; display: flex; align-items: center; gap: 10px; }
+
         /* ── GRID E CARTE DINAMICHE standard ── */
         .dynamic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 3.5rem; }
         .dynamic-card {
@@ -402,6 +413,41 @@
             </div>
         </div>
     </section>
+
+    <section style="background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); max-width: 100%;">
+        <div style="max-width: 1300px; margin: 0 auto;">
+            <div class="section-header" style="margin-bottom: 4rem;">
+                <span class="section-eyebrow">Celebrazioni</span>
+                <h2 class="section-heading">Orari delle Sante Messe</h2>
+            </div>
+            
+            <div class="orari-messe-grid">
+                <div class="orari-card">
+                    <h3>Lunedì – Sabato</h3>
+                    <ul class="orari-list">
+                        <li>Santa Messa unico orario: <strong>19:00</strong></li>
+                    </ul>
+                </div>
+
+                <div class="orari-card">
+                    <h3>Domenica</h3>
+                    <ul class="orari-list">
+                        <li>Mattino: <strong>08:00</strong></li>
+                        <li>Mattino: <strong>10:00</strong></li>
+                        <li>Mattino: <strong>11:30</strong></li>
+                        <li>Sera: <strong>19:00</strong></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="orari-warning">
+                <p>
+                    <span style="color: var(--accent); font-size: 1.2rem;">⚠️</span> 
+                    <strong>Nota per il periodo estivo:</strong> Nei mesi di luglio e agosto la Santa Messa domenicale delle ore 11:30 è momentaneamente abolita.
+                </p>
+            </div>
+        </div>
+    </section>
 </div>
 
 <div class="page" id="page-avvisi">
@@ -564,6 +610,8 @@
                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3011.662193560662!2d14.2323533!3d40.9789851!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x133b53f65e25ab05%3A0xc47e30d7ea293c66!2sVia%20Campotonico%2C%2081030%20Gricignano%20di%20Aversa%20CE!5e0!3m2!1sit!2sit!4v1680000000000!5m2!1sit!2sit" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
+        
+        <div id="container-galleria" style="display:none;"></div>
     </section>
 </div>
 
