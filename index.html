@@ -7,7 +7,17 @@
     <title>Parrocchia Madonna del Rosario – Gricignano d'Aversa</title>
     <meta name="description" content="Sito ufficiale della Parrocchia Madonna del Rosario a Gricignano d'Aversa. Scopri gli orari delle messe, gli avvisi parrocchiali, le omelie domenicali e le attività della comunità.">
     <link rel="canonical" href="http://madonnadelrosariogricignano.qzz.io/">
+<!-- Favicon classica -->
+<link rel="icon" type="image/png" href="IMMAGINI/favicon.png">
 
+<!-- Icona per iPhone/iPad quando aggiungono alla Home -->
+<link rel="apple-touch-icon" href="IMMAGINI/favicon.png">
+
+<!-- Collegamento al Web App Manifest per Android/Chrome -->
+<link rel="manifest" href="manifest.json">
+
+<!-- Colore della barra di stato del browser/app su mobile -->
+<meta name="theme-color" content="#090d16">
     <meta property="og:locale" content="it_IT">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Parrocchia Madonna del Rosario – Gricignano d'Aversa">
@@ -19,21 +29,35 @@
 
     <link rel="icon" type="image/png" href="IMMAGINI/favicon.png">
     
-    <!-- ONESIGNAL WEB SDK INTEGRATION -->
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-    <script>
-        window.OneSignalDeferred = window.OneSignalDeferred || [];
-        OneSignalDeferred.push(async function(OneSignal) {
-            await OneSignal.init({
-                appId: "a0c6eb70-46e0-4d71-ad40-b7598a0f6e66",
-                safari_web_id: "web.onesignal.auto.a0c6eb70-46e0-4d71-ad40-b7598a0f6e66",
-                notifyButton: {
-                    enable: true, // Mostra il campanellino fluttuante per l'iscrizione alle notifiche
-                },
-                allowLocalhostAsSecureOrigin: true, // Consentito per i test in locale (es. localhost)
-            });
+   <!-- ONESIGNAL WEB SDK INTEGRATION -->
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+            appId: "a0c6eb70-46e0-4d71-ad40-b7598a0f6e66",
+            safari_web_id: "web.onesignal.auto.a0c6eb70-46e0-4d71-ad40-b7598a0f6e66",
+            notifyButton: {
+                enable: true, // Mostra il campanellino fluttuante per l'iscrizione
+            },
+            allowLocalhostAsSecureOrigin: true,
         });
-    </script>
+
+        // Controlla se la pagina è stata aperta come App da Home (Modalità standalone)
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+        // Se l'utente non è ancora iscritto, mostra subito il prompt di iscrizione
+        if (!OneSignal.User.PushSubscription.optedIn) {
+            // Se è aperto dalla schermata Home, chiede direttamente il permesso nativo
+            if (isStandalone) {
+                OneSignal.Notifications.requestPermission();
+            } else {
+                // Se naviga dal browser normale, mostra il prompt nativo o slidedown
+                OneSignal.Slidedown.promptPush();
+            }
+        }
+    });
+</script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
