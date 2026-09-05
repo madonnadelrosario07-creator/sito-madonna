@@ -7,17 +7,7 @@
     <title>Parrocchia Madonna del Rosario – Gricignano d'Aversa</title>
     <meta name="description" content="Sito ufficiale della Parrocchia Madonna del Rosario a Gricignano d'Aversa. Scopri gli orari delle messe, gli avvisi parrocchiali, le omelie domenicali e le attività della comunità.">
     <link rel="canonical" href="http://madonnadelrosariogricignano.qzz.io/">
-<!-- Favicon classica -->
-<link rel="icon" type="image/png" href="IMMAGINI/favicon.png">
 
-<!-- Icona per iPhone/iPad quando aggiungono alla Home -->
-<link rel="apple-touch-icon" href="IMMAGINI/favicon.png">
-
-<!-- Collegamento al Web App Manifest per Android/Chrome -->
-<link rel="manifest" href="manifest.json">
-
-<!-- Colore della barra di stato del browser/app su mobile -->
-<meta name="theme-color" content="#090d16">
     <meta property="og:locale" content="it_IT">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Parrocchia Madonna del Rosario – Gricignano d'Aversa">
@@ -27,37 +17,37 @@
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
 
+    <!-- FAVICON E PWA INTEGRATION -->
     <link rel="icon" type="image/png" href="IMMAGINI/favicon.png">
+    <link rel="apple-touch-icon" href="IMMAGINI/favicon.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#090d16">
     
-   <!-- ONESIGNAL WEB SDK INTEGRATION -->
-<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-<script>
-    window.OneSignalDeferred = window.OneSignalDeferred || [];
-    OneSignalDeferred.push(async function(OneSignal) {
-        await OneSignal.init({
-            appId: "a0c6eb70-46e0-4d71-ad40-b7598a0f6e66",
-            safari_web_id: "web.onesignal.auto.a0c6eb70-46e0-4d71-ad40-b7598a0f6e66",
-            notifyButton: {
-                enable: true, // Mostra il campanellino fluttuante per l'iscrizione
-            },
-            allowLocalhostAsSecureOrigin: true,
-        });
+    <!-- ONESIGNAL WEB SDK INTEGRATION -->
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+        window.OneSignalDeferred = window.OneSignalDeferred || [];
+        OneSignalDeferred.push(async function(OneSignal) {
+            await OneSignal.init({
+                appId: "a0c6eb70-46e0-4d71-ad40-b7598a0f6e66",
+                safari_web_id: "web.onesignal.auto.a0c6eb70-46e0-4d71-ad40-b7598a0f6e66",
+                notifyButton: {
+                    enable: true,
+                },
+                allowLocalhostAsSecureOrigin: true,
+            });
 
-        // Controlla se la pagina è stata aperta come App da Home (Modalità standalone)
-        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-
-        // Se l'utente non è ancora iscritto, mostra subito il prompt di iscrizione
-        if (!OneSignal.User.PushSubscription.optedIn) {
-            // Se è aperto dalla schermata Home, chiede direttamente il permesso nativo
-            if (isStandalone) {
-                OneSignal.Notifications.requestPermission();
-            } else {
-                // Se naviga dal browser normale, mostra il prompt nativo o slidedown
-                OneSignal.Slidedown.promptPush();
+            // Se aperto dalla schermata Home come AppStandalone, richiede direttamente le notifiche
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+            if (!OneSignal.User.PushSubscription.optedIn) {
+                if (isStandalone) {
+                    OneSignal.Notifications.requestPermission();
+                } else {
+                    OneSignal.Slidedown.promptPush();
+                }
             }
-        }
-    });
-</script>
+        });
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -173,7 +163,7 @@
         }
         .section-heading { font-family: var(--serif); font-size: clamp(2.4rem, 4vw, 3.5rem); color: var(--navy); line-height: 1.15; font-weight: 400; }
 
-        /* ── SEZIONE ORARI MESSE (NUOVA) ── */
+        /* ── SEZIONE ORARI MESSE ── */
         .orari-messe-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; max-width: 1000px; margin: 0 auto; }
         .orari-card { background: var(--white); border: 1px solid var(--border); padding: 3.5rem 2.5rem; border-radius: 4px; text-align: center; transition: var(--transition); box-shadow: 0 4px 20px rgba(9, 13, 22, 0.01); }
         .orari-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(9, 13, 22, 0.04); border-color: rgba(184, 147, 80, 0.3); }
@@ -194,14 +184,14 @@
         .dynamic-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px rgba(9, 13, 22, 0.06); }
       
         .dynamic-card-img { 
-    width: 100%; 
-    height: 400px; /* Imposta un'altezza ridotta e fissa per la scheda */
-    object-fit: contain; /* Adatta l'immagine mantenendo le proporzioni originali senza tagliarla */
-    background: #fcfcfc; /* Sfondo neutro per riempire eventuali spazi vuoti della foto */
-    filter: grayscale(15%); 
-    transition: var(--transition); 
-    cursor: pointer;
-}
+            width: 100%; 
+            height: 220px;
+            object-fit: contain;
+            background: #090d16;
+            filter: grayscale(15%); 
+            transition: var(--transition); 
+            cursor: pointer;
+        }
         .dynamic-card:hover .dynamic-card-img { filter: grayscale(0%); }
         .dynamic-card-content { padding: 3rem 2.5rem; flex-grow: 1; display: flex; flex-direction: column; }
         .dynamic-card-meta { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); font-weight: 600; margin-bottom: 1rem; }
@@ -219,16 +209,16 @@
         .omelia-row-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(9, 13, 22, 0.05); position: relative; }
         
         .omelia-thumb {
-    width: 200px; 
-    height: 200px; 
-    border-radius: 4px; 
-    object-fit: contain; /* Mantiene la foto intera mantenendo la dimensione 110x110px */
-    background: var(--navy); /* Sfondo coerente per riempire le bande laterali o superiori */
-    flex-shrink: 0; 
-    filter: grayscale(20%); 
-    transition: var(--transition); 
-    cursor: pointer;
-}
+            width: 110px; 
+            height: 110px; 
+            border-radius: 4px; 
+            object-fit: contain;
+            background: var(--navy);
+            flex-shrink: 0; 
+            filter: grayscale(20%); 
+            transition: var(--transition); 
+            cursor: pointer;
+        }
         .omelia-thumb-placeholder {
             width: 110px; height: 110px; border-radius: 4px; background: var(--navy);
             display: flex; align-items: center; justify-content: center; color: var(--accent);
@@ -319,6 +309,19 @@
             line-height: 1; user-select: none;
         }
         .lightbox-close:hover { color: var(--accent); transform: scale(1.1); }
+
+        /* ── BANNER / GUIDA INSTALLAZIONE PWA (MOBILE/IOS) ── */
+        .pwa-install-banner {
+            position: fixed; bottom: -100%; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 480px; background: var(--navy); color: var(--white);
+            padding: 1.5rem 2rem; border-radius: 8px; border: 1px solid var(--accent);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3); z-index: 3000;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .pwa-install-banner.active { bottom: 20px; }
+        .pwa-install-banner h4 { font-family: var(--serif); font-size: 1.3rem; color: var(--accent-light); margin-bottom: 0.5rem; }
+        .pwa-install-banner p { font-size: 0.8rem; color: rgba(255,255,255,0.8); margin-bottom: 1rem; line-height: 1.4; }
+        .pwa-banner-close { position: absolute; top: 12px; right: 15px; background: none; border: none; color: var(--white); font-size: 1.2rem; cursor: pointer; }
 
         /* ── SACRAMENTI & GRUPPI CARDS ── */
         .sacramenti-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem; }
@@ -417,21 +420,18 @@
             section { padding: 8rem 5% 4rem; }
             
             .omelia-row-card { flex-direction: column; gap: 1.5rem; padding: 2rem; }
-            .omelia-thumb, .omelia-thumb-placeholder { width: 100%; height: 160px; }
+            .omelia-thumb, .omelia-thumb-placeholder { 
+                width: 100%; 
+                height: 180px; 
+                object-fit: contain;
+                background: var(--navy);
+            }
 
             .omelia-article { padding: 3rem 1.5rem 4rem; }
             .omelia-final-block { margin: 4rem -1.5rem 0; padding: 2.5rem 1.5rem; }
             .omelia-pullquote { margin: 3rem 0; }
             .omelia-opening-question { padding: 2rem 1.5rem; }
         }
-        @media (max-width: 1024px) {
-    .omelia-thumb, .omelia-thumb-placeholder { 
-        width: 100%; 
-        height: 180px; 
-        object-fit: contain;
-        background: var(--cream);
-    }
-}
     </style>
 </head>
 <body>
@@ -459,6 +459,7 @@
         <li><a onclick="navigateTo('sacramenti')" id="nav-sacramenti">Sacramenti</a></li>
         <li><a onclick="navigateTo('gruppi')" id="nav-gruppi">Gruppi</a></li>
         <li><a onclick="navigateTo('contatti')" id="nav-contatti">Contatti</a></li>
+        <li><a onclick="triggerPWAInstall()" style="color: var(--accent); border: 1px solid var(--accent); padding: 6px 12px; border-radius: 2px;">📲 App Home</a></li>
         <li><a onclick="navigateTo('admin')" id="nav-admin" style="color: var(--accent); font-weight:600;">Accedi</a></li>
     </ul>
 </nav>
@@ -468,9 +469,9 @@
         <div class="hero-content">
             <span class="section-eyebrow" style="color: var(--accent-light); margin-bottom: 2rem;">Accoglienza · Fede · Condivisione</span>
             <h1 class="hero-title">L'essenziale è<br><em>Incontrarsi</em></h1>
-            <div style="display: flex; gap: 1.5rem; justify-content: center;">
+            <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
                 <button class="btn btn-primary" onclick="navigateTo('avvisi')">Leggi gli Avvisi</button>
-                <button class="btn btn-outline" onclick="navigateTo('contatti')">Vieni a trovarci</button>
+                <button class="btn btn-outline" onclick="triggerPWAInstall()">📲 Aggiungi alla Home</button>
             </div>
         </div>
     </section>
@@ -772,6 +773,13 @@
     <img id="lightbox-img" class="lightbox-img" src="" alt="Ingrandimento">
 </div>
 
+<!-- BANNER / MODALE GUIDA PWA MOBILE -->
+<div id="pwa-install-banner" class="pwa-install-banner">
+    <button class="pwa-banner-close" onclick="closePWABanner()">✕</button>
+    <h4 id="pwa-banner-title">Aggiungi alla schermata Home</h4>
+    <p id="pwa-banner-desc">Per installare l'app su iPhone/iPad: premi l'icona <strong>Condividi</strong> <span style="font-size:1.1rem;">⎋</span> in basso su Safari, poi seleziona <strong>Aggiungi alla schermata Home</strong> <span style="font-size:1.1rem;">➕</span>.</p>
+</div>
+
 <footer>
     <div class="footer-grid">
         <div style="display: flex; align-items: center; gap: 15px;">
@@ -785,6 +793,46 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
+    // ── BLOCCO PWA & PROMPT INSTALLAZIONE ──
+    let deferredPWAEvent = null;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPWAEvent = e;
+    });
+
+    function triggerPWAInstall() {
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+        if (isStandalone) {
+            alert("L'applicazione è già stata installata ed è aperta in modalità Home!");
+            return;
+        }
+
+        if (deferredPWAEvent) {
+            // Android / Chrome
+            deferredPWAEvent.prompt();
+            deferredPWAEvent.userChoice.then((choiceResult) => {
+                deferredPWAEvent = null;
+            });
+        } else if (isIOS) {
+            // iOS Safari - Mostra le istruzioni grafiche
+            document.getElementById('pwa-banner-title').innerText = "Installazione su iPhone/iPad";
+            document.getElementById('pwa-banner-desc').innerHTML = "Premi l'icona <strong>Condividi</strong> <span style='font-size:1.1rem;'>⎋</span> del browser Safari, poi scorri e seleziona <strong>Aggiungi alla schermata Home ➕</strong>.";
+            document.getElementById('pwa-install-banner').classList.add('active');
+        } else {
+            // Altri browser Desktop / Android senza evento registrato
+            document.getElementById('pwa-banner-title').innerText = "Aggiungi alla Home";
+            document.getElementById('pwa-banner-desc').innerHTML = "Apri il menu delle opzioni del tuo browser (i tre puntini in alto a destra) e seleziona <strong>Aggiungi a schermata Home</strong> o <strong>Installa app</strong>.";
+            document.getElementById('pwa-install-banner').classList.add('active');
+        }
+    }
+
+    function closePWABanner() {
+        document.getElementById('pwa-install-banner').classList.remove('active');
+    }
+
     // ── BLOCCO 1: FUNZIONI CORE DI NAVIGAZIONE E INTERFACCIA ──
     function navigateTo(pageId) {
         window.location.hash = pageId;
