@@ -439,6 +439,38 @@
         background: var(--cream);
     }
 }
+
+        /* ── BANNER PWA INSTALLATION ── */
+        #pwa-install-banner {
+            position: fixed; 
+            bottom: -100%; 
+            left: 0; 
+            width: 100%;
+            background: var(--navy); 
+            color: var(--white); 
+            padding: 30px 20px;
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.4); 
+            z-index: 9999;
+            transition: var(--transition); 
+            text-align: center;
+        }
+
+        #pwa-install-banner.active { 
+            bottom: 0; 
+        }
+
+        #pwa-install-banner h3 { 
+            font-family: var(--serif); 
+            color: var(--accent); 
+            font-size: 1.8rem;
+            margin-bottom: 10px; 
+        }
+
+        #pwa-install-banner p { 
+            font-size: 0.9rem; 
+            margin-bottom: 20px; 
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
@@ -799,6 +831,13 @@
     </section>
 </div>
 
+<!-- BANNER INSTALLAZIONE APP -->
+<div id="pwa-install-banner">
+    <h3 id="pwa-banner-title"></h3>
+    <p id="pwa-banner-desc"></p>
+    <button class="btn btn-primary" onclick="closePWABanner()">Ho capito</button>
+</div>
+
 <div id="lightbox" class="lightbox-overlay" onclick="closeLightbox()">
     <span class="lightbox-close">×</span>
     <img id="lightbox-img" class="lightbox-img" src="" alt="Ingrandimento">
@@ -817,6 +856,47 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
+    // ── BLOCCO 0: PWA INSTALLATION ──
+    let deferredPWAEvent;
+
+    // Cattura l'evento di installazione su Chrome/Android
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPWAEvent = e;
+    });
+
+    function triggerPWAInstall() {
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+        if (isStandalone) {
+            alert("L'applicazione è già stata installata ed è aperta in modalità Home!");
+            return;
+        }
+
+        if (deferredPWAEvent) {
+            // Android / Chrome
+            deferredPWAEvent.prompt();
+            deferredPWAEvent.userChoice.then((choiceResult) => {
+                deferredPWAEvent = null;
+            });
+        } else if (isIOS) {
+            // iOS Safari - Mostra le istruzioni grafiche
+            document.getElementById('pwa-banner-title').innerText = "Installazione su iPhone/iPad";
+            document.getElementById('pwa-banner-desc').innerHTML = "Premi l'icona <strong>Condividi</strong> <span style='font-size:1.1rem;'>⎋</span> del browser Safari, poi scorri e seleziona <strong>Aggiungi alla schermata Home ➕</strong>.";
+            document.getElementById('pwa-install-banner').classList.add('active');
+        } else {
+            // Altri browser Desktop / Android senza evento registrato
+            document.getElementById('pwa-banner-title').innerText = "Aggiungi alla Home";
+            document.getElementById('pwa-banner-desc').innerHTML = "Apri il menu delle opzioni del tuo browser (i tre puntini in alto a destra) e seleziona <strong>Aggiungi a schermata Home</strong> o <strong>Installa app</strong>.";
+            document.getElementById('pwa-install-banner').classList.add('active');
+        }
+    }
+
+    function closePWABanner() {
+        document.getElementById('pwa-install-banner').classList.remove('active');
+    }
+
     // ── BLOCCO 1: FUNZIONI CORE DI NAVIGAZIONE E INTERFACCIA ──
     function navigateTo(pageId) {
         window.location.hash = pageId;
