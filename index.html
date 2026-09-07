@@ -30,18 +30,51 @@
     <link rel="icon" type="image/png" href="IMMAGINI/favicon.png">
     
    <!-- ONESIGNAL WEB SDK INTEGRATION -->
+    <div id="custom-notification-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:99999; justify-content:center; align-items:center; text-align:center; padding:20px; box-sizing:border-box;">
+    <div style="background:#ffffff; max-width:400px; width:100%; padding:30px; border-radius:12px; box-shadow:0 4px 20px rgba(0,0,0,0.3); font-family:sans-serif;">
+        <h2 style="margin-top:0; color:#333; font-size:22px;">Non perderti nessun avviso</h2>
+        <p style="color:#666; font-size:15px; line-height:1.5; margin-bottom:25px;">Per non perdere avvisi e novità, attiva le notifiche sul tuo dispositivo.</p>
+        <button id="btn-enable-notif" style="background:#4e73df; color:#fff; border:none; padding:12px 20px; font-size:16px; font-weight:bold; border-radius:6px; cursor:pointer; width:100%; margin-bottom:10px;">Attiva le notifiche</button>
+        <button id="btn-close-notif" style="background:transparent; color:#888; border:none; padding:8px; font-size:14px; cursor:pointer; width:100%;">Non ora</button>
+    </div>
+</div>
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script>
-    window.OneSignalDeferred = window.OneSignalDeferred || [];
-    OneSignalDeferred.push(async function(OneSignal) {
-        await OneSignal.init({
-            appId: "a0c6eb70-46e0-4d71-ad40-b7598a0f6e66",
-            safari_web_id: "web.onesignal.auto.a0c6eb70-46e0-4d71-ad40-b7598a0f6e66",
-            notifyButton: {
-                enable: true, // Mostra il campanellino fluttuante per l'iscrizione
-            },
-            allowLocalhostAsSecureOrigin: true,
-        });
+window.OneSignalDeferred = window.OneSignalDeferred || [];
+OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+        appId: "a0c6eb70-46e0-4d71-ad40-b7598a0f6e66",
+        safari_web_id: "web.onesignal.auto.a0c6eb70-46e0-4d71-ad40-b7598a0f6e66",
+        allowLocalhostAsSecureOrigin: true,
+    });
+
+    const modal = document.getElementById('custom-notification-modal');
+    const btnEnable = document.getElementById('btn-enable-notif');
+    const btnClose = document.getElementById('btn-close-notif');
+
+    // Controlla se l'utente è già iscritto o se ha già chiuso il modale prima
+    const isOptedIn = OneSignal.User.PushSubscription.optedIn;
+    const hasSeenModal = localStorage.getItem('has_seen_notif_modal');
+
+    if (!isOptedIn && !hasSeenModal) {
+        // Mostra il modale a tutto schermo
+        modal.style.display = 'flex';
+    }
+
+    // Azione al click sul pulsante "Attiva le notifiche"
+    btnEnable.addEventListener('click', async function() {
+        modal.style.display = 'none';
+        localStorage.setItem('has_seen_notif_modal', 'true');
+        // Chiama il permesso nativo del browser/sistema operativo
+        await OneSignal.Notifications.requestPermission();
+    });
+
+    // Azione al click su "Non ora"
+    btnClose.addEventListener('click', function() {
+        modal.style.display = 'none';
+        localStorage.setItem('has_seen_notif_modal', 'true');
+    });
+});
 
         // Controlla se la pagina è stata aperta come App da Home (Modalità standalone)
         const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
